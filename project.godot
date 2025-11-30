@@ -13,7 +13,12 @@ config_version=5
 config/name="Floating Block Game"
 run/main_scene="uid://bjt2jifiiroa0"
 config/features=PackedStringArray("4.4", "Forward Plus")
+run/max_fps=60
 config/icon="res://icon.svg"
+
+[display]
+
+window/vsync/vsync_mode=0
 
 [editor_plugins]
 

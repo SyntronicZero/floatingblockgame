@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://cydn4sn5afbde"]
+[gd_scene load_steps=8 format=3 uid="uid://cydn4sn5afbde"]
 
 [ext_resource type="Script" uid="uid://ctxkhlj6ghvle" path="res://Player/player.gd" id="1_4ntmi"]
 [ext_resource type="PackedScene" uid="uid://b2ghb5wuku086" path="res://Player/3rd_person_cam.tscn" id="1_l8h54"]
@@ -10,6 +10,8 @@
 size = Vector3(1, 1.094, 0.784)
 
 [sub_resource type="SphereMesh" id="SphereMesh_l8h54"]
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_btcbx"]
 
 [node name="Player" type="CharacterBody3D" node_paths=PackedStringArray("camera_node")]
 script = ExtResource("1_4ntmi")
@@ -39,3 +41,7 @@ skeleton = NodePath("../../MeshRotationY/MeshRotationX")
 transform = Transform3D(0.637776, 0, 0, 0, -0.637776, 5.57562e-08, 0, -5.57562e-08, -0.637776, 0, 0.635454, -2.13163e-14)
 mesh = SubResource("SphereMesh_l8h54")
 skeleton = NodePath("../MeshInstance3D")
+
+[node name="MeshInstance3D3" type="MeshInstance3D" parent="SmoothPlayer"]
+transform = Transform3D(0.362, 0, 0, 0, -1.58235e-08, 0.362, 0, -0.362, -1.58235e-08, 0, 0, -0.388559)
+mesh = SubResource("CylinderMesh_btcbx")

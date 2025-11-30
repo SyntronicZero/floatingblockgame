@@ -1,9 +1,10 @@
-[gd_scene load_steps=21 format=3 uid="uid://bjt2jifiiroa0"]
+[gd_scene load_steps=22 format=3 uid="uid://bjt2jifiiroa0"]
 
 [ext_resource type="Texture2D" uid="uid://cfcejan8w2hdt" path="res://textures/PLACEHOLDER/checker_red.png" id="1_jymn0"]
 [ext_resource type="Script" uid="uid://cr22g21adsylq" path="res://Levels/TESTING/TEST_PLAY_ANIMATION.gd" id="2_3vr6k"]
 [ext_resource type="Texture2D" uid="uid://d3fn26fc6t6n7" path="res://textures/PLACEHOLDER/checker_blue.png" id="2_qm4sc"]
 [ext_resource type="Texture2D" uid="uid://p3n1wc5jqtho" path="res://textures/PLACEHOLDER/checker_black.png" id="3_3vr6k"]
+[ext_resource type="Script" uid="uid://bh7b34btwx806" path="res://Player/smooth_camera.gd" id="3_ibrtv"]
 [ext_resource type="Texture2D" uid="uid://ck5jrmb6vq8dl" path="res://textures/PLACEHOLDER/checker_green.png" id="4_ibrtv"]
 [ext_resource type="PackedScene" uid="uid://cydn4sn5afbde" path="res://Player/player.tscn" id="5_t346a"]
 
@@ -30,6 +31,16 @@ grow_amount = -0.94
 [sub_resource type="BoxMesh" id="BoxMesh_3vr6k"]
 material = SubResource("StandardMaterial3D_qm4sc")
 
+[sub_resource type="Animation" id="Animation_ub4j8"]
+length = 0.001
+tracks/0/type = "position_3d"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("..")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = PackedFloat32Array(0, 1, 0, 0, 0)
+
 [sub_resource type="Animation" id="Animation_3158n"]
 resource_name = "TEST_MOVE_PLATFORM"
 length = 10.0
@@ -41,16 +52,6 @@ tracks/0/path = NodePath("..")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = PackedFloat32Array(0.0333333, 1, 0, 0, 0, 10, 1, 0, 0, -12.0658, 10.0333, 1, 0, 0, -12.4083)
-
-[sub_resource type="Animation" id="Animation_ub4j8"]
-length = 0.001
-tracks/0/type = "position_3d"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("..")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = PackedFloat32Array(0, 1, 0, 0, 0)
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_pvdih"]
 _data = {
@@ -101,13 +102,17 @@ script = ExtResource("2_3vr6k")
 anim_player = NodePath("AnimationPlayer")
 animation = "TEST_MOVE_PLATFORM"
 
-[node name="CSGBox3D2" type="MeshInstance3D" parent="Environment/MovingCube/AnimatableBody3D"]
+[node name="PlatformProxy" type="Node3D" parent="Environment/MovingCube/AnimatableBody3D"]
 transform = Transform3D(5, 0, 0, 0, 0.7, 0, 0, 0, 5, 0, 0, 0)
+
+[node name="CSGBox3D3" type="MeshInstance3D" parent="Environment/MovingCube/AnimatableBody3D/PlatformProxy"]
 mesh = SubResource("BoxMesh_3vr6k")
+skeleton = NodePath("")
+script = ExtResource("3_ibrtv")
+follow_target = NodePath("..")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Environment/MovingCube/AnimatableBody3D"]
-root_node = NodePath("../CSGBox3D2")
-callback_mode_process = 0
+root_node = NodePath("../PlatformProxy")
 libraries = {
 &"": SubResource("AnimationLibrary_pvdih")
 }
