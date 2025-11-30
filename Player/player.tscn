@@ -1,0 +1,41 @@
+[gd_scene load_steps=7 format=3 uid="uid://cydn4sn5afbde"]
+
+[ext_resource type="Script" uid="uid://ctxkhlj6ghvle" path="res://Player/player.gd" id="1_4ntmi"]
+[ext_resource type="PackedScene" uid="uid://b2ghb5wuku086" path="res://Player/3rd_person_cam.tscn" id="1_l8h54"]
+[ext_resource type="Script" uid="uid://bh7b34btwx806" path="res://Player/smooth_camera.gd" id="3_btcbx"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_hvfyp"]
+
+[sub_resource type="PrismMesh" id="PrismMesh_4ntmi"]
+size = Vector3(1, 1.094, 0.784)
+
+[sub_resource type="SphereMesh" id="SphereMesh_l8h54"]
+
+[node name="Player" type="CharacterBody3D" node_paths=PackedStringArray("camera_node")]
+script = ExtResource("1_4ntmi")
+camera_node = NodePath("3rdPersonCam")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("CapsuleShape3D_hvfyp")
+
+[node name="MeshRotationY" type="Node3D" parent="."]
+
+[node name="MeshRotationX" type="Node3D" parent="MeshRotationY"]
+
+[node name="3rdPersonCam" parent="." instance=ExtResource("1_l8h54")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.935663, 0)
+zoom = 5.0
+
+[node name="SmoothPlayer" type="Node3D" parent="."]
+script = ExtResource("3_btcbx")
+follow_target = NodePath("../MeshRotationY/MeshRotationX")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="SmoothPlayer"]
+transform = Transform3D(0.724, 0, 0, 0, -1.24523, 1.08862e-07, 0, -6.32941e-08, -0.724, 0, -0.308898, 0)
+mesh = SubResource("PrismMesh_4ntmi")
+skeleton = NodePath("../../MeshRotationY/MeshRotationX")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="SmoothPlayer"]
+transform = Transform3D(0.637776, 0, 0, 0, -0.637776, 5.57562e-08, 0, -5.57562e-08, -0.637776, 0, 0.635454, -2.13163e-14)
+mesh = SubResource("SphereMesh_l8h54")
+skeleton = NodePath("../MeshInstance3D")

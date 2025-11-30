@@ -1,0 +1,190 @@
+[gd_scene load_steps=21 format=3 uid="uid://bjt2jifiiroa0"]
+
+[ext_resource type="Texture2D" uid="uid://cfcejan8w2hdt" path="res://textures/PLACEHOLDER/checker_red.png" id="1_jymn0"]
+[ext_resource type="Script" uid="uid://cr22g21adsylq" path="res://Levels/TESTING/TEST_PLAY_ANIMATION.gd" id="2_3vr6k"]
+[ext_resource type="Texture2D" uid="uid://d3fn26fc6t6n7" path="res://textures/PLACEHOLDER/checker_blue.png" id="2_qm4sc"]
+[ext_resource type="Texture2D" uid="uid://p3n1wc5jqtho" path="res://textures/PLACEHOLDER/checker_black.png" id="3_3vr6k"]
+[ext_resource type="Texture2D" uid="uid://ck5jrmb6vq8dl" path="res://textures/PLACEHOLDER/checker_green.png" id="4_ibrtv"]
+[ext_resource type="PackedScene" uid="uid://cydn4sn5afbde" path="res://Player/player.tscn" id="5_t346a"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_46lwt"]
+sky_horizon_color = Color(0.662243, 0.671743, 0.686743, 1)
+ground_horizon_color = Color(0.662243, 0.671743, 0.686743, 1)
+
+[sub_resource type="Sky" id="Sky_x25rp"]
+sky_material = SubResource("ProceduralSkyMaterial_46lwt")
+
+[sub_resource type="Environment" id="Environment_gmgay"]
+background_mode = 2
+sky = SubResource("Sky_x25rp")
+tonemap_mode = 2
+glow_enabled = true
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_qm4sc"]
+albedo_texture = ExtResource("1_jymn0")
+uv1_triplanar = true
+texture_filter = 0
+billboard_keep_scale = true
+grow_amount = -0.94
+
+[sub_resource type="BoxMesh" id="BoxMesh_3vr6k"]
+material = SubResource("StandardMaterial3D_qm4sc")
+
+[sub_resource type="Animation" id="Animation_3158n"]
+resource_name = "TEST_MOVE_PLATFORM"
+length = 10.0
+loop_mode = 2
+tracks/0/type = "position_3d"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("..")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = PackedFloat32Array(0.0333333, 1, 0, 0, 0, 10, 1, 0, 0, -12.0658, 10.0333, 1, 0, 0, -12.4083)
+
+[sub_resource type="Animation" id="Animation_ub4j8"]
+length = 0.001
+tracks/0/type = "position_3d"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("..")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = PackedFloat32Array(0, 1, 0, 0, 0)
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_pvdih"]
+_data = {
+&"RESET": SubResource("Animation_ub4j8"),
+&"TEST_MOVE_PLATFORM": SubResource("Animation_3158n")
+}
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_ibrtv"]
+size = Vector3(5, 0.7, 5)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ur00s"]
+albedo_texture = ExtResource("2_qm4sc")
+texture_filter = 0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_46lwt"]
+albedo_texture = ExtResource("3_3vr6k")
+uv1_scale = Vector3(20, 20, 20)
+texture_filter = 0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_x25rp"]
+albedo_texture = ExtResource("1_jymn0")
+texture_filter = 0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_gmgay"]
+albedo_texture = ExtResource("4_ibrtv")
+texture_filter = 0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_w7r7j"]
+albedo_texture = ExtResource("3_3vr6k")
+texture_filter = 0
+
+[node name="TestLevel" type="Node3D"]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_gmgay")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(-0.866023, -0.433016, 0.250001, 0, 0.499998, 0.866027, -0.500003, 0.749999, -0.43301, 0, 0, 0)
+shadow_enabled = true
+
+[node name="Environment" type="Node3D" parent="."]
+
+[node name="MovingCube" type="Node3D" parent="Environment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.31057, 0.694475, -3.76875)
+
+[node name="AnimatableBody3D" type="AnimatableBody3D" parent="Environment/MovingCube" node_paths=PackedStringArray("anim_player")]
+script = ExtResource("2_3vr6k")
+anim_player = NodePath("AnimationPlayer")
+animation = "TEST_MOVE_PLATFORM"
+
+[node name="CSGBox3D2" type="MeshInstance3D" parent="Environment/MovingCube/AnimatableBody3D"]
+transform = Transform3D(5, 0, 0, 0, 0.7, 0, 0, 0, 5, 0, 0, 0)
+mesh = SubResource("BoxMesh_3vr6k")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Environment/MovingCube/AnimatableBody3D"]
+root_node = NodePath("../CSGBox3D2")
+callback_mode_process = 0
+libraries = {
+&"": SubResource("AnimationLibrary_pvdih")
+}
+speed_scale = 5.0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Environment/MovingCube/AnimatableBody3D"]
+shape = SubResource("BoxShape3D_ibrtv")
+
+[node name="AscendingCubes" type="Node3D" parent="Environment"]
+
+[node name="CSGBox3D5" type="CSGBox3D" parent="Environment/AscendingCubes"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 27.5, -4, -7.5)
+use_collision = true
+size = Vector3(10, 10, 10)
+material = SubResource("StandardMaterial3D_ur00s")
+
+[node name="CSGBox3D6" type="CSGBox3D" parent="Environment/AscendingCubes"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 27.5, -3.5, -17.5)
+use_collision = true
+size = Vector3(10, 11, 10)
+material = SubResource("StandardMaterial3D_ur00s")
+
+[node name="CSGBox3D7" type="CSGBox3D" parent="Environment/AscendingCubes"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 27.5, -3, -27.5)
+use_collision = true
+size = Vector3(10, 12, 10)
+material = SubResource("StandardMaterial3D_ur00s")
+
+[node name="CSGBox3D8" type="CSGBox3D" parent="Environment/AscendingCubes"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 37.5, -1, -27.5)
+use_collision = true
+size = Vector3(10, 10, 10)
+material = SubResource("StandardMaterial3D_ur00s")
+
+[node name="CSGBox3D9" type="CSGBox3D" parent="Environment/AscendingCubes"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 37.5, -1, -17.5)
+use_collision = true
+size = Vector3(10, 12, 10)
+material = SubResource("StandardMaterial3D_ur00s")
+
+[node name="CSGBox3D10" type="CSGBox3D" parent="Environment/AscendingCubes"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 37.5, 0, -7.5)
+use_collision = true
+size = Vector3(10, 12, 10)
+material = SubResource("StandardMaterial3D_ur00s")
+
+[node name="CSGBox3D11" type="CSGBox3D" parent="Environment/AscendingCubes"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 37.5, 1, 2.5)
+use_collision = true
+size = Vector3(10, 12, 10)
+material = SubResource("StandardMaterial3D_ur00s")
+
+[node name="CSGBox3D12" type="CSGBox3D" parent="Environment/AscendingCubes"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 37.5, 2, 12.5)
+use_collision = true
+size = Vector3(10, 12, 10)
+material = SubResource("StandardMaterial3D_ur00s")
+
+[node name="Floor" type="CSGBox3D" parent="Environment"]
+use_collision = true
+size = Vector3(200, 0.001, 200)
+material = SubResource("StandardMaterial3D_46lwt")
+
+[node name="CSGBox3D2" type="CSGBox3D" parent="Environment"]
+transform = Transform3D(4.79316, 0, 0, 0, 4.79316, 0, 0, 0, 4.79316, -14.171, 0, -2.65512)
+use_collision = true
+material = SubResource("StandardMaterial3D_x25rp")
+
+[node name="CSGBox3D3" type="CSGBox3D" parent="Environment"]
+transform = Transform3D(1.85567, 0, -1.3025, 0, 2.26716, 0, 1.3025, 0, 1.85567, -2.28682, 0, -2.65512)
+use_collision = true
+material = SubResource("StandardMaterial3D_gmgay")
+
+[node name="CSGBox3D4" type="CSGBox3D" parent="Environment"]
+transform = Transform3D(3.19362, 0, -2.2416, 0, 1.36953, 0, 2.2416, 0, 3.19362, -7.11612, 0, 4.2252)
+use_collision = true
+material = SubResource("StandardMaterial3D_w7r7j")
+
+[node name="Player" parent="." instance=ExtResource("5_t346a")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.754194, 0)

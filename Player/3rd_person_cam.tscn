@@ -1,0 +1,21 @@
+[gd_scene load_steps=3 format=3 uid="uid://b2ghb5wuku086"]
+
+[ext_resource type="Script" uid="uid://ksbttoqw3f4h" path="res://Player/3rd_person_cam.gd" id="1_upup2"]
+[ext_resource type="Script" uid="uid://bh7b34btwx806" path="res://Player/smooth_camera.gd" id="2_3w2ck"]
+
+[node name="3rdPersonCam" type="Node3D"]
+script = ExtResource("1_upup2")
+
+[node name="CameraRotationY" type="Node3D" parent="."]
+
+[node name="CameraRotationX" type="Node3D" parent="CameraRotationY"]
+
+[node name="CameraLocationZ" type="Marker3D" parent="CameraRotationY/CameraRotationX"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.5)
+
+[node name="SmoothCamera" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.5)
+script = ExtResource("2_3w2ck")
+follow_target = NodePath("../CameraRotationY/CameraRotationX/CameraLocationZ")
+
+[node name="Camera3D" type="Camera3D" parent="SmoothCamera"]
