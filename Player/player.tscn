@@ -23,7 +23,7 @@ shape = SubResource("CapsuleShape3D_hvfyp")
 
 [node name="MeshRotationY" type="Node3D" parent="."]
 
-[node name="MeshRotationX" type="Node3D" parent="MeshRotationY"]
+[node name="MeshRotationZ" type="Node3D" parent="MeshRotationY"]
 
 [node name="3rdPersonCam" parent="." node_paths=PackedStringArray("cam_lerp_node") instance=ExtResource("1_l8h54")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.935663, 0)
@@ -32,12 +32,12 @@ zoom = 5.0
 
 [node name="SmoothPlayer" type="Node3D" parent="."]
 script = ExtResource("3_btcbx")
-follow_target = NodePath("../MeshRotationY/MeshRotationX")
+follow_target = NodePath("../MeshRotationY/MeshRotationZ")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="SmoothPlayer"]
 transform = Transform3D(0.724, 0, 0, 0, -1.24523, 1.08862e-07, 0, -6.32941e-08, -0.724, 0, -0.308898, 0)
 mesh = SubResource("PrismMesh_4ntmi")
-skeleton = NodePath("../../MeshRotationY/MeshRotationX")
+skeleton = NodePath("../../MeshRotationY/MeshRotationZ")
 
 [node name="MeshInstance3D2" type="MeshInstance3D" parent="SmoothPlayer"]
 transform = Transform3D(0.637776, 0, 0, 0, -0.637776, 5.57562e-08, 0, -5.57562e-08, -0.637776, 0, 0.635454, -2.13163e-14)

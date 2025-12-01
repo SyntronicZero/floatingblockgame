@@ -1,11 +1,9 @@
 extends CharacterBody3D
 
+#region Nodes
 @onready var mesh_rotation_y_node: Node3D = $MeshRotationY
-@onready var mesh_rotation_x_node: Node3D = $MeshRotationY/MeshRotationX
-
-#region Character Rotation
-var prev_frame: float = 0.0
-var current_frame: float = 0.0
+@onready var mesh_rotation_z_node: Node3D = $MeshRotationY/MeshRotationZ
+#endregion
 
 @export var camera_node: Node3D
 var camera_basis: Basis
@@ -38,15 +36,7 @@ func _physics_process(delta: float) -> void:
 	# As good practice, you should replace UI actions with custom gameplay actions.
 	input_dir = Input.get_vector("Left", "Right", "Forward", "Backward")
 	
-	direction = (camera_basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
-	#if direction:
-		##velocity.x = direction.x * SPEED 
-		##velocity.z = direction.z * SPEED
-		#_ground_movement(delta)
-	#else:
-		#velocity.x = move_toward(velocity.x, 0, SPEED)
-		#velocity.z = move_toward(velocity.z, 0, SPEED)
-		#pass
+	direction = (camera_basis * Vector3(input_dir.x, 0, input_dir.y))
 	if is_on_floor():
 		_ground_movement(delta, 1)
 		_mesh_rotation(delta, 1)
@@ -65,10 +55,15 @@ func _ground_movement(delta, friction):
 
 func _mesh_rotation(delta, rotation_strength: float):
 	#var mesh_direction = atan2(-direction.x, -direction.z)
-	if direction:
+	var theta_remaped = remap(abs(_theta), 3, .01, 1, 0.03)
+	if direction: #rotates y axis
 		_theta = wrapf(atan2(-direction.x, -direction.z) - mesh_rotation_y_node.rotation.y, -PI, PI)
-		var theta_remaped = remap(abs(_theta), 3, .01, 1, 0.03)
 		#mesh_rotation_y_node.rotation.y += clamp(MESH_ROTATION_SPEED * delta, 0, abs(_theta)) * sign(_theta)
-		mesh_rotation_y_node.rotation.y += clamp(theta_remaped * MESH_ROTATION_SPEED * delta *rotation_strength, 0, abs(_theta)) * sign(_theta)
-		print(mesh_rotation_y_node.rotation.y)
-	pass
+		mesh_rotation_y_node.rotation.y += clamp(theta_remaped * MESH_ROTATION_SPEED * delta * rotation_strength, 0, abs(_theta)) * sign(_theta)
+	#mesh_rotation_z_node.rotation.z = lerp(mesh_rotation_z_node.rotation.z, clamp(theta_remaped * sign(_theta), -deg_to_rad(25), deg_to_rad(25)) * type_convert(type_convert(direction, TYPE_BOOL), TYPE_INT), .2)
+	if abs(_theta) > deg_to_rad(2) and direction and is_on_floor(): #rotates z axis
+		mesh_rotation_z_node.rotation.z = lerp(mesh_rotation_z_node.rotation.z, clamp(theta_remaped * sign(_theta), -deg_to_rad(25), deg_to_rad(25)), .2)
+	else:
+		mesh_rotation_z_node.rotation.z = lerp(mesh_rotation_z_node.rotation.z, 0.0, .2)
+		print("rotata")
+#clamp(_theta, -deg_to_rad(25), deg_to_rad(25))
