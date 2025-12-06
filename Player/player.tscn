@@ -15,6 +15,7 @@ size = Vector3(1, 1.094, 0.784)
 
 [node name="Player" type="CharacterBody3D" node_paths=PackedStringArray("camera_node")]
 collision_layer = 0
+platform_on_leave = 2
 script = ExtResource("1_4ntmi")
 camera_node = NodePath("3rdPersonCam")
 
