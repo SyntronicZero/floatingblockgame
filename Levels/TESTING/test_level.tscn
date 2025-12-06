@@ -1,5 +1,6 @@
-[gd_scene load_steps=22 format=3 uid="uid://bjt2jifiiroa0"]
+[gd_scene load_steps=24 format=3 uid="uid://bjt2jifiiroa0"]
 
+[ext_resource type="Script" uid="uid://67rs2gmqsw5b" path="res://Levels/TESTING/RotateObject.gd" id="1_ibrtv"]
 [ext_resource type="Texture2D" uid="uid://cfcejan8w2hdt" path="res://textures/PLACEHOLDER/checker_red.png" id="1_jymn0"]
 [ext_resource type="Script" uid="uid://cr22g21adsylq" path="res://Levels/TESTING/TEST_PLAY_ANIMATION.gd" id="2_3vr6k"]
 [ext_resource type="Texture2D" uid="uid://d3fn26fc6t6n7" path="res://textures/PLACEHOLDER/checker_blue.png" id="2_qm4sc"]
@@ -20,6 +21,13 @@ background_mode = 2
 sky = SubResource("Sky_x25rp")
 tonemap_mode = 2
 glow_enabled = true
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_3vr6k"]
+size = Vector3(5, 5, 5)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_x25rp"]
+albedo_texture = ExtResource("1_jymn0")
+texture_filter = 0
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_qm4sc"]
 albedo_texture = ExtResource("1_jymn0")
@@ -71,10 +79,6 @@ albedo_texture = ExtResource("3_3vr6k")
 uv1_scale = Vector3(20, 20, 20)
 texture_filter = 0
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_x25rp"]
-albedo_texture = ExtResource("1_jymn0")
-texture_filter = 0
-
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_gmgay"]
 albedo_texture = ExtResource("4_ibrtv")
 texture_filter = 0
@@ -93,6 +97,25 @@ transform = Transform3D(-0.866023, -0.433016, 0.250001, 0, 0.499998, 0.866027, -
 shadow_enabled = true
 
 [node name="Environment" type="Node3D" parent="."]
+
+[node name="RotatingCube" type="Node3D" parent="Environment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 26.5639, 5.10296, 12.3255)
+
+[node name="AnimatableBody3D" type="AnimatableBody3D" parent="Environment/RotatingCube"]
+script = ExtResource("1_ibrtv")
+rotation_speed = 0.1
+rotation_direction = Vector3(0, 1, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Environment/RotatingCube/AnimatableBody3D"]
+shape = SubResource("BoxShape3D_3vr6k")
+
+[node name="Node3D" type="Node3D" parent="Environment/RotatingCube/AnimatableBody3D"]
+
+[node name="CSGBox3D2" type="CSGBox3D" parent="Environment/RotatingCube/AnimatableBody3D/Node3D"]
+size = Vector3(5, 5, 5)
+material = SubResource("StandardMaterial3D_x25rp")
+script = ExtResource("3_ibrtv")
+follow_target = NodePath("..")
 
 [node name="MovingCube" type="Node3D" parent="Environment"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.31057, 0.694475, -3.76875)
@@ -181,6 +204,30 @@ transform = Transform3D(4.79316, 0, 0, 0, 4.79316, 0, 0, 0, 4.79316, -14.171, 0,
 use_collision = true
 material = SubResource("StandardMaterial3D_x25rp")
 
+[node name="CSGBox3D5" type="CSGBox3D" parent="Environment"]
+transform = Transform3D(4.79316, 0, 0, 0, 3.34726, 3.43078, 0, -3.43078, 3.34726, -2.47681, -0.331843, 11.2122)
+use_collision = true
+size = Vector3(1, 1, 2.45306)
+material = SubResource("StandardMaterial3D_x25rp")
+
+[node name="CSGBox3D6" type="CSGBox3D" parent="Environment"]
+transform = Transform3D(4.77223, 0, 0, 0, 4.04448, 2.53307, 0, -2.53307, 4.04448, 2.20745, -0.331843, 12.1562)
+use_collision = true
+size = Vector3(1, 1, 2.45306)
+material = SubResource("StandardMaterial3D_x25rp")
+
+[node name="CSGBox3D7" type="CSGBox3D" parent="Environment"]
+transform = Transform3D(4.79316, 0, 0, 0, 4.485, 1.69091, 0, -1.69091, 4.485, 6.34662, -0.331843, 14.1722)
+use_collision = true
+size = Vector3(1, 1, 2.45306)
+material = SubResource("StandardMaterial3D_x25rp")
+
+[node name="CSGBox3D8" type="CSGBox3D" parent="Environment"]
+transform = Transform3D(4.79316, 0, 0, 0, 4.70732, 0.903041, 0, -0.903041, 4.70732, 11.0646, -1.32584, 14.1722)
+use_collision = true
+size = Vector3(1, 1, 2.45306)
+material = SubResource("StandardMaterial3D_x25rp")
+
 [node name="CSGBox3D3" type="CSGBox3D" parent="Environment"]
 transform = Transform3D(1.85567, 0, -1.3025, 0, 2.26716, 0, 1.3025, 0, 1.85567, -2.28682, 0, -2.65512)
 use_collision = true
@@ -190,6 +237,13 @@ material = SubResource("StandardMaterial3D_gmgay")
 transform = Transform3D(3.19362, 0, -2.2416, 0, 1.36953, 0, 2.2416, 0, 3.19362, -7.11612, 0, 4.2252)
 use_collision = true
 material = SubResource("StandardMaterial3D_w7r7j")
+
+[node name="CSGSphere3D" type="CSGSphere3D" parent="Environment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9.44412, 10.4818, -15.3953)
+use_collision = true
+radius = 6.3
+radial_segments = 36
+rings = 18
 
 [node name="Player" parent="." instance=ExtResource("5_t346a")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.754194, 0)

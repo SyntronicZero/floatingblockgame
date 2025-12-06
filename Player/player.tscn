@@ -15,21 +15,32 @@ size = Vector3(1, 1.094, 0.784)
 
 [node name="Player" type="CharacterBody3D" node_paths=PackedStringArray("camera_node")]
 collision_layer = 0
+floor_constant_speed = true
+floor_snap_length = 0.4
 platform_on_leave = 2
 script = ExtResource("1_4ntmi")
-camera_node = NodePath("3rdPersonCam")
+camera_node = NodePath("GravityRotation/3rdPersonCam")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 shape = SubResource("CapsuleShape3D_hvfyp")
 
-[node name="MeshRotationY" type="Node3D" parent="."]
+[node name="GravityRotation" type="Node3D" parent="."]
+top_level = true
 
-[node name="MeshRotationZ" type="Node3D" parent="MeshRotationY"]
+[node name="CamLerpPos" type="Marker3D" parent="GravityRotation"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.935663, 0)
 
-[node name="3rdPersonCam" parent="." node_paths=PackedStringArray("cam_lerp_node") instance=ExtResource("1_l8h54")]
+[node name="3rdPersonCam" parent="GravityRotation" node_paths=PackedStringArray("cam_lerp_node") instance=ExtResource("1_l8h54")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.935663, 0)
 cam_lerp_node = NodePath("../CamLerpPos")
 zoom = 5.0
+
+[node name="FloorColCheck" type="RayCast3D" parent="GravityRotation"]
+target_position = Vector3(0, -1.2, 0)
+
+[node name="MeshRotationY" type="Node3D" parent="."]
+
+[node name="MeshRotationZ" type="Node3D" parent="MeshRotationY"]
 
 [node name="SmoothPlayer" type="Node3D" parent="."]
 script = ExtResource("3_btcbx")
@@ -48,6 +59,3 @@ skeleton = NodePath("../MeshInstance3D")
 [node name="MeshInstance3D3" type="MeshInstance3D" parent="SmoothPlayer"]
 transform = Transform3D(0.362, 0, 0, 0, -1.58235e-08, 0.362, 0, -0.362, -1.58235e-08, 0, 0, -0.388559)
 mesh = SubResource("CylinderMesh_btcbx")
-
-[node name="CamLerpPos" type="Marker3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.935663, 0)

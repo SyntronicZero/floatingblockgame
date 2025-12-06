@@ -5,27 +5,32 @@
 
 [node name="3rdPersonCam" type="Node3D"]
 script = ExtResource("1_upup2")
+smooth_rotation = true
 
 [node name="CameraRotationY" type="Node3D" parent="."]
-
-[node name="CameraRotationX" type="Node3D" parent="CameraRotationY"]
-
-[node name="CameraLocationZ" type="Marker3D" parent="CameraRotationY/CameraRotationX"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.5)
-
-[node name="WallDetection" type="RayCast3D" parent="CameraRotationY/CameraRotationX"]
-exclude_parent = false
-target_position = Vector3(0, 0, 0)
-hit_back_faces = false
-
-[node name="LookDetection" type="RayCast3D" parent="CameraRotationY/CameraRotationX"]
-exclude_parent = false
-target_position = Vector3(0, 0, -20)
-hit_back_faces = false
 
 [node name="SmoothCamera" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.5)
 script = ExtResource("2_3w2ck")
-follow_target = NodePath("../CameraRotationY/CameraRotationX/CameraLocationZ")
+follow_target = NodePath("../SmoothY/CameraRotationYCopy/CameraRotationX/CameraLocationZ")
 
 [node name="Camera3D" type="Camera3D" parent="SmoothCamera"]
+
+[node name="SmoothY" type="Node3D" parent="."]
+
+[node name="CameraRotationYCopy" type="Node3D" parent="SmoothY"]
+
+[node name="CameraRotationX" type="Node3D" parent="SmoothY/CameraRotationYCopy"]
+
+[node name="CameraLocationZ" type="Marker3D" parent="SmoothY/CameraRotationYCopy/CameraRotationX"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.5)
+
+[node name="WallDetection" type="RayCast3D" parent="SmoothY/CameraRotationYCopy/CameraRotationX"]
+exclude_parent = false
+target_position = Vector3(0, 0, 0)
+hit_back_faces = false
+
+[node name="LookDetection" type="RayCast3D" parent="SmoothY/CameraRotationYCopy/CameraRotationX"]
+exclude_parent = false
+target_position = Vector3(0, 0, -20)
+hit_back_faces = false

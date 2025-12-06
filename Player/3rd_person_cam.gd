@@ -1,18 +1,21 @@
 extends Node3D
 
 @onready var free_cam_node: Node3D = $"."
-@onready var camera_rotation_x_node: Node3D = $CameraRotationY/CameraRotationX
+@onready var camera_rotation_x_node: Node3D = $SmoothY/CameraRotationYCopy/CameraRotationX
 @onready var camera_rotation_y_node: Node3D = $CameraRotationY
-@onready var camera_location_z_node: Node3D = $CameraRotationY/CameraRotationX/CameraLocationZ
+@onready var camera_location_z_node: Node3D = $SmoothY/CameraRotationYCopy/CameraRotationX/CameraLocationZ
 @onready var camera_3d: Camera3D = $SmoothCamera/Camera3D
-@onready var cam_wall_detection: RayCast3D = $CameraRotationY/CameraRotationX/WallDetection
-@onready var look_detection_node: RayCast3D = $CameraRotationY/CameraRotationX/LookDetection
+@onready var cam_wall_detection: RayCast3D = $SmoothY/CameraRotationYCopy/CameraRotationX/WallDetection
+@onready var look_detection_node: RayCast3D = $SmoothY/CameraRotationYCopy/CameraRotationX/LookDetection
+@onready var smooth_y_node: Node3D = $SmoothY
+@onready var camera_rotation_y_copy_node: Node3D = $SmoothY/CameraRotationYCopy
 
 
 var cam_basis: Basis
 var cam_global_basis: Basis
 
 var input_dir: Vector2
+@export var smooth_rotation: bool
 @export var cam_lerp_node: Marker3D
 @export var MOUSE_SENSITIVITY: float = .003
 @export var CONTROLLER_SENSITIVITY: float = 0.05
@@ -34,6 +37,8 @@ var camera_rotation: Vector2:
 func _ready() -> void:
 	if cam_lerp_node != null:
 		self.top_level = true
+	if smooth_rotation == true:
+		smooth_y_node.top_level = true
 
 func _physics_process(delta: float) -> void:
 	if cam_lerp_node != null:
@@ -44,6 +49,8 @@ func _physics_process(delta: float) -> void:
 	_camera_movement(camera_rotation, input_dir)
 	cam_basis = camera_rotation_y_node.basis
 	cam_global_basis = camera_rotation_y_node.global_basis
+	smooth_camera_rot(smooth_rotation)
+	camera_rotation_y_copy_node.basis = camera_rotation_y_node.basis
 
 func _input(event: InputEvent) -> void:
 	input_dir = Input.get_vector("Cont Look Left", "Cont Look Right", "Cont Look Up", "Cont Look Down")
@@ -70,3 +77,7 @@ func _camera_wall_collision():
 		hit_length = zoom
 	camera_location_z_node.position.z = min(lerp(camera_location_z_node.position.z, zoom, .1), hit_length)
 	
+func smooth_camera_rot(boolean: bool) -> void:
+	if smooth_rotation:
+		smooth_y_node.global_position = free_cam_node.global_position
+		smooth_y_node.global_basis = lerp(smooth_y_node.global_basis, free_cam_node.global_basis, .1)
