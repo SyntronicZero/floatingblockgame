@@ -34,22 +34,31 @@ func _ready() -> void:
 		camera_basis = camera_node.cam_basis
 
 func _input(event: InputEvent) -> void:
-	if Input.is_action_just_pressed("Right Bumper"):
+	if Input.is_action_pressed("Right Bumper"):
 		if camera_node.look_detection_node.is_colliding():
 			gravity_direction = -camera_node.look_detection_node.get_collision_normal()
 
+var c_local_velocity_abs: Vector3
+var c_local_velocity: Vector3
 
 func _physics_process(delta: float) -> void:
 	# Add the gravity.
 	camera_basis = camera_node.cam_basis
 	camera_global_basis = camera_node.cam_global_basis
 	prev_smooth_abs = GravityFunctions.get_local_velocity_abs(smooth_move, camera_global_basis) #gets the current local absplute smooth from the smooth_move var
+	
+	c_local_velocity = GravityFunctions.get_local_velocity_direction(c_local_velocity_abs, GravityFunctions.get_local_velocity_abs(velocity, camera_global_basis))
+	c_local_velocity_abs = GravityFunctions.get_local_velocity_abs(velocity, camera_global_basis)
+	#print(c_local_velocity.y)
+	
 	if is_on_floor() == false:
 		set_gravity_speed += -20 * delta
 		print("gravity")
 		floor_normal = Vector3(1, 1, 1)
 	else:
 		set_gravity_speed = 0
+		floor_normal = get_floor_normal() * camera_global_basis.y
+		apply_floor_snap()
 		
 
 	#if floor_col_check_node.is_colliding() and not Input.is_action_just_pressed("Jump"):
@@ -101,25 +110,25 @@ func _ground_movement(delta, friction):
 	var right = camera_global_basis.x
 	var movement: Vector3
 	var on_platform: bool = false
+	#print((forward * get_real_velocity()).length())
 	movement = forward * input_dir.y * SPEED
 	movement += right * input_dir.x * SPEED
 	if get_platform_velocity() and (is_on_floor() or floor_col_check_node.is_colliding()):
 		platform_velocity = get_platform_velocity()
 	smooth_move = lerp(smooth_move, movement, ACCELERATION * delta * friction)
-	print(str(GravityFunctions.get_local_velocity_abs(smooth_move, camera_global_basis)) + " local y")
+	#var move_corrected = 
+	#print(str(GravityFunctions.get_local_velocity_abs(smooth_move, camera_global_basis)) + " local y")
 	current_smooth_velocity = GravityFunctions.get_local_velocity_direction(prev_smooth_abs, GravityFunctions.get_local_velocity_abs(smooth_move, camera_global_basis))
-	print(str((smooth_move * camera_global_basis.y).length()) + " smooth y")
+	#print(str((smooth_move * camera_global_basis.y).length()) + " smooth y")
 	if is_on_floor() or floor_col_check_node.is_colliding():
 		platform_velocity = lerp(platform_velocity, get_platform_velocity() * 2, ACCELERATION * delta * friction)
 	
-	if get_platform_velocity():
-		velocity = smooth_move + (set_gravity_speed * camera_global_basis.y) - (clamp(current_smooth_velocity.y, 0, 1) * camera_global_basis.y) #clamp cancels out smooth move y in the positive direction
-	else:
-		velocity = smooth_move + (set_gravity_speed * camera_global_basis.y) + platform_velocity - (clamp(current_smooth_velocity.y, 0, 1) * camera_global_basis.y)
-	
-	#print(str(movement) + " movement")
-	##print(str(velocity) + " velocity")
-	#print(local_velocity)
+	#if get_platform_velocity():
+		#velocity = smooth_move + (set_gravity_speed * camera_global_basis.y) - (clamp(current_smooth_velocity.y, 0, 1) * camera_global_basis.y) #clamp cancels out smooth move y in the positive direction
+	#else:
+		#velocity = (smooth_move) + (set_gravity_speed * camera_global_basis.y) + platform_velocity - (clamp(current_smooth_velocity.y, 0, 1) * camera_global_basis.y)
+	#
+	velocity += _modified_velocity()
 	
 func _mesh_rotation(delta, rotation_strength: float):
 	#var mesh_direction = atan2(-direction.x, -direction.z)
@@ -151,3 +160,10 @@ func gravity_rotation(grav_direction) -> void:
 	up_direction = -gravity_direction
 	gravity_rotation_node.global_basis = set_up_direction
 	global_basis = new_rotation
+
+func _modified_velocity() -> Vector3:
+	var modified_velocity
+	var y_cancel = velocity - (c_local_velocity.y * camera_global_basis.y)
+	modified_velocity = smooth_move - y_cancel.limit_length(SPEED)
+	print(modified_velocity)
+	return modified_velocity

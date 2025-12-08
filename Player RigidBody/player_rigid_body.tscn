@@ -1,0 +1,66 @@
+[gd_scene load_steps=9 format=3 uid="uid://bip3hy0utg1w8"]
+
+[ext_resource type="Script" uid="uid://dvfxp4t0og5if" path="res://Player RigidBody/player_rigid_body.gd" id="1_1hk6k"]
+[ext_resource type="PackedScene" uid="uid://b2ghb5wuku086" path="res://Player/3rd_person_cam.tscn" id="2_od6ac"]
+[ext_resource type="Script" uid="uid://bh7b34btwx806" path="res://Player/smooth_camera.gd" id="3_6yu45"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_1hk6k"]
+rough = true
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_hvfyp"]
+
+[sub_resource type="PrismMesh" id="PrismMesh_4ntmi"]
+size = Vector3(1, 1.094, 0.784)
+
+[sub_resource type="SphereMesh" id="SphereMesh_l8h54"]
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_btcbx"]
+
+[node name="PlayerRigidBody" type="RigidBody3D" node_paths=PackedStringArray("camera_node")]
+collision_layer = 0
+physics_material_override = SubResource("PhysicsMaterial_1hk6k")
+gravity_scale = 0.0
+lock_rotation = true
+contact_monitor = true
+max_contacts_reported = 10
+script = ExtResource("1_1hk6k")
+camera_node = NodePath("GravityRotation/3rdPersonCam")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("CapsuleShape3D_hvfyp")
+
+[node name="GravityRotation" type="Node3D" parent="."]
+top_level = true
+
+[node name="CamLerpPos" type="Marker3D" parent="GravityRotation"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.935663, 0)
+
+[node name="3rdPersonCam" parent="GravityRotation" node_paths=PackedStringArray("cam_lerp_node") instance=ExtResource("2_od6ac")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.935663, 0)
+cam_lerp_node = NodePath("../CamLerpPos")
+zoom = 5.0
+
+[node name="FloorColCheck" type="RayCast3D" parent="GravityRotation"]
+target_position = Vector3(0, -1.2, 0)
+
+[node name="MeshRotationY" type="Node3D" parent="."]
+
+[node name="MeshRotationZ" type="Node3D" parent="MeshRotationY"]
+
+[node name="SmoothPlayer" type="Node3D" parent="."]
+script = ExtResource("3_6yu45")
+follow_target = NodePath("../MeshRotationY/MeshRotationZ")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="SmoothPlayer"]
+transform = Transform3D(0.724, 0, 0, 0, -1.24523, 1.08862e-07, 0, -6.32941e-08, -0.724, 0, -0.308898, 0)
+mesh = SubResource("PrismMesh_4ntmi")
+skeleton = NodePath("../../MeshRotationY/MeshRotationZ")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="SmoothPlayer"]
+transform = Transform3D(0.637776, 0, 0, 0, -0.637776, 5.57562e-08, 0, -5.57562e-08, -0.637776, 0, 0.635454, -2.13163e-14)
+mesh = SubResource("SphereMesh_l8h54")
+skeleton = NodePath("../MeshInstance3D")
+
+[node name="MeshInstance3D3" type="MeshInstance3D" parent="SmoothPlayer"]
+transform = Transform3D(0.362, 0, 0, 0, -1.58235e-08, 0.362, 0, -0.362, -1.58235e-08, 0, 0, -0.388559)
+mesh = SubResource("CylinderMesh_btcbx")

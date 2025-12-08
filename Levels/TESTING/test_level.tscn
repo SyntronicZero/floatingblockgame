@@ -1,4 +1,4 @@
-[gd_scene load_steps=24 format=3 uid="uid://bjt2jifiiroa0"]
+[gd_scene load_steps=26 format=3 uid="uid://bjt2jifiiroa0"]
 
 [ext_resource type="Script" uid="uid://67rs2gmqsw5b" path="res://Levels/TESTING/RotateObject.gd" id="1_ibrtv"]
 [ext_resource type="Texture2D" uid="uid://cfcejan8w2hdt" path="res://textures/PLACEHOLDER/checker_red.png" id="1_jymn0"]
@@ -7,7 +7,7 @@
 [ext_resource type="Texture2D" uid="uid://p3n1wc5jqtho" path="res://textures/PLACEHOLDER/checker_black.png" id="3_3vr6k"]
 [ext_resource type="Script" uid="uid://bh7b34btwx806" path="res://Player/smooth_camera.gd" id="3_ibrtv"]
 [ext_resource type="Texture2D" uid="uid://ck5jrmb6vq8dl" path="res://textures/PLACEHOLDER/checker_green.png" id="4_ibrtv"]
-[ext_resource type="PackedScene" uid="uid://cydn4sn5afbde" path="res://Player/player.tscn" id="5_t346a"]
+[ext_resource type="PackedScene" uid="uid://bip3hy0utg1w8" path="res://Player RigidBody/player_rigid_body.tscn" id="8_ibrtv"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_46lwt"]
 sky_horizon_color = Color(0.662243, 0.671743, 0.686743, 1)
@@ -87,7 +87,17 @@ texture_filter = 0
 albedo_texture = ExtResource("3_3vr6k")
 texture_filter = 0
 
+[sub_resource type="SphereShape3D" id="SphereShape3D_ibrtv"]
+radius = 10.0
+
+[sub_resource type="SphereMesh" id="SphereMesh_t346a"]
+radius = 10.0
+height = 20.0
+
 [node name="TestLevel" type="Node3D"]
+
+[node name="PlayerRigidBody" parent="." instance=ExtResource("8_ibrtv")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.39393, 0)
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_gmgay")
@@ -245,5 +255,13 @@ radius = 6.3
 radial_segments = 36
 rings = 18
 
-[node name="Player" parent="." instance=ExtResource("5_t346a")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.754194, 0)
+[node name="Node3D" type="Node3D" parent="Environment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -28.893, 8.97268, -9.21101)
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Environment/Node3D"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Environment/Node3D/StaticBody3D"]
+shape = SubResource("SphereShape3D_ibrtv")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Environment/Node3D/StaticBody3D"]
+mesh = SubResource("SphereMesh_t346a")

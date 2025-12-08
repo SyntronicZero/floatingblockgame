@@ -40,7 +40,7 @@ func _ready() -> void:
 	if smooth_rotation == true:
 		smooth_y_node.top_level = true
 
-func _physics_process(delta: float) -> void:
+func _physics_process(_delta: float) -> void:
 	if cam_lerp_node != null:
 		transform = lerp(transform, cam_lerp_node.global_transform, .3)
 	#camera_location_z_node.position.z = lerp(camera_location_z_node.position.z, zoom, .1)
@@ -52,7 +52,7 @@ func _physics_process(delta: float) -> void:
 	smooth_camera_rot(smooth_rotation)
 	camera_rotation_y_copy_node.basis = camera_rotation_y_node.basis
 
-func _input(event: InputEvent) -> void:
+func _input(_event: InputEvent) -> void:
 	input_dir = Input.get_vector("Cont Look Left", "Cont Look Right", "Cont Look Up", "Cont Look Down")
 
 func _unhandled_input(event: InputEvent) -> void:
@@ -62,7 +62,7 @@ func _unhandled_input(event: InputEvent) -> void:
 		camera_rotation.x = clamp(camera_rotation.x, deg_to_rad(-90), deg_to_rad(90))
 		#print("rotating")
 
-func _camera_movement(camera_rot_var, input_vector) -> void:
+func _camera_movement(_camera_rot_var, input_vector) -> void:
 	if input_vector: #controller input
 		camera_rotation.y += (-input_vector.x * CONTROLLER_SENSITIVITY) 
 		camera_rotation.x += (-input_vector.y * CONTROLLER_SENSITIVITY)
@@ -78,6 +78,6 @@ func _camera_wall_collision():
 	camera_location_z_node.position.z = min(lerp(camera_location_z_node.position.z, zoom, .1), hit_length)
 	
 func smooth_camera_rot(boolean: bool) -> void:
-	if smooth_rotation:
+	if boolean:
 		smooth_y_node.global_position = free_cam_node.global_position
 		smooth_y_node.global_basis = lerp(smooth_y_node.global_basis, free_cam_node.global_basis, .1)
