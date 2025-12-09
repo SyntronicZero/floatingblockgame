@@ -11,6 +11,7 @@ smooth_rotation = true
 
 [node name="SmoothCamera" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.5)
+top_level = true
 script = ExtResource("2_3w2ck")
 follow_target = NodePath("../SmoothY/CameraRotationYCopy/CameraRotationX/CameraLocationZ")
 

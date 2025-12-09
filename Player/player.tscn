@@ -16,7 +16,7 @@ size = Vector3(1, 1.094, 0.784)
 [node name="Player" type="CharacterBody3D" node_paths=PackedStringArray("camera_node")]
 collision_layer = 0
 floor_constant_speed = true
-floor_snap_length = 0.4
+floor_snap_length = 0.3
 platform_on_leave = 2
 script = ExtResource("1_4ntmi")
 camera_node = NodePath("GravityRotation/3rdPersonCam")
@@ -43,6 +43,7 @@ target_position = Vector3(0, -1.2, 0)
 [node name="MeshRotationZ" type="Node3D" parent="MeshRotationY"]
 
 [node name="SmoothPlayer" type="Node3D" parent="."]
+top_level = true
 script = ExtResource("3_btcbx")
 follow_target = NodePath("../MeshRotationY/MeshRotationZ")
 

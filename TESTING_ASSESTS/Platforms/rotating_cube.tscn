@@ -1,0 +1,28 @@
+[gd_scene load_steps=6 format=3 uid="uid://8hf15i65ov6n"]
+
+[ext_resource type="Script" uid="uid://67rs2gmqsw5b" path="res://Levels/TESTING/RotateObject.gd" id="1_2hmn6"]
+[ext_resource type="Texture2D" uid="uid://cfcejan8w2hdt" path="res://textures/PLACEHOLDER/checker_red.png" id="2_kfana"]
+[ext_resource type="Script" uid="uid://bh7b34btwx806" path="res://Player/smooth_camera.gd" id="3_ajgm4"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_3vr6k"]
+size = Vector3(5, 5, 5)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_x25rp"]
+albedo_texture = ExtResource("2_kfana")
+texture_filter = 0
+
+[node name="RotatingCube" type="AnimatableBody3D"]
+script = ExtResource("1_2hmn6")
+rotation_speed = 1.0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("BoxShape3D_3vr6k")
+
+[node name="Node3D" type="Node3D" parent="."]
+
+[node name="CSGBox3D2" type="CSGBox3D" parent="Node3D"]
+top_level = true
+size = Vector3(5, 5, 5)
+material = SubResource("StandardMaterial3D_x25rp")
+script = ExtResource("3_ajgm4")
+follow_target = NodePath("..")

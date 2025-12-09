@@ -1,0 +1,9 @@
+var prev_smooth_abs: Vector3
+var current_smooth_velocity: Vector3
+
+
+
+prev_smooth_abs = GravityFunctions.get_local_velocity_abs(smooth_move, camera_global_basis) #gets the current local absolute smooth from the smooth_move var
+
+
+current_smooth_velocity = GravityFunctions.get_local_velocity_direction(prev_smooth_abs, GravityFunctions.get_local_velocity_abs(smooth_move, camera_global_basis))

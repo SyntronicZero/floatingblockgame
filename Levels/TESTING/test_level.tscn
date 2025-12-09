@@ -1,13 +1,13 @@
-[gd_scene load_steps=26 format=3 uid="uid://bjt2jifiiroa0"]
+[gd_scene load_steps=25 format=3 uid="uid://bjt2jifiiroa0"]
 
-[ext_resource type="Script" uid="uid://67rs2gmqsw5b" path="res://Levels/TESTING/RotateObject.gd" id="1_ibrtv"]
 [ext_resource type="Texture2D" uid="uid://cfcejan8w2hdt" path="res://textures/PLACEHOLDER/checker_red.png" id="1_jymn0"]
+[ext_resource type="PackedScene" uid="uid://cydn4sn5afbde" path="res://Player/player.tscn" id="1_t346a"]
 [ext_resource type="Script" uid="uid://cr22g21adsylq" path="res://Levels/TESTING/TEST_PLAY_ANIMATION.gd" id="2_3vr6k"]
+[ext_resource type="PackedScene" uid="uid://8hf15i65ov6n" path="res://TESTING_ASSESTS/Platforms/rotating_cube.tscn" id="2_ibrtv"]
 [ext_resource type="Texture2D" uid="uid://d3fn26fc6t6n7" path="res://textures/PLACEHOLDER/checker_blue.png" id="2_qm4sc"]
 [ext_resource type="Texture2D" uid="uid://p3n1wc5jqtho" path="res://textures/PLACEHOLDER/checker_black.png" id="3_3vr6k"]
 [ext_resource type="Script" uid="uid://bh7b34btwx806" path="res://Player/smooth_camera.gd" id="3_ibrtv"]
 [ext_resource type="Texture2D" uid="uid://ck5jrmb6vq8dl" path="res://textures/PLACEHOLDER/checker_green.png" id="4_ibrtv"]
-[ext_resource type="PackedScene" uid="uid://bip3hy0utg1w8" path="res://Player RigidBody/player_rigid_body.tscn" id="8_ibrtv"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_46lwt"]
 sky_horizon_color = Color(0.662243, 0.671743, 0.686743, 1)
@@ -21,13 +21,6 @@ background_mode = 2
 sky = SubResource("Sky_x25rp")
 tonemap_mode = 2
 glow_enabled = true
-
-[sub_resource type="BoxShape3D" id="BoxShape3D_3vr6k"]
-size = Vector3(5, 5, 5)
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_x25rp"]
-albedo_texture = ExtResource("1_jymn0")
-texture_filter = 0
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_qm4sc"]
 albedo_texture = ExtResource("1_jymn0")
@@ -79,6 +72,10 @@ albedo_texture = ExtResource("3_3vr6k")
 uv1_scale = Vector3(20, 20, 20)
 texture_filter = 0
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_x25rp"]
+albedo_texture = ExtResource("1_jymn0")
+texture_filter = 0
+
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_gmgay"]
 albedo_texture = ExtResource("4_ibrtv")
 texture_filter = 0
@@ -96,8 +93,8 @@ height = 20.0
 
 [node name="TestLevel" type="Node3D"]
 
-[node name="PlayerRigidBody" parent="." instance=ExtResource("8_ibrtv")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.39393, 0)
+[node name="Player" parent="." instance=ExtResource("1_t346a")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.47393, 0)
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_gmgay")
@@ -107,25 +104,6 @@ transform = Transform3D(-0.866023, -0.433016, 0.250001, 0, 0.499998, 0.866027, -
 shadow_enabled = true
 
 [node name="Environment" type="Node3D" parent="."]
-
-[node name="RotatingCube" type="Node3D" parent="Environment"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 26.5639, 5.10296, 12.3255)
-
-[node name="AnimatableBody3D" type="AnimatableBody3D" parent="Environment/RotatingCube"]
-script = ExtResource("1_ibrtv")
-rotation_speed = 0.1
-rotation_direction = Vector3(0, 1, 0)
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Environment/RotatingCube/AnimatableBody3D"]
-shape = SubResource("BoxShape3D_3vr6k")
-
-[node name="Node3D" type="Node3D" parent="Environment/RotatingCube/AnimatableBody3D"]
-
-[node name="CSGBox3D2" type="CSGBox3D" parent="Environment/RotatingCube/AnimatableBody3D/Node3D"]
-size = Vector3(5, 5, 5)
-material = SubResource("StandardMaterial3D_x25rp")
-script = ExtResource("3_ibrtv")
-follow_target = NodePath("..")
 
 [node name="MovingCube" type="Node3D" parent="Environment"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.31057, 0.694475, -3.76875)
@@ -139,6 +117,8 @@ animation = "TEST_MOVE_PLATFORM"
 transform = Transform3D(5, 0, 0, 0, 0.7, 0, 0, 0, 5, 0, 0, 0)
 
 [node name="CSGBox3D3" type="MeshInstance3D" parent="Environment/MovingCube/AnimatableBody3D/PlatformProxy"]
+transform = Transform3D(5, 0, 0, 0, 0.7, 0, 0, 0, 5, -7.31057, 0.694475, -3.76875)
+top_level = true
 mesh = SubResource("BoxMesh_3vr6k")
 skeleton = NodePath("")
 script = ExtResource("3_ibrtv")
@@ -265,3 +245,23 @@ shape = SubResource("SphereShape3D_ibrtv")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Environment/Node3D/StaticBody3D"]
 mesh = SubResource("SphereMesh_t346a")
+
+[node name="Cubes" type="Node3D" parent="."]
+
+[node name="RotatingCube" parent="Cubes" instance=ExtResource("2_ibrtv")]
+transform = Transform3D(-0.918794, 0, 0.394737, 0, 1, 0, -0.394737, 0, -0.918794, 26.5639, 5.10296, 12.3255)
+rotation_direction = Vector3(0, 1.715, 0)
+
+[node name="RotatingCube2" parent="Cubes" instance=ExtResource("2_ibrtv")]
+transform = Transform3D(0.764032, 0, -0.645178, 0, 1, 0, 0.645178, 0, 0.764032, 26.5639, 5.10296, 22.2636)
+rotation_direction = Vector3(0, -0.235, 0)
+
+[node name="RotatingCube3" parent="Cubes" instance=ExtResource("2_ibrtv")]
+transform = Transform3D(1, 0, 0, 0, -0.873586, -0.48667, 0, 0.48667, -0.873586, 35.3961, 6.18708, 24.1175)
+rotation_speed = 0.5
+rotation_direction = Vector3(1, 0, 0)
+
+[node name="RotatingCube4" parent="Cubes" instance=ExtResource("2_ibrtv")]
+transform = Transform3D(-0.969041, 0.246902, 0, -0.246902, -0.969041, 0, 0, 0, 1, 18.2048, 6.11222, 23.8538)
+rotation_speed = 0.5
+rotation_direction = Vector3(0, 0, 1)
