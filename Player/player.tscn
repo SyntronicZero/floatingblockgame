@@ -15,8 +15,6 @@ size = Vector3(1, 1.094, 0.784)
 
 [node name="Player" type="CharacterBody3D" node_paths=PackedStringArray("camera_node")]
 collision_layer = 0
-floor_constant_speed = true
-floor_snap_length = 0.3
 platform_on_leave = 2
 script = ExtResource("1_4ntmi")
 camera_node = NodePath("GravityRotation/3rdPersonCam")
@@ -36,7 +34,7 @@ cam_lerp_node = NodePath("../CamLerpPos")
 zoom = 5.0
 
 [node name="FloorColCheck" type="RayCast3D" parent="GravityRotation"]
-target_position = Vector3(0, -1.2, 0)
+target_position = Vector3(0, -1.4, 0)
 
 [node name="MeshRotationY" type="Node3D" parent="."]
 

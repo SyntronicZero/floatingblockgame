@@ -34,6 +34,7 @@ material = SubResource("StandardMaterial3D_qm4sc")
 
 [sub_resource type="Animation" id="Animation_ub4j8"]
 length = 0.001
+step = 0.0166667
 tracks/0/type = "position_3d"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -93,8 +94,9 @@ height = 20.0
 
 [node name="TestLevel" type="Node3D"]
 
-[node name="Player" parent="." instance=ExtResource("1_t346a")]
+[node name="Player" parent="." node_paths=PackedStringArray("gravity_point") instance=ExtResource("1_t346a")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.47393, 0)
+gravity_point = NodePath("../Environment/CSGSphere3D")
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_gmgay")
@@ -126,6 +128,7 @@ follow_target = NodePath("..")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Environment/MovingCube/AnimatableBody3D"]
 root_node = NodePath("../PlatformProxy")
+callback_mode_process = 0
 libraries = {
 &"": SubResource("AnimationLibrary_pvdih")
 }
@@ -249,19 +252,19 @@ mesh = SubResource("SphereMesh_t346a")
 [node name="Cubes" type="Node3D" parent="."]
 
 [node name="RotatingCube" parent="Cubes" instance=ExtResource("2_ibrtv")]
-transform = Transform3D(-0.918794, 0, 0.394737, 0, 1, 0, -0.394737, 0, -0.918794, 26.5639, 5.10296, 12.3255)
+transform = Transform3D(-0.182353, 0, 0.983233, 0, 1, 0, -0.983233, 0, -0.182353, 26.5639, 5.10296, 12.3255)
 rotation_direction = Vector3(0, 1.715, 0)
 
 [node name="RotatingCube2" parent="Cubes" instance=ExtResource("2_ibrtv")]
-transform = Transform3D(0.764032, 0, -0.645178, 0, 1, 0, 0.645178, 0, 0.764032, 26.5639, 5.10296, 22.2636)
+transform = Transform3D(0.960956, 0, 0.2767, 0, 1, 0, -0.2767, 0, 0.960956, 26.5639, 5.10296, 22.2636)
 rotation_direction = Vector3(0, -0.235, 0)
 
 [node name="RotatingCube3" parent="Cubes" instance=ExtResource("2_ibrtv")]
-transform = Transform3D(1, 0, 0, 0, -0.873586, -0.48667, 0, 0.48667, -0.873586, 35.3961, 6.18708, 24.1175)
+transform = Transform3D(1, 0, 0, 0, -0.54108, -0.840972, 0, 0.840972, -0.54108, 35.3961, 6.18708, 24.1175)
 rotation_speed = 0.5
 rotation_direction = Vector3(1, 0, 0)
 
 [node name="RotatingCube4" parent="Cubes" instance=ExtResource("2_ibrtv")]
-transform = Transform3D(-0.969041, 0.246902, 0, -0.246902, -0.969041, 0, 0, 0, 1, 18.2048, 6.11222, 23.8538)
+transform = Transform3D(-0.971026, -0.238977, 0, 0.238977, -0.971026, 0, 0, 0, 1, 18.2048, 6.11222, 23.8538)
 rotation_speed = 0.5
 rotation_direction = Vector3(0, 0, 1)

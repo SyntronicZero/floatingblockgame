@@ -12,6 +12,7 @@ extends CharacterBody3D
 var camera_basis: Basis
 var camera_global_basis: Basis
 
+const MAX_VELOCITY: float = 25
 const MESH_ROTATION_SPEED = 15.0
 const ACCELERATION: float = 5.0
 const DECCELERATION: float = 20.0
@@ -38,26 +39,34 @@ func _input(_event: InputEvent) -> void:
 
 var c_local_velocity_abs: Vector3
 var c_local_velocity: Vector3
+@export var gravity_point: Node3D
+var can_apply_floor_snap: bool
 
 func _physics_process(delta: float) -> void:
+	velocity -= smooth_move
+	
+	
+	#gravity_direction = (gravity_point.global_position - position).normalized()
 	if camera_node != null: #checks for camera node
 		camera_basis = camera_node.cam_basis #gets the camera basis relative to its parent node
 		camera_global_basis = camera_node.cam_global_basis #gets the cameras basis relative to world space
-	
-	c_local_velocity = GravityFunctions.get_local_velocity_direction(c_local_velocity_abs, GravityFunctions.get_local_velocity_abs(velocity, camera_global_basis))
-	c_local_velocity_abs = GravityFunctions.get_local_velocity_abs(velocity, camera_global_basis)
+	c_local_velocity = GravityFunctions.get_local_velocity_direction(c_local_velocity_abs, GravityFunctions.get_local_velocity_abs(smooth_move, camera_global_basis))
+	c_local_velocity_abs = GravityFunctions.get_local_velocity_abs(smooth_move, camera_global_basis)
+	#print(c_local_velocity)
 	
 	if is_on_floor() == false:
 		print("gravity")
-		velocity += (gravity_speed * camera_global_basis.y * delta) #gravity
+		velocity += ((gravity_speed) * camera_global_basis.y * delta) + (abs(slope_y_down) * camera_global_basis.y) #gravity
 		velocity = velocity.move_toward(Vector3.ZERO, delta * DECCELERATION / 5)
 	else:
+		can_apply_floor_snap = true
 		velocity = velocity.move_toward(Vector3.ZERO, delta * DECCELERATION)
-
-	# Handle jump.
+	
 	if Input.is_action_just_pressed("Jump") and is_on_floor():
+		can_apply_floor_snap = false
 		velocity += JUMP_VELOCITY * camera_global_basis.y
-		
+	
+	# Handle jump.
 	_get_movement_input()
 	_add_platform_velocity()
 	if is_on_floor() or floor_col_check_node.is_colliding():
@@ -67,20 +76,29 @@ func _physics_process(delta: float) -> void:
 		_ground_movement(delta, .3)
 		_mesh_rotation(delta, .5)
 	gravity_rotation(gravity_direction)
+	velocity += smooth_move + (slope_y_down * camera_global_basis.y)
+	velocity = velocity.limit_length(MAX_VELOCITY) #limits maximum velocity
 	move_and_slide()
-
+	if can_apply_floor_snap:
+		apply_floor_snap()
 
 var smooth_move: Vector3
 var platform_velocity: Vector3
+var slope_y_down: float
 
 func _ground_movement(delta, friction):
 	var forward = camera_global_basis.z
 	var right = camera_global_basis.x
 	var movement: Vector3 #movement direction based on input and direction
+	var slope: Quaternion
+	if is_on_floor():
+		slope = Quaternion(get_floor_normal(), -gravity_direction)
+	print(slope_y_down)
 	movement = forward * input_dir.y * SPEED
 	movement += right * input_dir.x * SPEED
 	smooth_move = lerp(smooth_move, movement, ACCELERATION * delta * friction) #smooths movement input
-	position += smooth_move * delta #modifies position for user input movement instead of velocity
+	slope_y_down = min((smooth_move * Basis(slope).y).z, 0) #gets the y downward direction when on a slope. No. I dont know why this works. But it does and thats all that matters
+	#position += smooth_move * delta #modifies position for user input movement instead of velocity
 	
 func _mesh_rotation(delta, rotation_strength: float):
 	var theta_remaped = remap(abs(_theta), 3, .01, 1, 0.03)
@@ -111,3 +129,8 @@ func _add_platform_velocity() -> void:
 func _get_movement_input() -> void:
 	input_dir = Input.get_vector("Left", "Right", "Forward", "Backward")
 	direction = (camera_basis * Vector3(input_dir.x, 0, input_dir.y))
+
+func _get_slope_direction():
+	if is_on_floor():
+		var slope_dir: Quaternion = Quaternion(get_floor_normal(), camera_global_basis.y).normalized()
+		return slope_dir

@@ -13,7 +13,6 @@ texture_filter = 0
 
 [node name="RotatingCube" type="AnimatableBody3D"]
 script = ExtResource("1_2hmn6")
-rotation_speed = 1.0
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 shape = SubResource("BoxShape3D_3vr6k")

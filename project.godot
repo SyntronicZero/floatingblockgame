@@ -13,7 +13,6 @@ config_version=5
 config/name="Floating Block Game"
 run/main_scene="uid://bjt2jifiiroa0"
 config/features=PackedStringArray("4.4", "Forward Plus")
-run/max_fps=60
 config/icon="res://icon.svg"
 
 [autoload]
@@ -24,7 +23,6 @@ GravityFunctions="*res://Global Scripts/gravity_functions.gd"
 
 window/size/viewport_width=1920
 window/size/viewport_height=1080
-window/vsync/vsync_mode=0
 
 [editor_plugins]
 
