@@ -1,4 +1,4 @@
-[gd_scene load_steps=25 format=3 uid="uid://bjt2jifiiroa0"]
+[gd_scene load_steps=28 format=3 uid="uid://bjt2jifiiroa0"]
 
 [ext_resource type="Texture2D" uid="uid://cfcejan8w2hdt" path="res://textures/PLACEHOLDER/checker_red.png" id="1_jymn0"]
 [ext_resource type="PackedScene" uid="uid://cydn4sn5afbde" path="res://Player/player.tscn" id="1_t346a"]
@@ -8,6 +8,8 @@
 [ext_resource type="Texture2D" uid="uid://p3n1wc5jqtho" path="res://textures/PLACEHOLDER/checker_black.png" id="3_3vr6k"]
 [ext_resource type="Script" uid="uid://bh7b34btwx806" path="res://Player/smooth_camera.gd" id="3_ibrtv"]
 [ext_resource type="Texture2D" uid="uid://ck5jrmb6vq8dl" path="res://textures/PLACEHOLDER/checker_green.png" id="4_ibrtv"]
+[ext_resource type="Script" uid="uid://cbdw8t2mbnmww" path="res://Levels/TESTING/area_3d_gravity_sphere_test.gd" id="9_t346a"]
+[ext_resource type="PackedScene" uid="uid://885djgiypb8b" path="res://TESTING_ASSESTS/disk_planet.tscn" id="10_eio3g"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_46lwt"]
 sky_horizon_color = Color(0.662243, 0.671743, 0.686743, 1)
@@ -92,11 +94,14 @@ radius = 10.0
 radius = 10.0
 height = 20.0
 
+[sub_resource type="SphereShape3D" id="SphereShape3D_t346a"]
+radius = 11.515
+
 [node name="TestLevel" type="Node3D"]
 
 [node name="Player" parent="." node_paths=PackedStringArray("gravity_point") instance=ExtResource("1_t346a")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.47393, 0)
-gravity_point = NodePath("../Environment/CSGSphere3D")
+gravity_point = NodePath("../Planet/Area3D/CSGSphere3D")
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_gmgay")
@@ -231,13 +236,6 @@ transform = Transform3D(3.19362, 0, -2.2416, 0, 1.36953, 0, 2.2416, 0, 3.19362, 
 use_collision = true
 material = SubResource("StandardMaterial3D_w7r7j")
 
-[node name="CSGSphere3D" type="CSGSphere3D" parent="Environment"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9.44412, 10.4818, -15.3953)
-use_collision = true
-radius = 6.3
-radial_segments = 36
-rings = 18
-
 [node name="Node3D" type="Node3D" parent="Environment"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -28.893, 8.97268, -9.21101)
 
@@ -252,19 +250,63 @@ mesh = SubResource("SphereMesh_t346a")
 [node name="Cubes" type="Node3D" parent="."]
 
 [node name="RotatingCube" parent="Cubes" instance=ExtResource("2_ibrtv")]
-transform = Transform3D(-0.182353, 0, 0.983233, 0, 1, 0, -0.983233, 0, -0.182353, 26.5639, 5.10296, 12.3255)
+transform = Transform3D(-0.253729, 0, 0.967275, 0, 1, 0, -0.967275, 0, -0.253729, 26.5639, 5.10296, 12.3255)
 rotation_direction = Vector3(0, 1.715, 0)
 
 [node name="RotatingCube2" parent="Cubes" instance=ExtResource("2_ibrtv")]
-transform = Transform3D(0.960956, 0, 0.2767, 0, 1, 0, -0.2767, 0, 0.960956, 26.5639, 5.10296, 22.2636)
+transform = Transform3D(0.978601, 0, 0.20577, 0, 1, 0, -0.20577, 0, 0.978601, 26.5639, 5.10296, 22.2636)
 rotation_direction = Vector3(0, -0.235, 0)
 
 [node name="RotatingCube3" parent="Cubes" instance=ExtResource("2_ibrtv")]
-transform = Transform3D(1, 0, 0, 0, -0.54108, -0.840972, 0, 0.840972, -0.54108, 35.3961, 6.18708, 24.1175)
+transform = Transform3D(1, 0, 0, 0, 0.571484, 0.820614, 0, -0.820614, 0.571484, 35.3961, 6.18708, 24.1175)
 rotation_speed = 0.5
 rotation_direction = Vector3(1, 0, 0)
 
 [node name="RotatingCube4" parent="Cubes" instance=ExtResource("2_ibrtv")]
-transform = Transform3D(-0.971026, -0.238977, 0, 0.238977, -0.971026, 0, 0, 0, 1, 18.2048, 6.11222, 23.8538)
+transform = Transform3D(0.979142, 0.203182, 0, -0.203182, 0.979142, 0, 0, 0, 1, 18.2048, 6.11222, 23.8538)
 rotation_speed = 0.5
 rotation_direction = Vector3(0, 0, 1)
+
+[node name="Planet" type="Node3D" parent="."]
+
+[node name="Area3D" type="Area3D" parent="Planet"]
+transform = Transform3D(0.903219, 0, 0, 0, 0.903219, 0, 0, 0, 0.903219, -2.39121, 17.8497, -10.6591)
+collision_mask = 3
+gravity_space_override = 2
+gravity_point = true
+gravity_point_center = Vector3(0, 0, 0)
+gravity_direction = Vector3(0, 0, 0)
+script = ExtResource("9_t346a")
+
+[node name="CSGSphere3D" type="CSGSphere3D" parent="Planet/Area3D"]
+use_collision = true
+radius = 6.3
+radial_segments = 36
+rings = 18
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Planet/Area3D"]
+shape = SubResource("SphereShape3D_t346a")
+
+[node name="Area3D2" type="Area3D" parent="Planet"]
+transform = Transform3D(1.35212, 0, 0, 0, 1.35212, 0, 0, 0, 1.35212, 4.35759, 16.7835, -31.1768)
+collision_mask = 3
+gravity_space_override = 2
+gravity_point = true
+gravity_point_center = Vector3(0, 0, 0)
+gravity_direction = Vector3(0, 0, 0)
+script = ExtResource("9_t346a")
+
+[node name="CSGSphere3D" type="CSGSphere3D" parent="Planet/Area3D2"]
+use_collision = true
+radius = 6.3
+radial_segments = 36
+rings = 18
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Planet/Area3D2"]
+shape = SubResource("SphereShape3D_t346a")
+
+[node name="DiskPlanet" parent="Planet" instance=ExtResource("10_eio3g")]
+transform = Transform3D(1.614, 0, 0, 0, 1.614, 0, 0, 0, 1.614, 54.0562, 7.92988, -3.54951)
+
+[connection signal="area_entered" from="Planet/Area3D" to="Planet/Area3D" method="_on_area_entered"]
+[connection signal="area_entered" from="Planet/Area3D2" to="Planet/Area3D2" method="_on_area_entered"]

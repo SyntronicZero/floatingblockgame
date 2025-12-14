@@ -80,4 +80,5 @@ func _camera_wall_collision():
 func smooth_camera_rot(boolean: bool) -> void:
 	if boolean:
 		smooth_y_node.global_position = free_cam_node.global_position
-		smooth_y_node.global_basis = lerp(smooth_y_node.global_basis, free_cam_node.global_basis, .1)
+		#smooth_y_node.global_basis = lerp(smooth_y_node.global_basis, free_cam_node.global_basis, .035)
+		smooth_y_node.global_basis = smooth_y_node.global_basis.slerp(free_cam_node.global_basis, .035)

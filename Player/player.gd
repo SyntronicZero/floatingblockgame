@@ -43,10 +43,12 @@ var c_local_velocity: Vector3
 var can_apply_floor_snap: bool
 
 func _physics_process(delta: float) -> void:
-	velocity -= smooth_move
+	velocity -= smooth_move #subtracts smooth_move from last frame
 	
 	
 	#gravity_direction = (gravity_point.global_position - position).normalized()
+	if get_gravity(): #gets the gravity from the current area3d node
+		gravity_direction = get_gravity().normalized()
 	if camera_node != null: #checks for camera node
 		camera_basis = camera_node.cam_basis #gets the camera basis relative to its parent node
 		camera_global_basis = camera_node.cam_global_basis #gets the cameras basis relative to world space
@@ -55,11 +57,12 @@ func _physics_process(delta: float) -> void:
 	#print(c_local_velocity)
 	
 	if is_on_floor() == false:
-		print("gravity")
 		velocity += ((gravity_speed) * camera_global_basis.y * delta) + (abs(slope_y_down) * camera_global_basis.y) #gravity
 		velocity = velocity.move_toward(Vector3.ZERO, delta * DECCELERATION / 5)
+		floor_snap_length = .1
 	else:
 		can_apply_floor_snap = true
+		floor_snap_length = .5
 		velocity = velocity.move_toward(Vector3.ZERO, delta * DECCELERATION)
 	
 	if Input.is_action_just_pressed("Jump") and is_on_floor():
@@ -76,7 +79,7 @@ func _physics_process(delta: float) -> void:
 		_ground_movement(delta, .3)
 		_mesh_rotation(delta, .5)
 	gravity_rotation(gravity_direction)
-	velocity += smooth_move + (slope_y_down * camera_global_basis.y)
+	velocity += smooth_move + (slope_y_down * camera_global_basis.y) #adds smooth_move after all previous velocity calcs and adds downward slope velocity
 	velocity = velocity.limit_length(MAX_VELOCITY) #limits maximum velocity
 	move_and_slide()
 	if can_apply_floor_snap:
@@ -92,8 +95,10 @@ func _ground_movement(delta, friction):
 	var movement: Vector3 #movement direction based on input and direction
 	var slope: Quaternion
 	if is_on_floor():
-		slope = Quaternion(get_floor_normal(), -gravity_direction)
-	print(slope_y_down)
+		if get_floor_normal():
+			slope = Quaternion(get_floor_normal(), -gravity_direction)
+	if abs(slope_y_down) > .1:
+		print(slope_y_down)
 	movement = forward * input_dir.y * SPEED
 	movement += right * input_dir.x * SPEED
 	smooth_move = lerp(smooth_move, movement, ACCELERATION * delta * friction) #smooths movement input
@@ -114,7 +119,7 @@ func gravity_rotation(grav_direction) -> void:
 	gravity_rotation_node.position = position
 	
 	var target_up_direction = Quaternion(gravity_rotation_node.global_basis.y, -grav_direction) * gravity_rotation_node.quaternion
-	smooth_target_up_direction = smooth_target_up_direction.slerp(target_up_direction, .1)
+	smooth_target_up_direction = smooth_target_up_direction.slerp(target_up_direction, .025 * (1 + (type_convert(is_on_floor(), TYPE_INT) * 3)))
 	up_direction = -gravity_direction #sets characterbody3D up direction to the inverse of the gravity direction
 	gravity_rotation_node.global_basis = target_up_direction
 	global_basis = smooth_target_up_direction
