@@ -1,4 +1,6 @@
-[gd_scene load_steps=6 format=3 uid="uid://885djgiypb8b"]
+[gd_scene load_steps=7 format=3 uid="uid://885djgiypb8b"]
+
+[ext_resource type="Script" uid="uid://cjk5fgnbi53f2" path="res://Global Scripts/gravity_zone.gd" id="1_gt6m2"]
 
 [sub_resource type="SphereMesh" id="SphereMesh_gt6m2"]
 radius = 5.0
@@ -24,9 +26,9 @@ radius = 7.0
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 mesh = SubResource("SphereMesh_gt6m2")
 
-[node name="StaticBody3D" type="StaticBody3D" parent="MeshInstance3D"]
+[node name="DiskPlanet" type="StaticBody3D" parent="MeshInstance3D"]
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="MeshInstance3D/StaticBody3D"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="MeshInstance3D/DiskPlanet"]
 shape = SubResource("ConvexPolygonShape3D_vlv2e")
 
 [node name="Area3D" type="Area3D" parent="."]
@@ -45,10 +47,11 @@ shape = SubResource("SphereShape3D_vlv2e")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
 collision_mask = 3
 priority = 1
-gravity_space_override = 2
+gravity_space_override = 1
 gravity_point = true
 gravity_point_center = Vector3(0, -14, 0)
 gravity_direction = Vector3(0, -14, 0)
+script = ExtResource("1_gt6m2")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Top"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.7, 0)
@@ -58,10 +61,11 @@ debug_color = Color(0, 0.6, 0.701961, 1)
 [node name="Middle" type="Area3D" parent="."]
 collision_mask = 3
 priority = 1
-gravity_space_override = 2
+gravity_space_override = 1
 gravity_point = true
 gravity_point_center = Vector3(0, 0, 0)
 gravity_direction = Vector3(0, 0, 0)
+script = ExtResource("1_gt6m2")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Middle"]
 shape = SubResource("CylinderShape3D_gt6m2")
@@ -70,10 +74,11 @@ shape = SubResource("CylinderShape3D_gt6m2")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.3, 0)
 collision_mask = 3
 priority = 1
-gravity_space_override = 2
+gravity_space_override = 1
 gravity_point = true
 gravity_point_center = Vector3(0, 14, 0)
 gravity_direction = Vector3(0, 14, 0)
+script = ExtResource("1_gt6m2")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Bottom"]
 shape = SubResource("CylinderShape3D_vlv2e")

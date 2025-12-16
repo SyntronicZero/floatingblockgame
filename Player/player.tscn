@@ -15,6 +15,7 @@ size = Vector3(1, 1.094, 0.784)
 [sub_resource type="CylinderMesh" id="CylinderMesh_btcbx"]
 
 [node name="Player" type="CharacterBody3D" node_paths=PackedStringArray("camera_node")]
+process_mode = 3
 collision_layer = 2
 floor_snap_length = 0.5
 platform_on_leave = 2

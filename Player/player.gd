@@ -26,6 +26,8 @@ var _theta: float
 
 var smooth_target_up_direction: Quaternion
 var gravity_direction: Vector3 = Vector3(0, -1, 0)
+var gravity_zones: Array
+
 
 func _ready() -> void:
 	if camera_node != null: #checks for camera node
@@ -48,7 +50,8 @@ func _physics_process(delta: float) -> void:
 	
 	#gravity_direction = (gravity_point.global_position - position).normalized()
 	if get_gravity(): #gets the gravity from the current area3d node
-		gravity_direction = get_gravity().normalized()
+		#gravity_direction = get_gravity().normalized()
+		gravity_direction = GravityFunctions.get_gravity_direction(gravity_zones, self)
 	if camera_node != null: #checks for camera node
 		camera_basis = camera_node.cam_basis #gets the camera basis relative to its parent node
 		camera_global_basis = camera_node.cam_global_basis #gets the cameras basis relative to world space
@@ -97,8 +100,8 @@ func _ground_movement(delta, friction):
 	if is_on_floor():
 		if get_floor_normal():
 			slope = Quaternion(get_floor_normal(), -gravity_direction)
-	if abs(slope_y_down) > .1:
-		print(slope_y_down)
+	#if abs(slope_y_down) > .1:
+		#print(slope_y_down)
 	movement = forward * input_dir.y * SPEED
 	movement += right * input_dir.x * SPEED
 	smooth_move = lerp(smooth_move, movement, ACCELERATION * delta * friction) #smooths movement input

@@ -17,9 +17,8 @@ size = Vector3(1, 1.094, 0.784)
 [sub_resource type="CylinderMesh" id="CylinderMesh_btcbx"]
 
 [node name="PlayerRigidBody" type="RigidBody3D" node_paths=PackedStringArray("camera_node")]
-collision_layer = 0
+collision_layer = 2
 physics_material_override = SubResource("PhysicsMaterial_1hk6k")
-gravity_scale = 0.0
 lock_rotation = true
 contact_monitor = true
 max_contacts_reported = 10
@@ -48,6 +47,7 @@ target_position = Vector3(0, -1.2, 0)
 [node name="MeshRotationZ" type="Node3D" parent="MeshRotationY"]
 
 [node name="SmoothPlayer" type="Node3D" parent="."]
+top_level = true
 script = ExtResource("3_6yu45")
 follow_target = NodePath("../MeshRotationY/MeshRotationZ")
 

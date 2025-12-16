@@ -49,6 +49,9 @@ func _integrate_forces(state: PhysicsDirectBodyState3D) -> void:
 	camera_basis = camera_node.cam_basis
 	camera_global_basis = camera_node.cam_global_basis
 	set_constant_force(gravity * gravity_direction) #gravity
+	if get_gravity(): #gets the gravity from the current area3d node
+		gravity_direction = get_gravity().normalized()
+	print(get_gravity())
 	if is_on_floor(state):
 		physics_material_override.friction = 1
 	else:
