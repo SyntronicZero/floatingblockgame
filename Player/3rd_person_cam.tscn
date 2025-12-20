@@ -6,6 +6,8 @@
 [node name="3rdPersonCam" type="Node3D"]
 script = ExtResource("1_upup2")
 smooth_rotation = true
+y_offset = 0.936
+zoom = 7.5
 
 [node name="CameraRotationY" type="Node3D" parent="."]
 

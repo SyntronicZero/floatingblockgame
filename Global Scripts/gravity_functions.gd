@@ -11,8 +11,8 @@ func get_local_velocity_direction(p_local, c_local) -> Vector3:
 	current_velocity.z = c_local.z * sign(c_local.z - p_local.z)
 	return current_velocity
 
-func get_gravity_direction(gravity_zones: Array, phys_node: PhysicsBody3D) -> Vector3:
-	var grav_dir: Vector3
+func get_gravity_direction(gravity_zones: Array, phys_node: PhysicsBody3D) -> Vector3: #custom solution for handeling gravity zones
+	var grav_dir: Vector3 = Vector3.ZERO
 	var priority_list: Array
 	var gravity_directions: Array
 	if gravity_zones.is_empty() == false:
@@ -35,5 +35,4 @@ func get_gravity_direction(gravity_zones: Array, phys_node: PhysicsBody3D) -> Ve
 		for grav in gravity_directions:
 			grav_dir += grav
 		return grav_dir.normalized()
-	
 	return Vector3(0, -1, 0)

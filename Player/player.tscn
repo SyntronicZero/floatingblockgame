@@ -29,12 +29,9 @@ shape = SubResource("SphereShape3D_btcbx")
 top_level = true
 
 [node name="CamLerpPos" type="Marker3D" parent="GravityRotation"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.935663, 0)
 
 [node name="3rdPersonCam" parent="GravityRotation" node_paths=PackedStringArray("cam_lerp_node") instance=ExtResource("1_l8h54")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.935663, 0)
 cam_lerp_node = NodePath("../CamLerpPos")
-zoom = 7.5
 
 [node name="FloorColCheck" type="RayCast3D" parent="GravityRotation"]
 target_position = Vector3(0, -1.4, 0)

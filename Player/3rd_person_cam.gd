@@ -19,6 +19,8 @@ var input_dir: Vector2
 @export var cam_lerp_node: Marker3D
 @export var MOUSE_SENSITIVITY: float = .003
 @export var CONTROLLER_SENSITIVITY: float = 0.05
+@export var y_offset: float = 0.0
+@export var x_offset: float = 0.0
 @export var fov: float
 @export var zoom: float = 0.5:
 	set(new_value):
@@ -39,6 +41,8 @@ func _ready() -> void:
 		self.top_level = true
 	if smooth_rotation == true:
 		smooth_y_node.top_level = true
+	camera_rotation_y_copy_node.position.y = y_offset
+	camera_rotation_x_node.position.x = x_offset
 
 func _physics_process(_delta: float) -> void:
 	if cam_lerp_node != null:
@@ -82,3 +86,5 @@ func smooth_camera_rot(boolean: bool) -> void:
 		smooth_y_node.global_position = free_cam_node.global_position
 		#smooth_y_node.global_basis = lerp(smooth_y_node.global_basis, free_cam_node.global_basis, .035)
 		smooth_y_node.global_basis = smooth_y_node.global_basis.slerp(free_cam_node.global_basis, .035)
+		#var tween := get_tree().create_tween()
+		#tween.tween_property(smooth_y_node ,"quaternion", free_cam_node.quaternion, 1).set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_LINEAR)
