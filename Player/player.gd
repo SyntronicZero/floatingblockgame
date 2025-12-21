@@ -5,7 +5,6 @@ extends CharacterBody3D
 @onready var mesh_rotation_z_node: Node3D = $MeshRotationY/MeshRotationZ
 @onready var gravity_rotation_node: Node3D = $GravityRotation
 @onready var floor_col_check_node: RayCast3D = $GravityRotation/FloorColCheck
-
 #endregion
 
 @export var camera_node: Node3D
@@ -18,11 +17,16 @@ const ACCELERATION: float = 5.0
 const DECCELERATION: float = 20.0
 const SPEED: float = 10.0
 const JUMP_VELOCITY: float = 9.0
+const JUMP_TOTAL: int = 2
 var gravity_speed: float = -20.0
+
+const COYOTE_TIME: float = .15
+var air_time: float
 
 var input_dir: Vector2
 var direction: Vector3
 var _theta: float
+var can_jump: int
 
 var smooth_target_up_direction: Quaternion
 var gravity_direction: Vector3 = Vector3(0, -1, 0)
@@ -38,39 +42,65 @@ func _input(_event: InputEvent) -> void:
 	if Input.is_action_pressed("Right Bumper"): #temp way to test gravity change
 		if camera_node.look_detection_node.is_colliding():
 			gravity_direction = -camera_node.look_detection_node.get_collision_normal()
+	if Input.is_action_just_pressed("Left Bumper"):
+		if floor_norm_grav == false:
+			floor_norm_grav = true
+		else:
+			floor_norm_grav = false
 
 var c_local_velocity_abs: Vector3
 var c_local_velocity: Vector3
-@export var gravity_point: Node3D
 var can_apply_floor_snap: bool
+var time_going_up: float
+var floor_norm_grav: bool
 
 func _physics_process(delta: float) -> void:
 	velocity -= smooth_move #subtracts smooth_move from last frame
-	
-	
+	if is_on_floor() and floor_norm_grav:
+		gravity_direction = -self.get_floor_normal()
 	#gravity_direction = (gravity_point.global_position - position).normalized()
-	if get_gravity(): #gets the gravity from the current area3d node
-		#gravity_direction = get_gravity().normalized()
+	
+	if air_time > COYOTE_TIME and can_jump == JUMP_TOTAL:
+		can_jump -= 1
+	
+	if GravityFunctions.get_gravity_direction(gravity_zones, self): #gets the gravity from the current area3d node
 		gravity_direction = GravityFunctions.get_gravity_direction(gravity_zones, self)
+	
 	if camera_node != null: #checks for camera node
 		camera_basis = camera_node.cam_basis #gets the camera basis relative to its parent node
 		camera_global_basis = camera_node.cam_global_basis #gets the cameras basis relative to world space
-	c_local_velocity = GravityFunctions.get_local_velocity_direction(c_local_velocity_abs, GravityFunctions.get_local_velocity_abs(smooth_move, camera_global_basis))
-	c_local_velocity_abs = GravityFunctions.get_local_velocity_abs(smooth_move, camera_global_basis)
+	c_local_velocity = GravityFunctions.get_local_velocity_direction(c_local_velocity_abs, GravityFunctions.get_local_velocity_abs(velocity, camera_global_basis))
+	c_local_velocity_abs = GravityFunctions.get_local_velocity_abs(velocity, camera_global_basis)
 	#print(c_local_velocity)
 	
 	if is_on_floor() == false:
 		velocity += ((gravity_speed) * camera_global_basis.y * delta) + (abs(slope_y_down) * camera_global_basis.y) #gravity
 		velocity = velocity.move_toward(Vector3.ZERO, delta * DECCELERATION / 5)
 		floor_snap_length = .1
+		air_time += delta
 	else:
 		can_apply_floor_snap = true
 		floor_snap_length = .5
 		velocity = velocity.move_toward(Vector3.ZERO, delta * DECCELERATION)
+		air_time = 0
+		can_jump = JUMP_TOTAL
 	
-	if Input.is_action_just_pressed("Jump") and is_on_floor():
+	if Input.is_action_just_pressed("Jump") and can_jump > 0:
 		can_apply_floor_snap = false
-		velocity += JUMP_VELOCITY * camera_global_basis.y
+		velocity += ((JUMP_VELOCITY + abs(min(c_local_velocity.y, 0))) * abs(gravity_rotation_node.quaternion.dot(self.quaternion))**10) * self.global_basis.y
+		can_jump -= 1
+	
+	if Input.is_action_just_released("Jump") and can_jump >= 0:
+		var jump_peak_delta = abs(JUMP_VELOCITY / gravity_speed)
+		if time_going_up < jump_peak_delta:
+			velocity -= (gravity_direction * gravity_speed * (jump_peak_delta - time_going_up)) / 2
+		if can_jump == 0:
+			can_jump -= 1
+	
+	if Input.is_action_pressed("Jump"):
+		time_going_up += delta
+	else:
+		time_going_up = 0
 	
 	# Handle jump.
 	_get_movement_input()

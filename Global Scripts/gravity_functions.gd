@@ -30,9 +30,8 @@ func get_gravity_direction(gravity_zones: Array, phys_node: PhysicsBody3D) -> Ve
 				else:
 					gravity_directions.append((node.get_gravity_direction()).normalized())
 				if node.get_gravity_space_override_mode() == 3:
-					print("override")
 					return phys_node.get_gravity().normalized()
 		for grav in gravity_directions:
 			grav_dir += grav
 		return grav_dir.normalized()
-	return Vector3(0, -1, 0)
+	return Vector3.ZERO

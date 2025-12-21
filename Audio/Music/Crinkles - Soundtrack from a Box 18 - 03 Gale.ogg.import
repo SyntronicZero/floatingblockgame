@@ -1,0 +1,19 @@
+[remap]
+
+importer="oggvorbisstr"
+type="AudioStreamOggVorbis"
+uid="uid://dtdi07jgootiv"
+path="res://.godot/imported/Crinkles - Soundtrack from a Box 18 - 03 Gale.ogg-6627d19e503c5f7df196de8b718ede5d.oggvorbisstr"
+
+[deps]
+
+source_file="res://Audio/Music/Crinkles - Soundtrack from a Box 18 - 03 Gale.ogg"
+dest_files=["res://.godot/imported/Crinkles - Soundtrack from a Box 18 - 03 Gale.ogg-6627d19e503c5f7df196de8b718ede5d.oggvorbisstr"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4
