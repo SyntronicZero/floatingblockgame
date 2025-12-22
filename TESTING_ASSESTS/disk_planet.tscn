@@ -1,8 +1,15 @@
-[gd_scene load_steps=6 format=3 uid="uid://885djgiypb8b"]
+[gd_scene load_steps=8 format=3 uid="uid://885djgiypb8b"]
 
+[ext_resource type="Texture2D" uid="uid://cbtlecf6eapa5" path="res://textures/Metal_21-512x512.png" id="1_4xyub"]
 [ext_resource type="Script" uid="uid://cjk5fgnbi53f2" path="res://Global Scripts/gravity_zone.gd" id="1_gt6m2"]
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_brs1v"]
+albedo_texture = ExtResource("1_4xyub")
+uv1_scale = Vector3(0.27, 0.27, 0.27)
+uv1_triplanar = true
+
 [sub_resource type="SphereMesh" id="SphereMesh_gt6m2"]
+material = SubResource("StandardMaterial3D_brs1v")
 radius = 5.0
 height = 2.0
 radial_segments = 32

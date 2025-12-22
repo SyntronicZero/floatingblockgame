@@ -1,0 +1,27 @@
+[gd_resource type="Environment" load_steps=4 format=3 uid="uid://cla7tmchorowo"]
+
+[ext_resource type="Texture2D" uid="uid://ucadp2vij5ss" path="res://textures/Sky/Space HDRI 2.hdr" id="1_n2din"]
+
+[sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_wlwb2"]
+panorama = ExtResource("1_n2din")
+
+[sub_resource type="Sky" id="Sky_sr0x5"]
+sky_material = SubResource("PanoramaSkyMaterial_wlwb2")
+
+[resource]
+background_mode = 2
+sky = SubResource("Sky_sr0x5")
+ambient_light_source = 2
+ambient_light_color = Color(0.24610442, 0.24610442, 0.24610442, 1)
+ambient_light_energy = 1.85
+tonemap_mode = 1
+tonemap_exposure = 0.79
+tonemap_white = 0.09
+sdfgi_min_cell_size = 5.66875
+fog_light_color = Color(0, 0, 0, 1)
+fog_sun_scatter = 0.47
+fog_density = 0.0
+fog_sky_affect = 0.354
+volumetric_fog_enabled = true
+volumetric_fog_density = 0.0
+adjustment_saturation = 0.8

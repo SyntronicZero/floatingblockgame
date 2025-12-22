@@ -1,9 +1,12 @@
-[gd_scene load_steps=9 format=3 uid="uid://cydn4sn5afbde"]
+[gd_scene load_steps=12 format=3 uid="uid://cydn4sn5afbde"]
 
 [ext_resource type="Script" uid="uid://ctxkhlj6ghvle" path="res://Player/player.gd" id="1_4ntmi"]
 [ext_resource type="PackedScene" uid="uid://b2ghb5wuku086" path="res://Player/3rd_person_cam.tscn" id="1_l8h54"]
 [ext_resource type="Script" uid="uid://bh7b34btwx806" path="res://Player/smooth_camera.gd" id="3_btcbx"]
+[ext_resource type="Script" uid="uid://b7n4e70pgfl2o" path="res://Player/drop_shadow_ray.gd" id="3_fhl08"]
 [ext_resource type="Script" uid="uid://b4makbcamrbvl" path="res://TESTING_ASSESTS/test_floor_norm_grav_label.gd" id="4_gwnis"]
+[ext_resource type="Texture2D" uid="uid://bft1fbs3ovj0b" path="res://textures/DropShadow.png" id="5_fhl08"]
+[ext_resource type="Texture2D" uid="uid://c8xif606v1orb" path="res://textures/PlanetGlow.png" id="5_k53q1"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_btcbx"]
 radius = 1.0
@@ -37,6 +40,22 @@ cam_lerp_node = NodePath("../CamLerpPos")
 [node name="FloorColCheck" type="RayCast3D" parent="GravityRotation"]
 target_position = Vector3(0, -1.4, 0)
 
+[node name="DropShadowRay" type="RayCast3D" parent="GravityRotation"]
+target_position = Vector3(0, -10, 0)
+script = ExtResource("3_fhl08")
+
+[node name="DropShadowPoint" type="Marker3D" parent="GravityRotation/DropShadowRay"]
+
+[node name="DropShadow" type="Marker3D" parent="GravityRotation/DropShadowRay"]
+script = ExtResource("3_btcbx")
+follow_target = NodePath("../DropShadowPoint")
+
+[node name="DropDecal" type="Decal" parent="GravityRotation/DropShadowRay/DropShadow"]
+size = Vector3(1, 1, 1)
+texture_albedo = ExtResource("5_fhl08")
+lower_fade = 1.0446602
+cull_mask = 1048573
+
 [node name="MeshRotationY" type="Node3D" parent="."]
 
 [node name="MeshRotationZ" type="Node3D" parent="MeshRotationY"]
@@ -48,17 +67,28 @@ follow_target = NodePath("../MeshRotationY/MeshRotationZ")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="SmoothPlayer"]
 transform = Transform3D(0.724, 0, 0, 0, -1.24523, 1.08862e-07, 0, -6.32941e-08, -0.724, 0, -0.308898, 0)
+layers = 2
 mesh = SubResource("PrismMesh_4ntmi")
 skeleton = NodePath("../../MeshRotationY/MeshRotationZ")
 
 [node name="MeshInstance3D2" type="MeshInstance3D" parent="SmoothPlayer"]
 transform = Transform3D(0.637776, 0, 0, 0, -0.637776, 5.57562e-08, 0, -5.57562e-08, -0.637776, 0, 0.635454, -2.13163e-14)
+layers = 2
 mesh = SubResource("SphereMesh_l8h54")
 skeleton = NodePath("../MeshInstance3D")
 
 [node name="MeshInstance3D3" type="MeshInstance3D" parent="SmoothPlayer"]
 transform = Transform3D(0.362, 0, 0, 0, -1.58235e-08, 0.362, 0, -0.362, -1.58235e-08, 0, 0, -0.388559)
+layers = 2
 mesh = SubResource("CylinderMesh_btcbx")
+
+[node name="ContactShadow" type="Decal" parent="SmoothPlayer"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.8662418, 0)
+size = Vector3(4, 2, 4)
+texture_albedo = ExtResource("5_k53q1")
+modulate = Color(0, 0, 0, 0.7137255)
+lower_fade = 3.0589423
+cull_mask = 1048573
 
 [node name="Control" type="PanelContainer" parent="."]
 anchors_preset = 4
@@ -75,3 +105,11 @@ layout_mode = 2
 text = "asadasasdasdasdasa"
 script = ExtResource("4_gwnis")
 metadata/_edit_use_anchors_ = true
+
+[node name="PlayerAudio" type="Node" parent="."]
+
+[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="PlayerAudio"]
+unit_size = 1.0
+max_db = -12.0
+pitch_scale = 0.8
+bus = &"Sounds"

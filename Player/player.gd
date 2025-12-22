@@ -42,11 +42,6 @@ func _input(_event: InputEvent) -> void:
 	if Input.is_action_pressed("Right Bumper"): #temp way to test gravity change
 		if camera_node.look_detection_node.is_colliding():
 			gravity_direction = -camera_node.look_detection_node.get_collision_normal()
-	if Input.is_action_just_pressed("Left Bumper"):
-		if floor_norm_grav == false:
-			floor_norm_grav = true
-		else:
-			floor_norm_grav = false
 
 var c_local_velocity_abs: Vector3
 var c_local_velocity: Vector3
@@ -59,6 +54,12 @@ func _physics_process(delta: float) -> void:
 	if is_on_floor() and floor_norm_grav:
 		gravity_direction = -self.get_floor_normal()
 	#gravity_direction = (gravity_point.global_position - position).normalized()
+	if Input.is_action_just_pressed("Left Bumper"):
+		if floor_norm_grav == false:
+			floor_norm_grav = true
+		else:
+			floor_norm_grav = false
+	
 	
 	if air_time > COYOTE_TIME and can_jump == JUMP_TOTAL:
 		can_jump -= 1
@@ -154,7 +155,7 @@ func gravity_rotation(grav_direction) -> void:
 	var target_up_direction = Quaternion(gravity_rotation_node.global_basis.y, -grav_direction) * gravity_rotation_node.quaternion
 	smooth_target_up_direction = smooth_target_up_direction.slerp(target_up_direction, .025 * (1 + (type_convert(is_on_floor(), TYPE_INT) * 3)))
 	up_direction = -gravity_direction #sets characterbody3D up direction to the inverse of the gravity direction
-	gravity_rotation_node.global_basis = target_up_direction
+	gravity_rotation_node.quaternion = target_up_direction
 	global_basis = smooth_target_up_direction
 
 func _add_platform_velocity() -> void:

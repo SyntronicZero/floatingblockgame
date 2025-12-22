@@ -1,8 +1,9 @@
-[gd_scene load_steps=31 format=3 uid="uid://bjt2jifiiroa0"]
+[gd_scene load_steps=34 format=3 uid="uid://bjt2jifiiroa0"]
 
 [ext_resource type="AudioStream" uid="uid://dtdi07jgootiv" path="res://Audio/Music/Crinkles - Soundtrack from a Box 18 - 03 Gale.ogg" id="1_brpf5"]
 [ext_resource type="Texture2D" uid="uid://cfcejan8w2hdt" path="res://textures/PLACEHOLDER/checker_red.png" id="1_jymn0"]
 [ext_resource type="PackedScene" uid="uid://cydn4sn5afbde" path="res://Player/player.tscn" id="1_t346a"]
+[ext_resource type="Environment" uid="uid://cla7tmchorowo" path="res://Enviroments/world_environment_space_1.tres" id="1_vhyko"]
 [ext_resource type="Script" uid="uid://cr22g21adsylq" path="res://Levels/TESTING/TEST_PLAY_ANIMATION.gd" id="2_3vr6k"]
 [ext_resource type="AudioStream" uid="uid://m2fpeb0s8oa0" path="res://Audio/Sounds/Ambient/deep droning ambient better loop.ogg" id="2_4fq4b"]
 [ext_resource type="PackedScene" uid="uid://8hf15i65ov6n" path="res://TESTING_ASSESTS/Platforms/rotating_cube.tscn" id="2_ibrtv"]
@@ -13,19 +14,9 @@
 [ext_resource type="Script" uid="uid://cjk5fgnbi53f2" path="res://Global Scripts/gravity_zone.gd" id="10_brpf5"]
 [ext_resource type="PackedScene" uid="uid://885djgiypb8b" path="res://TESTING_ASSESTS/disk_planet.tscn" id="10_eio3g"]
 [ext_resource type="Script" uid="uid://xgl7iab30ofc" path="res://Levels/TESTING/fps_counter.gd" id="11_oef57"]
-
-[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_46lwt"]
-sky_horizon_color = Color(0.662243, 0.671743, 0.686743, 1)
-ground_horizon_color = Color(0.662243, 0.671743, 0.686743, 1)
-
-[sub_resource type="Sky" id="Sky_x25rp"]
-sky_material = SubResource("ProceduralSkyMaterial_46lwt")
-
-[sub_resource type="Environment" id="Environment_gmgay"]
-background_mode = 2
-sky = SubResource("Sky_x25rp")
-tonemap_mode = 2
-glow_enabled = true
+[ext_resource type="Texture2D" uid="uid://bviu4kf50rvbi" path="res://textures/Grass_21-512x512.png" id="13_wlwb2"]
+[ext_resource type="Texture2D" uid="uid://cn528hytqtwb2" path="res://textures/Grass_07-512x512.png" id="14_sr0x5"]
+[ext_resource type="PackedScene" uid="uid://v2xjhwdjbcll" path="res://TESTING_ASSESTS/basic_planet.tscn" id="16_vhyko"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_qm4sc"]
 albedo_texture = ExtResource("1_jymn0")
@@ -97,10 +88,36 @@ radius = 10.0
 radius = 10.0
 height = 20.0
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_sr0x5"]
+albedo_texture = ExtResource("13_wlwb2")
+emission_energy_multiplier = 0.1
+emission_texture = ExtResource("13_wlwb2")
+rim_tint = 1.0
+uv1_scale = Vector3(0.295, 0.295, 0.295)
+uv1_triplanar = true
+uv1_triplanar_sharpness = 4.4382796
+
 [sub_resource type="SphereShape3D" id="SphereShape3D_t346a"]
 radius = 11.515
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_vhyko"]
+albedo_texture = ExtResource("14_sr0x5")
+emission_energy_multiplier = 0.1
+emission_texture = ExtResource("14_sr0x5")
+uv1_scale = Vector3(0.315, 0.315, 0.315)
+uv1_triplanar = true
+uv1_triplanar_sharpness = 45.254818
+
 [node name="TestLevel" type="Node3D"]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = ExtResource("1_vhyko")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(-0.86602354, -0.43301603, 0.25000072, 0, 0.49999818, 0.86602646, -0.5000033, 0.7499993, -0.4330102, 0, 0, 0)
+light_color = Color(0.44291076, 0.44291076, 0.44291073, 1)
+shadow_enabled = true
+shadow_opacity = 0.8
 
 [node name="Music" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("1_brpf5")
@@ -120,13 +137,6 @@ parameters/looping = true
 
 [node name="Player" parent="." instance=ExtResource("1_t346a")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.3079991, 0)
-
-[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
-environment = SubResource("Environment_gmgay")
-
-[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
-transform = Transform3D(-0.866023, -0.433016, 0.250001, 0, 0.499998, 0.866027, -0.500003, 0.749999, -0.43301, 0, 0, 0)
-shadow_enabled = true
 
 [node name="Environment" type="Node3D" parent="."]
 
@@ -268,20 +278,20 @@ mesh = SubResource("SphereMesh_t346a")
 [node name="Cubes" type="Node3D" parent="."]
 
 [node name="RotatingCube" parent="Cubes" instance=ExtResource("2_ibrtv")]
-transform = Transform3D(0.95548904, 0, 0.2950247, 0, 1, 0, -0.2950247, 0, 0.95548904, 26.5639, 5.10296, 12.3255)
+transform = Transform3D(-0.99942046, 0, -0.034031518, 0, 1, 0, 0.034031518, 0, -0.99942046, 26.5639, 5.10296, 12.3255)
 rotation_direction = Vector3(0, 1.715, 0)
 
 [node name="RotatingCube2" parent="Cubes" instance=ExtResource("2_ibrtv")]
-transform = Transform3D(-0.16364299, 0, 0.9865202, 0, 1, 0, -0.9865202, 0, -0.16364299, 26.5639, 5.10296, 22.2636)
+transform = Transform3D(0.41666242, 0, -0.9090623, 0, 1, 0, 0.9090623, 0, 0.41666242, 26.5639, 5.10296, 22.2636)
 rotation_direction = Vector3(0, -0.235, 0)
 
 [node name="RotatingCube3" parent="Cubes" instance=ExtResource("2_ibrtv")]
-transform = Transform3D(1, 0, 0, 0, -0.15474911, 0.98795426, 0, -0.98795426, -0.15474911, 35.3961, 6.18708, 24.1175)
+transform = Transform3D(1, 0, 0, 0, -0.9588046, -0.28406826, 0, 0.28406826, -0.9588046, 35.3961, 6.18708, 24.1175)
 rotation_speed = 0.5
 rotation_direction = Vector3(1, 0, 0)
 
 [node name="RotatingCube4" parent="Cubes" instance=ExtResource("2_ibrtv")]
-transform = Transform3D(0.5670323, 0.82369673, 0, -0.82369673, 0.5670323, 0, 0, 0, 1, 18.2048, 6.11222, 23.8538)
+transform = Transform3D(-0.89141375, 0.45319226, 0, -0.45319226, -0.89141375, 0, 0, 0, 1, 18.2048, 6.11222, 23.8538)
 rotation_speed = 0.5
 rotation_direction = Vector3(0, 0, 1)
 
@@ -297,10 +307,12 @@ gravity_direction = Vector3(0, 0, 0)
 script = ExtResource("10_brpf5")
 
 [node name="CSGSphere3D" type="CSGSphere3D" parent="Planet/Area3D"]
+transform = Transform3D(0.99999994, 0, 0, 0, 0.99999994, 0, 0, 0, 0.99999994, 0, 0, 0)
 use_collision = true
 radius = 6.3
 radial_segments = 36
 rings = 18
+material = SubResource("StandardMaterial3D_sr0x5")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Planet/Area3D"]
 shape = SubResource("SphereShape3D_t346a")
@@ -319,6 +331,7 @@ use_collision = true
 radius = 6.3
 radial_segments = 36
 rings = 18
+material = SubResource("StandardMaterial3D_vhyko")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Planet/Area3D2"]
 shape = SubResource("SphereShape3D_t346a")
@@ -328,6 +341,9 @@ transform = Transform3D(1.614, 0, 0, 0, 1.614, 0, 0, 0, 1.614, 54.0562, 7.92988,
 
 [node name="DiskPlanet2" parent="Planet" instance=ExtResource("10_eio3g")]
 transform = Transform3D(1.614, 0, 0, 0, 1.614, 0, 0, 0, 1.614, 3.5499191, 30.538914, -31.223211)
+
+[node name="BasicPlanet" parent="Planet" instance=ExtResource("16_vhyko")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.6128883, 14.41176, -58.4651)
 
 [node name="Control" type="Control" parent="."]
 layout_mode = 3
