@@ -6,10 +6,10 @@
 [ext_resource type="Script" uid="uid://b7n4e70pgfl2o" path="res://Player/drop_shadow_ray.gd" id="3_fhl08"]
 [ext_resource type="Script" uid="uid://b4makbcamrbvl" path="res://TESTING_ASSESTS/test_floor_norm_grav_label.gd" id="4_gwnis"]
 [ext_resource type="Texture2D" uid="uid://bft1fbs3ovj0b" path="res://textures/DropShadow.png" id="5_fhl08"]
-[ext_resource type="Texture2D" uid="uid://c8xif606v1orb" path="res://textures/PlanetGlow.png" id="5_k53q1"]
+[ext_resource type="PackedScene" uid="uid://bnir332b5d6ti" path="res://Character Models/Player/Standard_Byte_Blank.glb" id="6_vtle1"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_btcbx"]
-radius = 1.0
+radius = 0.712
 
 [sub_resource type="PrismMesh" id="PrismMesh_4ntmi"]
 size = Vector3(1, 1.094, 0.784)
@@ -21,6 +21,7 @@ size = Vector3(1, 1.094, 0.784)
 [node name="Player" type="CharacterBody3D" node_paths=PackedStringArray("camera_node")]
 process_mode = 3
 collision_layer = 2
+floor_block_on_wall = false
 floor_snap_length = 0.5
 platform_on_leave = 2
 script = ExtResource("1_4ntmi")
@@ -47,6 +48,7 @@ script = ExtResource("3_fhl08")
 [node name="DropShadowPoint" type="Marker3D" parent="GravityRotation/DropShadowRay"]
 
 [node name="DropShadow" type="Marker3D" parent="GravityRotation/DropShadowRay"]
+top_level = true
 script = ExtResource("3_btcbx")
 follow_target = NodePath("../DropShadowPoint")
 
@@ -67,28 +69,26 @@ follow_target = NodePath("../MeshRotationY/MeshRotationZ")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="SmoothPlayer"]
 transform = Transform3D(0.724, 0, 0, 0, -1.24523, 1.08862e-07, 0, -6.32941e-08, -0.724, 0, -0.308898, 0)
+visible = false
 layers = 2
 mesh = SubResource("PrismMesh_4ntmi")
 skeleton = NodePath("../../MeshRotationY/MeshRotationZ")
 
 [node name="MeshInstance3D2" type="MeshInstance3D" parent="SmoothPlayer"]
 transform = Transform3D(0.637776, 0, 0, 0, -0.637776, 5.57562e-08, 0, -5.57562e-08, -0.637776, 0, 0.635454, -2.13163e-14)
+visible = false
 layers = 2
 mesh = SubResource("SphereMesh_l8h54")
 skeleton = NodePath("../MeshInstance3D")
 
 [node name="MeshInstance3D3" type="MeshInstance3D" parent="SmoothPlayer"]
 transform = Transform3D(0.362, 0, 0, 0, -1.58235e-08, 0.362, 0, -0.362, -1.58235e-08, 0, 0, -0.388559)
+visible = false
 layers = 2
 mesh = SubResource("CylinderMesh_btcbx")
 
-[node name="ContactShadow" type="Decal" parent="SmoothPlayer"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.8662418, 0)
-size = Vector3(4, 2, 4)
-texture_albedo = ExtResource("5_k53q1")
-modulate = Color(0, 0, 0, 0.7137255)
-lower_fade = 3.0589423
-cull_mask = 1048573
+[node name="Standard_Byte_Blank" parent="SmoothPlayer" instance=ExtResource("6_vtle1")]
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0, -0.7112446, 0)
 
 [node name="Control" type="PanelContainer" parent="."]
 anchors_preset = 4
