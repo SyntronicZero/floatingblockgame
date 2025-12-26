@@ -122,7 +122,6 @@ shadow_opacity = 0.8
 [node name="Music" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("1_brpf5")
 pitch_scale = 0.75
-autoplay = true
 mix_target = 1
 bus = &"Music"
 parameters/looping = true
@@ -137,6 +136,7 @@ parameters/looping = true
 
 [node name="Player" parent="." instance=ExtResource("1_t346a")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.3079991, 0)
+floor_constant_speed = true
 
 [node name="Environment" type="Node3D" parent="."]
 
@@ -275,23 +275,50 @@ shape = SubResource("SphereShape3D_ibrtv")
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Environment/Node3D/StaticBody3D"]
 mesh = SubResource("SphereMesh_t346a")
 
+[node name="Node3D2" type="Node3D" parent="Environment"]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, -8.217059, 0, 7.3370585)
+
+[node name="CSGBox3D5" type="CSGBox3D" parent="Environment/Node3D2"]
+transform = Transform3D(4.79316, 0, 0, 0, 3.34726, 3.43078, 0, -3.43078, 3.34726, -2.47681, -0.331843, 11.2122)
+use_collision = true
+size = Vector3(1, 1, 2.45306)
+material = SubResource("StandardMaterial3D_x25rp")
+
+[node name="CSGBox3D6" type="CSGBox3D" parent="Environment/Node3D2"]
+transform = Transform3D(4.77223, 0, 0, 0, 4.04448, 2.53307, 0, -2.53307, 4.04448, 2.20745, -0.331843, 12.1562)
+use_collision = true
+size = Vector3(1, 1, 2.45306)
+material = SubResource("StandardMaterial3D_x25rp")
+
+[node name="CSGBox3D7" type="CSGBox3D" parent="Environment/Node3D2"]
+transform = Transform3D(4.79316, 0, 0, 0, 4.485, 1.69091, 0, -1.69091, 4.485, 6.34662, -0.331843, 14.1722)
+use_collision = true
+size = Vector3(1, 1, 2.45306)
+material = SubResource("StandardMaterial3D_x25rp")
+
+[node name="CSGBox3D8" type="CSGBox3D" parent="Environment/Node3D2"]
+transform = Transform3D(4.79316, 0, 0, 0, 4.70732, 0.903041, 0, -0.903041, 4.70732, 11.0646, -1.32584, 14.1722)
+use_collision = true
+size = Vector3(1, 1, 2.45306)
+material = SubResource("StandardMaterial3D_x25rp")
+
 [node name="Cubes" type="Node3D" parent="."]
 
 [node name="RotatingCube" parent="Cubes" instance=ExtResource("2_ibrtv")]
-transform = Transform3D(-0.99942046, 0, -0.034031518, 0, 1, 0, 0.034031518, 0, -0.99942046, 26.5639, 5.10296, 12.3255)
+transform = Transform3D(-0.633779, 0, -0.773514, 0, 1, 0, 0.773514, 0, -0.633779, 26.5639, 5.10296, 12.3255)
 rotation_direction = Vector3(0, 1.715, 0)
 
 [node name="RotatingCube2" parent="Cubes" instance=ExtResource("2_ibrtv")]
-transform = Transform3D(0.41666242, 0, -0.9090623, 0, 1, 0, 0.9090623, 0, 0.41666242, 26.5639, 5.10296, 22.2636)
+transform = Transform3D(-0.4082534, 0, -0.9128697, 0, 1, 0, 0.9128697, 0, -0.4082534, 26.5639, 5.10296, 22.2636)
 rotation_direction = Vector3(0, -0.235, 0)
 
 [node name="RotatingCube3" parent="Cubes" instance=ExtResource("2_ibrtv")]
-transform = Transform3D(1, 0, 0, 0, -0.9588046, -0.28406826, 0, 0.28406826, -0.9588046, 35.3961, 6.18708, 24.1175)
+transform = Transform3D(1, 0, 0, 0, -0.99061286, 0.13670233, 0, -0.13670233, -0.99061286, 35.3961, 6.18708, 24.1175)
 rotation_speed = 0.5
 rotation_direction = Vector3(1, 0, 0)
 
 [node name="RotatingCube4" parent="Cubes" instance=ExtResource("2_ibrtv")]
-transform = Transform3D(-0.89141375, 0.45319226, 0, -0.45319226, -0.89141375, 0, 0, 0, 1, 18.2048, 6.11222, 23.8538)
+transform = Transform3D(-0.6250474, 0.7805881, 0, -0.7805881, -0.6250474, 0, 0, 0, 1, 18.2048, 6.11222, 23.8538)
 rotation_speed = 0.5
 rotation_direction = Vector3(0, 0, 1)
 

@@ -11,6 +11,16 @@ func get_local_velocity_direction(p_local, c_local) -> Vector3:
 	current_velocity.z = c_local.z * sign(c_local.z - p_local.z)
 	return current_velocity
 
+func alt_local_velocity(vel, basis) -> Vector3: #better local velocity
+	var local_vel: Vector3
+	var vel_norm = vel.normalized()
+	var vel_len = vel.length()
+	local_vel.y = basis.y.dot(vel_norm) * vel_len
+	local_vel.x = basis.x.dot(vel_norm) * vel_len
+	local_vel.z = basis.z.dot(vel_norm) * vel_len
+	
+	return local_vel
+
 func get_gravity_direction(gravity_zones: Array, phys_node: PhysicsBody3D) -> Vector3: #custom solution for handeling gravity zones
 	var grav_dir: Vector3 = Vector3.ZERO
 	var priority_list: Array
@@ -26,9 +36,9 @@ func get_gravity_direction(gravity_zones: Array, phys_node: PhysicsBody3D) -> Ve
 						parent_scale = (node.get_parent_node_3d()).scale
 					else:
 						parent_scale = Vector3.ONE
-					gravity_directions.append(((node.global_position + (node.get_gravity_point_center() * parent_scale)) - phys_node.global_position).normalized())
+					gravity_directions.append(((node.global_position + (node.get_gravity_point_center() * parent_scale)) - phys_node.global_position).normalized() * sign(node.gravity))
 				else:
-					gravity_directions.append((node.get_gravity_direction()).normalized())
+					gravity_directions.append((node.get_gravity_direction()).normalized()  * sign(node.gravity))
 				if node.get_gravity_space_override_mode() == 3:
 					return phys_node.get_gravity().normalized()
 		for grav in gravity_directions:

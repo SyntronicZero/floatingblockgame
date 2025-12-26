@@ -8,9 +8,8 @@ func _ready() -> void:
 
 var shadow_opacity: float
 # Called when the node enters the scene tree for the first time.
-func _physics_process(delta: float) -> void:
+func _physics_process(_delta: float) -> void:
 	var collision_distance: float = (self.global_position - self.get_collision_point()).length()
-	print(collision_distance)
 	if is_colliding():
 		#if collision_distance > 3:
 			#shadow_opacity = lerp(shadow_opacity, 1.0, 5 * delta)

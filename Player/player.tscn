@@ -6,7 +6,7 @@
 [ext_resource type="Script" uid="uid://b7n4e70pgfl2o" path="res://Player/drop_shadow_ray.gd" id="3_fhl08"]
 [ext_resource type="Script" uid="uid://b4makbcamrbvl" path="res://TESTING_ASSESTS/test_floor_norm_grav_label.gd" id="4_gwnis"]
 [ext_resource type="Texture2D" uid="uid://bft1fbs3ovj0b" path="res://textures/DropShadow.png" id="5_fhl08"]
-[ext_resource type="PackedScene" uid="uid://bnir332b5d6ti" path="res://Character Models/Player/Standard_Byte_Blank.glb" id="6_vtle1"]
+[ext_resource type="PackedScene" uid="uid://d4jljppguykv7" path="res://Character Models/Player/standard_byte_blank.tscn" id="6_vtle1"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_btcbx"]
 radius = 0.712
@@ -21,7 +21,7 @@ size = Vector3(1, 1.094, 0.784)
 [node name="Player" type="CharacterBody3D" node_paths=PackedStringArray("camera_node")]
 process_mode = 3
 collision_layer = 2
-floor_block_on_wall = false
+floor_constant_speed = true
 floor_snap_length = 0.5
 platform_on_leave = 2
 script = ExtResource("1_4ntmi")
@@ -37,6 +37,7 @@ top_level = true
 
 [node name="3rdPersonCam" parent="GravityRotation" node_paths=PackedStringArray("cam_lerp_node") instance=ExtResource("1_l8h54")]
 cam_lerp_node = NodePath("../CamLerpPos")
+zoom = 5.5
 
 [node name="FloorColCheck" type="RayCast3D" parent="GravityRotation"]
 target_position = Vector3(0, -1.4, 0)
@@ -87,8 +88,9 @@ visible = false
 layers = 2
 mesh = SubResource("CylinderMesh_btcbx")
 
-[node name="Standard_Byte_Blank" parent="SmoothPlayer" instance=ExtResource("6_vtle1")]
+[node name="Standard_Byte_Blank" parent="SmoothPlayer" node_paths=PackedStringArray("c_node") instance=ExtResource("6_vtle1")]
 transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0, -0.7112446, 0)
+c_node = NodePath("../..")
 
 [node name="Control" type="PanelContainer" parent="."]
 anchors_preset = 4
