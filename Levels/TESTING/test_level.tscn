@@ -1,6 +1,5 @@
 [gd_scene load_steps=34 format=3 uid="uid://bjt2jifiiroa0"]
 
-[ext_resource type="AudioStream" uid="uid://dtdi07jgootiv" path="res://Audio/Music/Crinkles - Soundtrack from a Box 18 - 03 Gale.ogg" id="1_brpf5"]
 [ext_resource type="Texture2D" uid="uid://cfcejan8w2hdt" path="res://textures/PLACEHOLDER/checker_red.png" id="1_jymn0"]
 [ext_resource type="PackedScene" uid="uid://cydn4sn5afbde" path="res://Player/player.tscn" id="1_t346a"]
 [ext_resource type="Environment" uid="uid://cla7tmchorowo" path="res://Enviroments/world_environment_space_1.tres" id="1_vhyko"]
@@ -8,6 +7,7 @@
 [ext_resource type="AudioStream" uid="uid://m2fpeb0s8oa0" path="res://Audio/Sounds/Ambient/deep droning ambient better loop.ogg" id="2_4fq4b"]
 [ext_resource type="PackedScene" uid="uid://8hf15i65ov6n" path="res://TESTING_ASSESTS/Platforms/rotating_cube.tscn" id="2_ibrtv"]
 [ext_resource type="Texture2D" uid="uid://d3fn26fc6t6n7" path="res://textures/PLACEHOLDER/checker_blue.png" id="2_qm4sc"]
+[ext_resource type="AudioStream" uid="uid://lvffmimkfamy" path="res://Audio/Music/Crinkles - Soundtrack from a Box 18 - 06 Slash.ogg" id="2_vhyko"]
 [ext_resource type="Texture2D" uid="uid://p3n1wc5jqtho" path="res://textures/PLACEHOLDER/checker_black.png" id="3_3vr6k"]
 [ext_resource type="Script" uid="uid://bh7b34btwx806" path="res://Player/smooth_camera.gd" id="3_ibrtv"]
 [ext_resource type="Texture2D" uid="uid://ck5jrmb6vq8dl" path="res://textures/PLACEHOLDER/checker_green.png" id="4_ibrtv"]
@@ -120,8 +120,8 @@ shadow_enabled = true
 shadow_opacity = 0.8
 
 [node name="Music" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("1_brpf5")
-pitch_scale = 0.75
+stream = ExtResource("2_vhyko")
+autoplay = true
 mix_target = 1
 bus = &"Music"
 parameters/looping = true
@@ -136,7 +136,6 @@ parameters/looping = true
 
 [node name="Player" parent="." instance=ExtResource("1_t346a")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.3079991, 0)
-floor_constant_speed = true
 
 [node name="Environment" type="Node3D" parent="."]
 
@@ -305,20 +304,20 @@ material = SubResource("StandardMaterial3D_x25rp")
 [node name="Cubes" type="Node3D" parent="."]
 
 [node name="RotatingCube" parent="Cubes" instance=ExtResource("2_ibrtv")]
-transform = Transform3D(-0.633779, 0, -0.773514, 0, 1, 0, 0.773514, 0, -0.633779, 26.5639, 5.10296, 12.3255)
+transform = Transform3D(0.04550188, 0, -0.9989641, 0, 1, 0, 0.9989641, 0, 0.04550188, 26.5639, 5.10296, 12.3255)
 rotation_direction = Vector3(0, 1.715, 0)
 
 [node name="RotatingCube2" parent="Cubes" instance=ExtResource("2_ibrtv")]
-transform = Transform3D(-0.4082534, 0, -0.9128697, 0, 1, 0, 0.9128697, 0, -0.4082534, 26.5639, 5.10296, 22.2636)
+transform = Transform3D(-0.91376954, 0, -0.40623522, 0, 1, 0, 0.40623522, 0, -0.91376954, 26.5639, 5.10296, 22.2636)
 rotation_direction = Vector3(0, -0.235, 0)
 
 [node name="RotatingCube3" parent="Cubes" instance=ExtResource("2_ibrtv")]
-transform = Transform3D(1, 0, 0, 0, -0.99061286, 0.13670233, 0, -0.13670233, -0.99061286, 35.3961, 6.18708, 24.1175)
+transform = Transform3D(1, 0, 0, 0, -0.87604517, 0.48222995, 0, -0.48222995, -0.87604517, 35.3961, 6.18708, 24.1175)
 rotation_speed = 0.5
 rotation_direction = Vector3(1, 0, 0)
 
 [node name="RotatingCube4" parent="Cubes" instance=ExtResource("2_ibrtv")]
-transform = Transform3D(-0.6250474, 0.7805881, 0, -0.7805881, -0.6250474, 0, 0, 0, 1, 18.2048, 6.11222, 23.8538)
+transform = Transform3D(-0.30430266, 0.95257646, 0, -0.95257646, -0.30430266, 0, 0, 0, 1, 18.2048, 6.11222, 23.8538)
 rotation_speed = 0.5
 rotation_direction = Vector3(0, 0, 1)
 

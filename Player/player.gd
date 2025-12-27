@@ -93,20 +93,19 @@ func _physics_process(delta: float) -> void:
 		can_apply_floor_snap = false
 		velocity += ((JUMP_VELOCITY + abs(min(c_local_velocity.y, 0))) * abs(gravity_rotation_node.quaternion.dot(self.quaternion))**10) * self.global_basis.y
 		can_jump -= 1
-	
-	if Input.is_action_just_released("Jump") and can_jump >= 0:
+		state = "jumped"
+	if Input.is_action_just_released("Jump") and can_jump >= 0: #variable jump height. Cancels local y up
 		var jump_peak_delta = abs(JUMP_VELOCITY / gravity_speed)
 		if time_going_up < jump_peak_delta:
 			velocity -= (gravity_direction * gravity_speed * (jump_peak_delta - time_going_up)) / 2
 		if can_jump == 0:
 			can_jump -= 1
 	
-	if Input.is_action_pressed("Jump"):
+	if Input.is_action_pressed("Jump"): #variable jump height. Gets how long player is holding jump
 		time_going_up += delta
 	else:
 		time_going_up = 0
 	
-	# Handle jump.
 	_get_movement_input()
 	_add_platform_velocity()
 	if is_on_floor() or floor_col_check_node.is_colliding():
@@ -131,18 +130,18 @@ func _ground_movement(delta, friction):
 	var forward = camera_global_basis.z
 	var right = camera_global_basis.x
 	var movement: Vector3 #movement direction based on input and direction
-	var slope: Quaternion
-	if is_on_floor():
-		if get_floor_normal():
-			slope = Quaternion(get_floor_normal(), -gravity_direction)
+	#var slope: Quaternion
+	#if is_on_floor():
+		#if get_floor_normal():
+			#slope = Quaternion(get_floor_normal(), -gravity_direction)
 	#if abs(slope_y_down) > .1:
 		#print(slope_y_down)
 	movement = forward * input_dir.y * SPEED
 	movement += right * input_dir.x * SPEED
 	smooth_move = lerp(smooth_move, movement, ACCELERATION * delta * friction) #smooths movement input
-	slope_y_down = min((smooth_move * Basis(slope).y).z, 0) #gets the y downward direction when on a slope. No. I dont know why this works. But it does and thats all that matters
+	#slope_y_down = min((smooth_move * Basis(slope).y).z, 0) #gets the y downward direction when on a slope. No. I dont know why this works. But it does and thats all that matters
 	#position += smooth_move * delta #modifies position for user input movement instead of velocity
-	print(slope_y_down)
+	#print(slope_y_down)
 	
 	
 func _mesh_rotation(delta, rotation_strength: float):

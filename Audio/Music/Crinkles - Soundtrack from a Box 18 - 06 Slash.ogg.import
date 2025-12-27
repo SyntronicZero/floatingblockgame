@@ -1,0 +1,19 @@
+[remap]
+
+importer="oggvorbisstr"
+type="AudioStreamOggVorbis"
+uid="uid://lvffmimkfamy"
+path="res://.godot/imported/Crinkles - Soundtrack from a Box 18 - 06 Slash.ogg-32ce9936b24afaa46018ecad8815949f.oggvorbisstr"
+
+[deps]
+
+source_file="res://Audio/Music/Crinkles - Soundtrack from a Box 18 - 06 Slash.ogg"
+dest_files=["res://.godot/imported/Crinkles - Soundtrack from a Box 18 - 06 Slash.ogg-32ce9936b24afaa46018ecad8815949f.oggvorbisstr"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

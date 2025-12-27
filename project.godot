@@ -22,6 +22,7 @@ config/icon="res://icon.svg"
 [autoload]
 
 GravityFunctions="*res://Global Scripts/gravity_functions.gd"
+LoadFunctions="*res://Global Scripts/load_functions.gd"
 
 [display]
 
@@ -31,6 +32,10 @@ window/size/viewport_height=1080
 [editor_plugins]
 
 enabled=PackedStringArray("res://addons/gd-blender-3d-shortcuts/plugin.cfg")
+
+[filesystem]
+
+import/blender/enabled=false
 
 [input]
 
