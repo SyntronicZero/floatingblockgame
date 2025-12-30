@@ -1,4 +1,4 @@
-[gd_scene load_steps=35 format=3 uid="uid://bjt2jifiiroa0"]
+[gd_scene load_steps=36 format=3 uid="uid://bjt2jifiiroa0"]
 
 [ext_resource type="Texture2D" uid="uid://cfcejan8w2hdt" path="res://textures/PLACEHOLDER/checker_red.png" id="1_jymn0"]
 [ext_resource type="PackedScene" uid="uid://cydn4sn5afbde" path="res://Player/player.tscn" id="1_t346a"]
@@ -108,6 +108,9 @@ emission_texture = ExtResource("14_sr0x5")
 uv1_scale = Vector3(0.315, 0.315, 0.315)
 uv1_triplanar = true
 uv1_triplanar_sharpness = 45.254818
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_smksi"]
+radius = 10.1
 
 [node name="TestLevel" type="Node3D"]
 
@@ -305,20 +308,20 @@ material = SubResource("StandardMaterial3D_x25rp")
 [node name="Cubes" type="Node3D" parent="."]
 
 [node name="RotatingCube" parent="Cubes" instance=ExtResource("2_ibrtv")]
-transform = Transform3D(-0.04791031, 0, -0.9988512, 0, 1, 0, 0.9988512, 0, -0.04791031, 26.5639, 5.10296, 12.3255)
+transform = Transform3D(0.9313176, 0, -0.36420837, 0, 1, 0, 0.36420837, 0, 0.9313176, 26.5639, 5.10296, 12.3255)
 rotation_direction = Vector3(0, 1.715, 0)
 
 [node name="RotatingCube2" parent="Cubes" instance=ExtResource("2_ibrtv")]
-transform = Transform3D(-0.8718642, 0, -0.4897499, 0, 1, 0, 0.4897499, 0, -0.8718642, 26.5639, 5.10296, 22.2636)
+transform = Transform3D(-0.7423906, 0, 0.6699686, 0, 1, 0, -0.6699686, 0, -0.7423906, 26.5639, 5.10296, 22.2636)
 rotation_direction = Vector3(0, -0.235, 0)
 
 [node name="RotatingCube3" parent="Cubes" instance=ExtResource("2_ibrtv")]
-transform = Transform3D(1, 0, 0, 0, 0.89761794, -0.44077513, 0, 0.44077513, 0.89761794, 35.3961, 6.18708, 24.1175)
+transform = Transform3D(1, 0, 0, 0, -0.47173044, 0.8817436, 0, -0.8817436, -0.47173044, 35.3961, 6.18708, 24.1175)
 rotation_speed = 0.5
 rotation_direction = Vector3(1, 0, 0)
 
 [node name="RotatingCube4" parent="Cubes" instance=ExtResource("2_ibrtv")]
-transform = Transform3D(0.34845024, -0.93732816, 0, 0.93732816, 0.34845024, 0, 0, 0, 1, 18.2048, 6.11222, 23.8538)
+transform = Transform3D(0.2641898, 0.9644716, 0, -0.9644716, 0.2641898, 0, 0, 0, 1, 18.2048, 6.11222, 23.8538)
 rotation_speed = 0.5
 rotation_direction = Vector3(0, 0, 1)
 
@@ -374,6 +377,32 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.6128883, 14.41176, -58.4651
 
 [node name="CylinderPlanet" parent="Planet" instance=ExtResource("18_smksi")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -16.672348, 10.0005, 27.846123)
+
+[node name="Area3D" type="Area3D" parent="Planet/CylinderPlanet"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -9.063516, 0)
+collision_mask = 3
+priority = 1
+gravity_space_override = 1
+script = ExtResource("10_brpf5")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Planet/CylinderPlanet/Area3D"]
+shape = SubResource("CylinderShape3D_smksi")
+
+[node name="CylinderPlanet2" parent="Planet" instance=ExtResource("18_smksi")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 23.04183, 10.000499, -59.74807)
+
+[node name="Area3D" type="Area3D" parent="Planet/CylinderPlanet2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -9.063516, 0)
+collision_mask = 3
+priority = 1
+gravity_space_override = 1
+script = ExtResource("10_brpf5")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Planet/CylinderPlanet2/Area3D"]
+shape = SubResource("CylinderShape3D_smksi")
+
+[node name="CylinderPlanet3" parent="Planet" instance=ExtResource("18_smksi")]
+transform = Transform3D(1, 0, 0, 0, -0.2588191, 0.9659258, 0, -0.9659258, -0.2588191, 3.1100874, 39.98465, -52.540943)
 
 [node name="Control" type="Control" parent="."]
 layout_mode = 3

@@ -25,7 +25,7 @@ var movement_strength: float
 func _ready() -> void:
 	
 	default_walk_sounds.assign(LoadFunctions.load_folder("res://Audio/Sounds/Walking/Default/", ".ogg"))
-	jump_sounds.assign(LoadFunctions.load_folder("res://Audio/Sounds/Jumping/", ".ogg"))
+	#jump_sounds.assign(LoadFunctions.load_folder("res://Audio/Sounds/Jumping/", ".ogg"))
 	print(default_walk_sounds)
 	pass # Replace with function body.
 

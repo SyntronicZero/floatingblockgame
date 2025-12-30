@@ -167,7 +167,7 @@ func gravity_rotation(grav_direction) -> void:
 	gravity_rotation_node.position = position
 	
 	var target_up_direction = Quaternion(gravity_rotation_node.global_basis.y, -grav_direction) * gravity_rotation_node.quaternion
-	smooth_target_up_direction = smooth_target_up_direction.slerp(target_up_direction, .025 * (1 + (type_convert(is_on_floor(), TYPE_INT) * 3)))
+	smooth_target_up_direction = smooth_target_up_direction.slerp(target_up_direction, .035 * (1 + (type_convert(is_on_floor(), TYPE_INT) * 3))) #rotation speed
 	up_direction = -gravity_direction #sets characterbody3D up direction to the inverse of the gravity direction
 	gravity_rotation_node.quaternion = target_up_direction
 	global_basis = smooth_target_up_direction

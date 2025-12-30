@@ -1,16 +1,24 @@
-[gd_scene load_steps=6 format=3 uid="uid://x3mkxaymlcxm"]
+[gd_scene load_steps=8 format=3 uid="uid://x3mkxaymlcxm"]
 
 [ext_resource type="Script" uid="uid://cjk5fgnbi53f2" path="res://Global Scripts/gravity_zone.gd" id="1_ckgn6"]
+[ext_resource type="Texture2D" uid="uid://diiurepn0mm2i" path="res://textures/Box_01-512x512.png" id="2_t4xso"]
 
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_ju042"]
-height = 30.0
+height = 35.0
 radius = 10.0
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_ckgn6"]
 radius = 5.0
 height = 30.0
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_xt2l1"]
+albedo_texture = ExtResource("2_t4xso")
+uv1_scale = Vector3(0.345, 0.345, 0.345)
+uv1_triplanar = true
+uv1_triplanar_sharpness = 11.313695
+
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_ckgn6"]
+material = SubResource("StandardMaterial3D_xt2l1")
 radius = 5.0
 height = 30.0
 
@@ -23,7 +31,7 @@ point_count = 2
 
 [node name="CylinderPlanet" type="Area3D" node_paths=PackedStringArray("gravity_path")]
 collision_mask = 3
-gravity_space_override = 1
+gravity_space_override = 3
 gravity_point = true
 gravity_point_center = Vector3(0, 0, 0)
 gravity_direction = Vector3(0, 0, 0)

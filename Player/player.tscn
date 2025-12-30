@@ -107,11 +107,3 @@ layout_mode = 2
 text = "asadasasdasdasdasa"
 script = ExtResource("4_gwnis")
 metadata/_edit_use_anchors_ = true
-
-[node name="PlayerAudio" type="Node" parent="."]
-
-[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="PlayerAudio"]
-unit_size = 1.0
-max_db = -12.0
-pitch_scale = 0.8
-bus = &"Sounds"
