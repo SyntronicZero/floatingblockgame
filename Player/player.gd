@@ -51,6 +51,9 @@ var time_going_up: float
 var floor_norm_grav: bool
 
 func _physics_process(delta: float) -> void:
+	#wall_cancel = smooth_move.dot(get_wall_normal()) * get_wall_normal()
+	#print(wall_cancel)
+	#wall_cancel = Vector3.ONE - (abs((abs(smooth_move.normalized().dot(get_wall_normal()))) * get_wall_normal()))
 	velocity -= smooth_move #subtracts smooth_move from last frame
 	if is_on_floor() and floor_norm_grav:
 		gravity_direction = -self.get_floor_normal()
@@ -71,8 +74,12 @@ func _physics_process(delta: float) -> void:
 		camera_basis = camera_node.cam_basis #gets the camera basis relative to its parent node
 		camera_global_basis = camera_node.cam_global_basis #gets the cameras basis relative to world space
 	
-	c_local_velocity = GravityFunctions.alt_local_velocity(velocity, camera_global_basis)
-	#print(c_local_velocity)
+	c_local_velocity = GravityFunctions.alt_local_velocity(get_real_velocity(), camera_global_basis)
+	#var real_vel_y_canceled = get_real_velocity() - (camera_global_basis.y * c_local_velocity.y)
+	#print("%s: Input, %s: Real Vel" % [smooth_move, real_vel_y_canceled])
+	#print(smooth_move.dot(real_vel_y_canceled) / (SPEED ** 2))
+	#var dir_strength: float = (movement.normalized() * SPEED).dot(real_vel_y_canceled) / (SPEED ** 2)
+	#print(dir_strength)
 	
 	if is_on_floor() == false:
 		#velocity += ((gravity_speed) * camera_global_basis.y * delta) + (abs(slope_y_down) * camera_global_basis.y) #gravity
@@ -125,11 +132,13 @@ func _physics_process(delta: float) -> void:
 var smooth_move: Vector3
 var platform_velocity: Vector3
 var slope_y_down: float
+var movement: Vector3 #movement direction based on input and direction
+var wall_cancel: Vector3
+
 
 func _ground_movement(delta, friction):
 	var forward = camera_global_basis.z
 	var right = camera_global_basis.x
-	var movement: Vector3 #movement direction based on input and direction
 	#var slope: Quaternion
 	#if is_on_floor():
 		#if get_floor_normal():

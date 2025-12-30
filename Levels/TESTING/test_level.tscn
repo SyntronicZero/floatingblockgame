@@ -1,4 +1,4 @@
-[gd_scene load_steps=34 format=3 uid="uid://bjt2jifiiroa0"]
+[gd_scene load_steps=35 format=3 uid="uid://bjt2jifiiroa0"]
 
 [ext_resource type="Texture2D" uid="uid://cfcejan8w2hdt" path="res://textures/PLACEHOLDER/checker_red.png" id="1_jymn0"]
 [ext_resource type="PackedScene" uid="uid://cydn4sn5afbde" path="res://Player/player.tscn" id="1_t346a"]
@@ -17,6 +17,7 @@
 [ext_resource type="Texture2D" uid="uid://bviu4kf50rvbi" path="res://textures/Grass_21-512x512.png" id="13_wlwb2"]
 [ext_resource type="Texture2D" uid="uid://cn528hytqtwb2" path="res://textures/Grass_07-512x512.png" id="14_sr0x5"]
 [ext_resource type="PackedScene" uid="uid://v2xjhwdjbcll" path="res://TESTING_ASSESTS/basic_planet.tscn" id="16_vhyko"]
+[ext_resource type="PackedScene" uid="uid://x3mkxaymlcxm" path="res://TESTING_ASSESTS/cylinder_planet.tscn" id="18_smksi"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_qm4sc"]
 albedo_texture = ExtResource("1_jymn0")
@@ -140,7 +141,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.3079991, 0)
 [node name="Environment" type="Node3D" parent="."]
 
 [node name="MovingCube" type="Node3D" parent="Environment"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.31057, 0.694475, -3.76875)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.31057, 1.2955558, -3.76875)
 
 [node name="AnimatableBody3D" type="AnimatableBody3D" parent="Environment/MovingCube" node_paths=PackedStringArray("anim_player")]
 script = ExtResource("2_3vr6k")
@@ -151,7 +152,7 @@ animation = "TEST_MOVE_PLATFORM"
 transform = Transform3D(5, 0, 0, 0, 0.7, 0, 0, 0, 5, 0, 0, 0)
 
 [node name="CSGBox3D3" type="MeshInstance3D" parent="Environment/MovingCube/AnimatableBody3D/PlatformProxy"]
-transform = Transform3D(5, 0, 0, 0, 0.7, 0, 0, 0, 5, -7.31057, 0.694475, -3.76875)
+transform = Transform3D(5, 0, 0, 0, 0.7, 0, 0, 0, 5, -7.31057, 1.2955558, -3.76875)
 top_level = true
 mesh = SubResource("BoxMesh_3vr6k")
 skeleton = NodePath("")
@@ -304,20 +305,20 @@ material = SubResource("StandardMaterial3D_x25rp")
 [node name="Cubes" type="Node3D" parent="."]
 
 [node name="RotatingCube" parent="Cubes" instance=ExtResource("2_ibrtv")]
-transform = Transform3D(0.04550188, 0, -0.9989641, 0, 1, 0, 0.9989641, 0, 0.04550188, 26.5639, 5.10296, 12.3255)
+transform = Transform3D(-0.04791031, 0, -0.9988512, 0, 1, 0, 0.9988512, 0, -0.04791031, 26.5639, 5.10296, 12.3255)
 rotation_direction = Vector3(0, 1.715, 0)
 
 [node name="RotatingCube2" parent="Cubes" instance=ExtResource("2_ibrtv")]
-transform = Transform3D(-0.91376954, 0, -0.40623522, 0, 1, 0, 0.40623522, 0, -0.91376954, 26.5639, 5.10296, 22.2636)
+transform = Transform3D(-0.8718642, 0, -0.4897499, 0, 1, 0, 0.4897499, 0, -0.8718642, 26.5639, 5.10296, 22.2636)
 rotation_direction = Vector3(0, -0.235, 0)
 
 [node name="RotatingCube3" parent="Cubes" instance=ExtResource("2_ibrtv")]
-transform = Transform3D(1, 0, 0, 0, -0.87604517, 0.48222995, 0, -0.48222995, -0.87604517, 35.3961, 6.18708, 24.1175)
+transform = Transform3D(1, 0, 0, 0, 0.89761794, -0.44077513, 0, 0.44077513, 0.89761794, 35.3961, 6.18708, 24.1175)
 rotation_speed = 0.5
 rotation_direction = Vector3(1, 0, 0)
 
 [node name="RotatingCube4" parent="Cubes" instance=ExtResource("2_ibrtv")]
-transform = Transform3D(-0.30430266, 0.95257646, 0, -0.95257646, -0.30430266, 0, 0, 0, 1, 18.2048, 6.11222, 23.8538)
+transform = Transform3D(0.34845024, -0.93732816, 0, 0.93732816, 0.34845024, 0, 0, 0, 1, 18.2048, 6.11222, 23.8538)
 rotation_speed = 0.5
 rotation_direction = Vector3(0, 0, 1)
 
@@ -370,6 +371,9 @@ transform = Transform3D(1.614, 0, 0, 0, 1.614, 0, 0, 0, 1.614, 3.5499191, 30.538
 
 [node name="BasicPlanet" parent="Planet" instance=ExtResource("16_vhyko")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.6128883, 14.41176, -58.4651)
+
+[node name="CylinderPlanet" parent="Planet" instance=ExtResource("18_smksi")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -16.672348, 10.0005, 27.846123)
 
 [node name="Control" type="Control" parent="."]
 layout_mode = 3

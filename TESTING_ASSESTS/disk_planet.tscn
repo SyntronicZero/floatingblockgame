@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://885djgiypb8b"]
+[gd_scene load_steps=9 format=3 uid="uid://885djgiypb8b"]
 
 [ext_resource type="Texture2D" uid="uid://cbtlecf6eapa5" path="res://textures/Metal_21-512x512.png" id="1_4xyub"]
 [ext_resource type="Script" uid="uid://cjk5fgnbi53f2" path="res://Global Scripts/gravity_zone.gd" id="1_gt6m2"]
@@ -25,6 +25,14 @@ radius = 7.0
 height = 0.5
 radius = 7.0
 
+[sub_resource type="Curve3D" id="Curve3D_4xyub"]
+closed = true
+_data = {
+"points": PackedVector3Array(0, 0, -2.5, 0, 0, 2.5, 4.75, 0, 0, 2.5, 0, 0, -2.5, 0, 0, 0, 0, 4.75, 0, 0, 2.5, 0, 0, -2.5, -4.75, 0, 0, -2.5, 0, 0, 2.5, 0, 0, 0, 0, -4.75),
+"tilts": PackedFloat32Array(0, 0, 0, 0)
+}
+point_count = 4
+
 [node name="DiskPlanet" type="Node3D"]
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
@@ -50,14 +58,15 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.7, 0)
 shape = SubResource("CylinderShape3D_vlv2e")
 debug_color = Color(0, 0.6, 0.701961, 1)
 
-[node name="Middle" type="Area3D" parent="."]
+[node name="Middle" type="Area3D" parent="." node_paths=PackedStringArray("gravity_path")]
 collision_mask = 3
-priority = 1
+priority = 2
 gravity_space_override = 1
 gravity_point = true
 gravity_point_center = Vector3(0, 0, 0)
 gravity_direction = Vector3(0, 0, 0)
 script = ExtResource("1_gt6m2")
+gravity_path = NodePath("../Path3D")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Middle"]
 shape = SubResource("CylinderShape3D_gt6m2")
@@ -75,3 +84,6 @@ script = ExtResource("1_gt6m2")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Bottom"]
 shape = SubResource("CylinderShape3D_vlv2e")
 debug_color = Color(0, 0.6, 0.701961, 1)
+
+[node name="Path3D" type="Path3D" parent="."]
+curve = SubResource("Curve3D_4xyub")
