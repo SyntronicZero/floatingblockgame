@@ -13,7 +13,6 @@ func _directory_contents(directory: String, file_type: String) -> Array:
 	var desired_files: Array
 	for file in ResourceLoader.list_directory(directory):
 		if file.ends_with(file_type):
-			#print(directory + "/" + file)
 			desired_files.append(directory + "/" + file)
 	return desired_files
 

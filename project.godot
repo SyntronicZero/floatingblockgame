@@ -15,6 +15,7 @@ compatibility/default_parent_skeleton_in_mesh_instance_3d=true
 [application]
 
 config/name="Floating Block Game"
+config/version="Build - 25.12.30"
 run/main_scene="uid://bjt2jifiiroa0"
 config/features=PackedStringArray("4.5", "Forward Plus")
 config/icon="res://icon.svg"
@@ -36,6 +37,10 @@ enabled=PackedStringArray("res://addons/gd-blender-3d-shortcuts/plugin.cfg")
 [filesystem]
 
 import/blender/enabled=false
+
+[gui]
+
+theme/default_font_multichannel_signed_distance_field=true
 
 [input]
 

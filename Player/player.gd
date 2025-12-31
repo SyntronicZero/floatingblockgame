@@ -38,6 +38,7 @@ func _ready() -> void:
 	if camera_node != null: #checks for camera node
 		camera_basis = camera_node.cam_basis
 		camera_global_basis = camera_node.cam_global_basis
+	#Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 
 func _input(_event: InputEvent) -> void: 
 	if Input.is_action_pressed("Right Bumper"): #temp way to test gravity change

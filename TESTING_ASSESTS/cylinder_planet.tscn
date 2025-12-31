@@ -12,6 +12,8 @@ radius = 5.0
 height = 30.0
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_xt2l1"]
+transparency = 1
+albedo_color = Color(1, 1, 1, 0.49019608)
 albedo_texture = ExtResource("2_t4xso")
 uv1_scale = Vector3(0.345, 0.345, 0.345)
 uv1_triplanar = true
@@ -29,14 +31,14 @@ _data = {
 }
 point_count = 2
 
-[node name="CylinderPlanet" type="Area3D" node_paths=PackedStringArray("gravity_path")]
+[node name="CylinderPlanet" type="Area3D" node_paths=PackedStringArray("reference_gravity_path")]
 collision_mask = 3
 gravity_space_override = 3
 gravity_point = true
 gravity_point_center = Vector3(0, 0, 0)
 gravity_direction = Vector3(0, 0, 0)
 script = ExtResource("1_ckgn6")
-gravity_path = NodePath("Path3D")
+reference_gravity_path = NodePath("Path3D")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 shape = SubResource("CylinderShape3D_ju042")
@@ -50,4 +52,5 @@ shape = SubResource("CapsuleShape3D_ckgn6")
 mesh = SubResource("CapsuleMesh_ckgn6")
 
 [node name="Path3D" type="Path3D" parent="."]
+visible = false
 curve = SubResource("Curve3D_ckgn6")

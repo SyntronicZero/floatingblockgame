@@ -1,4 +1,4 @@
-[gd_scene load_steps=36 format=3 uid="uid://bjt2jifiiroa0"]
+[gd_scene load_steps=40 format=3 uid="uid://bjt2jifiiroa0"]
 
 [ext_resource type="Texture2D" uid="uid://cfcejan8w2hdt" path="res://textures/PLACEHOLDER/checker_red.png" id="1_jymn0"]
 [ext_resource type="PackedScene" uid="uid://cydn4sn5afbde" path="res://Player/player.tscn" id="1_t346a"]
@@ -18,6 +18,7 @@
 [ext_resource type="Texture2D" uid="uid://cn528hytqtwb2" path="res://textures/Grass_07-512x512.png" id="14_sr0x5"]
 [ext_resource type="PackedScene" uid="uid://v2xjhwdjbcll" path="res://TESTING_ASSESTS/basic_planet.tscn" id="16_vhyko"]
 [ext_resource type="PackedScene" uid="uid://x3mkxaymlcxm" path="res://TESTING_ASSESTS/cylinder_planet.tscn" id="18_smksi"]
+[ext_resource type="PackedScene" uid="uid://daq26ix2rg6dy" path="res://TESTING_ASSESTS/Text/version_number.tscn" id="19_ugxt8"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_qm4sc"]
 albedo_texture = ExtResource("1_jymn0")
@@ -109,8 +110,16 @@ uv1_scale = Vector3(0.315, 0.315, 0.315)
 uv1_triplanar = true
 uv1_triplanar_sharpness = 45.254818
 
+[sub_resource type="Curve3D" id="Curve3D_ugxt8"]
+closed = true
+
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_smksi"]
 radius = 10.1
+
+[sub_resource type="Curve3D" id="Curve3D_c16tf"]
+
+[sub_resource type="Curve3D" id="Curve3D_y4tjl"]
+closed = true
 
 [node name="TestLevel" type="Node3D"]
 
@@ -308,20 +317,20 @@ material = SubResource("StandardMaterial3D_x25rp")
 [node name="Cubes" type="Node3D" parent="."]
 
 [node name="RotatingCube" parent="Cubes" instance=ExtResource("2_ibrtv")]
-transform = Transform3D(0.9313176, 0, -0.36420837, 0, 1, 0, 0.36420837, 0, 0.9313176, 26.5639, 5.10296, 12.3255)
+transform = Transform3D(0.8642844, 0, 0.5030032, 0, 1, 0, -0.5030032, 0, 0.8642844, 26.5639, 5.10296, 12.3255)
 rotation_direction = Vector3(0, 1.715, 0)
 
 [node name="RotatingCube2" parent="Cubes" instance=ExtResource("2_ibrtv")]
-transform = Transform3D(-0.7423906, 0, 0.6699686, 0, 1, 0, -0.6699686, 0, -0.7423906, 26.5639, 5.10296, 22.2636)
+transform = Transform3D(0.06312626, 0, 0.99800646, 0, 1, 0, -0.99800646, 0, 0.06312626, 26.5639, 5.10296, 22.2636)
 rotation_direction = Vector3(0, -0.235, 0)
 
 [node name="RotatingCube3" parent="Cubes" instance=ExtResource("2_ibrtv")]
-transform = Transform3D(1, 0, 0, 0, -0.47173044, 0.8817436, 0, -0.8817436, -0.47173044, 35.3961, 6.18708, 24.1175)
+transform = Transform3D(1, 0, 0, 0, 0.04072878, -0.9991711, 0, 0.9991711, 0.04072878, 35.3961, 6.18708, 24.1175)
 rotation_speed = 0.5
 rotation_direction = Vector3(1, 0, 0)
 
 [node name="RotatingCube4" parent="Cubes" instance=ExtResource("2_ibrtv")]
-transform = Transform3D(0.2641898, 0.9644716, 0, -0.9644716, 0.2641898, 0, 0, 0, 1, 18.2048, 6.11222, 23.8538)
+transform = Transform3D(-0.65762275, -0.7533483, 0, 0.7533483, -0.65762275, 0, 0, 0, 1, 18.2048, 6.11222, 23.8538)
 rotation_speed = 0.5
 rotation_direction = Vector3(0, 0, 1)
 
@@ -369,8 +378,12 @@ shape = SubResource("SphereShape3D_t346a")
 [node name="DiskPlanet" parent="Planet" instance=ExtResource("10_eio3g")]
 transform = Transform3D(1.614, 0, 0, 0, 1.614, 0, 0, 0, 1.614, 54.0562, 7.92988, -3.54951)
 
-[node name="DiskPlanet2" parent="Planet" instance=ExtResource("10_eio3g")]
+[node name="DiskPlanet2" parent="Planet" node_paths=PackedStringArray("unique_gravity_path") instance=ExtResource("10_eio3g")]
 transform = Transform3D(1.614, 0, 0, 0, 1.614, 0, 0, 0, 1.614, 3.5499191, 30.538914, -31.223211)
+unique_gravity_path = NodePath("Path3D2")
+
+[node name="Path3D2" type="Path3D" parent="Planet/DiskPlanet2"]
+curve = SubResource("Curve3D_ugxt8")
 
 [node name="BasicPlanet" parent="Planet" instance=ExtResource("16_vhyko")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.6128883, 14.41176, -58.4651)
@@ -401,14 +414,30 @@ script = ExtResource("10_brpf5")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Planet/CylinderPlanet2/Area3D"]
 shape = SubResource("CylinderShape3D_smksi")
 
-[node name="CylinderPlanet3" parent="Planet" instance=ExtResource("18_smksi")]
+[node name="CylinderPlanet3" parent="Planet" node_paths=PackedStringArray("unique_gravity_path") instance=ExtResource("18_smksi")]
 transform = Transform3D(1, 0, 0, 0, -0.2588191, 0.9659258, 0, -0.9659258, -0.2588191, 3.1100874, 39.98465, -52.540943)
+unique_gravity_path = NodePath("Path3D2")
+
+[node name="Path3D2" type="Path3D" parent="Planet/CylinderPlanet3"]
+curve = SubResource("Curve3D_c16tf")
+
+[node name="DiskPlanet3" parent="Planet" node_paths=PackedStringArray("unique_gravity_path") instance=ExtResource("10_eio3g")]
+transform = Transform3D(1.6565531, -1.7589023, 0.39961782, 0.16616404, -0.39145797, -2.411794, 1.7960572, 1.6585003, -0.145449, 24.955, 10.148, -38.21)
+unique_gravity_path = NodePath("Path3D2")
+moving_path = true
+
+[node name="Path3D2" type="Path3D" parent="Planet/DiskPlanet3"]
+curve = SubResource("Curve3D_y4tjl")
 
 [node name="Control" type="Control" parent="."]
 layout_mode = 3
-anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 40.0
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+mouse_behavior_recursive = 1
 
 [node name="FPSCounter" type="Label" parent="Control"]
 layout_mode = 0
@@ -417,6 +446,9 @@ offset_top = 11.0
 offset_right = 51.0
 offset_bottom = 34.0
 script = ExtResource("11_oef57")
+
+[node name="Control" parent="Control" instance=ExtResource("19_ugxt8")]
+layout_mode = 1
 
 [connection signal="area_entered" from="Planet/Area3D" to="Planet/Area3D" method="_on_area_entered"]
 [connection signal="area_entered" from="Planet/Area3D2" to="Planet/Area3D2" method="_on_area_entered"]
