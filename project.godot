@@ -15,7 +15,7 @@ compatibility/default_parent_skeleton_in_mesh_instance_3d=true
 [application]
 
 config/name="Floating Block Game"
-config/version="Build - 25.12.30"
+config/version="0.1.0"
 run/main_scene="uid://bjt2jifiiroa0"
 config/features=PackedStringArray("4.5", "Forward Plus")
 config/icon="res://icon.svg"

@@ -317,20 +317,20 @@ material = SubResource("StandardMaterial3D_x25rp")
 [node name="Cubes" type="Node3D" parent="."]
 
 [node name="RotatingCube" parent="Cubes" instance=ExtResource("2_ibrtv")]
-transform = Transform3D(0.8642844, 0, 0.5030032, 0, 1, 0, -0.5030032, 0, 0.8642844, 26.5639, 5.10296, 12.3255)
+transform = Transform3D(-0.5728452, 0, 0.8196633, 0, 1, 0, -0.8196633, 0, -0.5728452, 26.5639, 5.10296, 12.3255)
 rotation_direction = Vector3(0, 1.715, 0)
 
 [node name="RotatingCube2" parent="Cubes" instance=ExtResource("2_ibrtv")]
-transform = Transform3D(0.06312626, 0, 0.99800646, 0, 1, 0, -0.99800646, 0, 0.06312626, 26.5639, 5.10296, 22.2636)
+transform = Transform3D(0.98934805, 0, -0.14557531, 0, 1, 0, 0.14557531, 0, 0.98934805, 26.5639, 5.10296, 22.2636)
 rotation_direction = Vector3(0, -0.235, 0)
 
 [node name="RotatingCube3" parent="Cubes" instance=ExtResource("2_ibrtv")]
-transform = Transform3D(1, 0, 0, 0, 0.04072878, -0.9991711, 0, 0.9991711, 0.04072878, 35.3961, 6.18708, 24.1175)
+transform = Transform3D(1, 0, 0, 0, -0.70765007, -0.7065641, 0, 0.7065641, -0.70765007, 35.3961, 6.18708, 24.1175)
 rotation_speed = 0.5
 rotation_direction = Vector3(1, 0, 0)
 
 [node name="RotatingCube4" parent="Cubes" instance=ExtResource("2_ibrtv")]
-transform = Transform3D(-0.65762275, -0.7533483, 0, 0.7533483, -0.65762275, 0, 0, 0, 1, 18.2048, 6.11222, 23.8538)
+transform = Transform3D(-0.9996575, -0.026192555, 0, 0.026192555, -0.9996575, 0, 0, 0, 1, 18.2048, 6.11222, 23.8538)
 rotation_speed = 0.5
 rotation_direction = Vector3(0, 0, 1)
 
@@ -421,10 +421,12 @@ unique_gravity_path = NodePath("Path3D2")
 [node name="Path3D2" type="Path3D" parent="Planet/CylinderPlanet3"]
 curve = SubResource("Curve3D_c16tf")
 
+[node name="Node3D" type="Node3D" parent="Planet"]
+transform = Transform3D(1.064, 0, 0, 0, -1.0250658, 0.2851951, 0, -0.2851951, -1.0250658, 26.96, 4.8437743, -39.288136)
+
 [node name="DiskPlanet3" parent="Planet" node_paths=PackedStringArray("unique_gravity_path") instance=ExtResource("10_eio3g")]
-transform = Transform3D(1.6565531, -1.7589023, 0.39961782, 0.16616404, -0.39145797, -2.411794, 1.7960572, 1.6585003, -0.145449, 24.955, 10.148, -38.21)
+transform = Transform3D(1.064, 0, 0, 0, -1.0250658, 0.2851951, 0, -0.2851951, -1.0250658, 26.96, 4.8437743, -39.288136)
 unique_gravity_path = NodePath("Path3D2")
-moving_path = true
 
 [node name="Path3D2" type="Path3D" parent="Planet/DiskPlanet3"]
 curve = SubResource("Curve3D_y4tjl")
