@@ -8,7 +8,6 @@ height = 0.5
 radius = 7.0
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_brs1v"]
-transparency = 1
 albedo_color = Color(1, 1, 1, 0.7019608)
 albedo_texture = ExtResource("1_4xyub")
 uv1_scale = Vector3(0.27, 0.27, 0.27)

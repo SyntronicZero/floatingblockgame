@@ -1,0 +1,148 @@
+[gd_scene load_steps=10 format=3 uid="uid://sjr3oayx8apv"]
+
+[ext_resource type="Script" uid="uid://danr88jsxdwcm" path="res://TESTING_ASSESTS/Text/controls_dropdown.gd" id="1_6qeov"]
+[ext_resource type="Texture2D" uid="uid://d2dtuiyyb4evg" path="res://textures/Icons/xbox-series_sheet_double.png" id="1_buetw"]
+[ext_resource type="Texture2D" uid="uid://dxmi627kcg8h4" path="res://textures/Icons/keyboard-&-mouse_sheet_double.png" id="2_3myju"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3myju"]
+atlas = ExtResource("1_buetw")
+region = Rect2(896, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6qeov"]
+atlas = ExtResource("2_3myju")
+region = Rect2(640, 1664, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_a3n2f"]
+atlas = ExtResource("1_buetw")
+region = Rect2(1024, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_l6u3o"]
+atlas = ExtResource("2_3myju")
+region = Rect2(640, 128, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qaqrf"]
+atlas = ExtResource("1_buetw")
+region = Rect2(512, 1152, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_nk3t4"]
+atlas = ExtResource("2_3myju")
+region = Rect2(640, 384, 128, 128)
+
+[node name="SimpleControlsDropdown" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+metadata/_edit_lock_ = true
+
+[node name="FoldableContainer" type="FoldableContainer" parent="."]
+custom_minimum_size = Vector2(186, 0)
+layout_mode = 0
+offset_left = 10.0
+offset_top = 10.0
+offset_right = 196.0
+offset_bottom = 41.0
+title = "Controls (ESC)"
+title_alignment = 1
+script = ExtResource("1_6qeov")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="FoldableContainer"]
+layout_mode = 2
+
+[node name="Walk" type="HBoxContainer" parent="FoldableContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="FoldableContainer/VBoxContainer/Walk"]
+layout_mode = 2
+size_flags_horizontal = 6
+size_flags_vertical = 4
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="Label" type="Label" parent="FoldableContainer/VBoxContainer/Walk/MarginContainer"]
+layout_mode = 2
+size_flags_vertical = 1
+theme_override_font_sizes/font_size = 24
+text = "Move"
+horizontal_alignment = 3
+vertical_alignment = 3
+
+[node name="HBoxContainer" type="HBoxContainer" parent="FoldableContainer/VBoxContainer/Walk"]
+layout_mode = 2
+size_flags_horizontal = 10
+
+[node name="TextureRect" type="TextureRect" parent="FoldableContainer/VBoxContainer/Walk/HBoxContainer"]
+layout_mode = 2
+texture = SubResource("AtlasTexture_3myju")
+expand_mode = 2
+
+[node name="TextureRect2" type="TextureRect" parent="FoldableContainer/VBoxContainer/Walk/HBoxContainer"]
+layout_mode = 2
+texture = SubResource("AtlasTexture_6qeov")
+expand_mode = 2
+
+[node name="Look" type="HBoxContainer" parent="FoldableContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="FoldableContainer/VBoxContainer/Look"]
+layout_mode = 2
+size_flags_horizontal = 6
+size_flags_vertical = 4
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="Label" type="Label" parent="FoldableContainer/VBoxContainer/Look/MarginContainer"]
+layout_mode = 2
+size_flags_vertical = 1
+theme_override_font_sizes/font_size = 24
+text = "Look"
+horizontal_alignment = 3
+vertical_alignment = 3
+
+[node name="HBoxContainer" type="HBoxContainer" parent="FoldableContainer/VBoxContainer/Look"]
+layout_mode = 2
+size_flags_horizontal = 10
+
+[node name="TextureRect" type="TextureRect" parent="FoldableContainer/VBoxContainer/Look/HBoxContainer"]
+layout_mode = 2
+texture = SubResource("AtlasTexture_a3n2f")
+expand_mode = 2
+
+[node name="TextureRect2" type="TextureRect" parent="FoldableContainer/VBoxContainer/Look/HBoxContainer"]
+layout_mode = 2
+texture = SubResource("AtlasTexture_l6u3o")
+expand_mode = 2
+
+[node name="Jump" type="HBoxContainer" parent="FoldableContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="FoldableContainer/VBoxContainer/Jump"]
+layout_mode = 2
+size_flags_horizontal = 6
+size_flags_vertical = 4
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="Label" type="Label" parent="FoldableContainer/VBoxContainer/Jump/MarginContainer"]
+layout_mode = 2
+size_flags_vertical = 1
+theme_override_font_sizes/font_size = 24
+text = "Jump"
+horizontal_alignment = 3
+vertical_alignment = 3
+
+[node name="HBoxContainer" type="HBoxContainer" parent="FoldableContainer/VBoxContainer/Jump"]
+layout_mode = 2
+size_flags_horizontal = 10
+
+[node name="TextureRect" type="TextureRect" parent="FoldableContainer/VBoxContainer/Jump/HBoxContainer"]
+layout_mode = 2
+texture = SubResource("AtlasTexture_qaqrf")
+expand_mode = 2
+
+[node name="TextureRect2" type="TextureRect" parent="FoldableContainer/VBoxContainer/Jump/HBoxContainer"]
+layout_mode = 2
+texture = SubResource("AtlasTexture_nk3t4")
+expand_mode = 2

@@ -2,10 +2,10 @@ extends Area3D
 
 ##Original Path. Set in planet scene.
 @export var reference_gravity_path: Path3D
-##Unique Path. Set in scene if object will be transformed via scaling or rotation. Will use the Reference Path to generate a new path.
+##Unique Path. Set in scene if object will be transformed via scaling or rotation. Will use the Reference Path to generate a new path. Only set if Reference path has been set.
 @export var unique_gravity_path: Path3D 
 var gravity_path: Path3D
-##Will update curve points dynamically if 
+##Will update curve points dynamically if true. Updates on Physics Process
 @export var moving_path: bool
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:

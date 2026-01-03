@@ -1,8 +1,9 @@
-[gd_scene load_steps=40 format=3 uid="uid://bjt2jifiiroa0"]
+[gd_scene load_steps=48 format=3 uid="uid://bjt2jifiiroa0"]
 
 [ext_resource type="Texture2D" uid="uid://cfcejan8w2hdt" path="res://textures/PLACEHOLDER/checker_red.png" id="1_jymn0"]
 [ext_resource type="PackedScene" uid="uid://cydn4sn5afbde" path="res://Player/player.tscn" id="1_t346a"]
 [ext_resource type="Environment" uid="uid://cla7tmchorowo" path="res://Enviroments/world_environment_space_1.tres" id="1_vhyko"]
+[ext_resource type="Texture2D" uid="uid://ucadp2vij5ss" path="res://textures/Sky/Space HDRI 2.hdr" id="1_y4tjl"]
 [ext_resource type="Script" uid="uid://cr22g21adsylq" path="res://Levels/TESTING/TEST_PLAY_ANIMATION.gd" id="2_3vr6k"]
 [ext_resource type="AudioStream" uid="uid://m2fpeb0s8oa0" path="res://Audio/Sounds/Ambient/deep droning ambient better loop.ogg" id="2_4fq4b"]
 [ext_resource type="PackedScene" uid="uid://8hf15i65ov6n" path="res://TESTING_ASSESTS/Platforms/rotating_cube.tscn" id="2_ibrtv"]
@@ -19,6 +20,32 @@
 [ext_resource type="PackedScene" uid="uid://v2xjhwdjbcll" path="res://TESTING_ASSESTS/basic_planet.tscn" id="16_vhyko"]
 [ext_resource type="PackedScene" uid="uid://x3mkxaymlcxm" path="res://TESTING_ASSESTS/cylinder_planet.tscn" id="18_smksi"]
 [ext_resource type="PackedScene" uid="uid://daq26ix2rg6dy" path="res://TESTING_ASSESTS/Text/version_number.tscn" id="19_ugxt8"]
+[ext_resource type="PackedScene" uid="uid://sjr3oayx8apv" path="res://TESTING_ASSESTS/Text/simple_controls_dropdown.tscn" id="20_c16tf"]
+
+[sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_67452"]
+panorama = ExtResource("1_y4tjl")
+
+[sub_resource type="Sky" id="Sky_c6dvw"]
+sky_material = SubResource("PanoramaSkyMaterial_67452")
+
+[sub_resource type="Environment" id="Environment_c16tf"]
+background_mode = 2
+background_energy_multiplier = 0.25
+sky = SubResource("Sky_c6dvw")
+ambient_light_source = 2
+ambient_light_color = Color(0.2, 0.18800001, 0.18800001, 1)
+tonemap_mode = 2
+tonemap_exposure = 2.4
+tonemap_white = 6.0
+adjustment_enabled = true
+adjustment_brightness = 2.0
+adjustment_contrast = 1.25
+
+[sub_resource type="CameraAttributesPractical" id="CameraAttributesPractical_c16tf"]
+exposure_multiplier = 1.29
+dof_blur_far_distance = 147.51
+dof_blur_far_transition = 152.85
+dof_blur_amount = 0.05
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_qm4sc"]
 albedo_texture = ExtResource("1_jymn0")
@@ -108,7 +135,9 @@ emission_energy_multiplier = 0.1
 emission_texture = ExtResource("14_sr0x5")
 uv1_scale = Vector3(0.315, 0.315, 0.315)
 uv1_triplanar = true
-uv1_triplanar_sharpness = 45.254818
+uv1_triplanar_sharpness = 150.0
+
+[sub_resource type="Curve3D" id="Curve3D_67452"]
 
 [sub_resource type="Curve3D" id="Curve3D_ugxt8"]
 closed = true
@@ -121,16 +150,72 @@ radius = 10.1
 [sub_resource type="Curve3D" id="Curve3D_y4tjl"]
 closed = true
 
+[sub_resource type="BoxShape3D" id="BoxShape3D_c16tf"]
+size = Vector3(20, 20, 20)
+
 [node name="TestLevel" type="Node3D"]
 
-[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
-environment = ExtResource("1_vhyko")
+[node name="WorldEnvironment2" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_c16tf")
 
-[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+[node name="Shadow Light" type="DirectionalLight3D" parent="WorldEnvironment2"]
 transform = Transform3D(-0.86602354, -0.43301603, 0.25000072, 0, 0.49999818, 0.86602646, -0.5000033, 0.7499993, -0.4330102, 0, 0, 0)
-light_color = Color(0.44291076, 0.44291076, 0.44291073, 1)
+light_color = Color(0.27110797, 0.25013813, 0.25015244, 1)
+light_bake_mode = 1
 shadow_enabled = true
 shadow_opacity = 0.8
+
+[node name="WorldEnvironmentORG" type="WorldEnvironment" parent="."]
+environment = ExtResource("1_vhyko")
+camera_attributes = SubResource("CameraAttributesPractical_c16tf")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="WorldEnvironmentORG"]
+transform = Transform3D(-0.86602354, -0.43301603, 0.25000072, 0, 0.49999818, 0.86602646, -0.5000033, 0.7499993, -0.4330102, 0, 0, 0)
+light_color = Color(0, 0, 0, 1)
+light_negative = true
+shadow_opacity = 0.8
+
+[node name="WorldText" type="Node3D" parent="."]
+
+[node name="Label3D" type="Label3D" parent="WorldText"]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 32.41793, 3.1881242, 2.5)
+double_sided = false
+texture_filter = 5
+modulate = Color(0.52906674, 0.5290667, 0.5290667, 1)
+text = "-Music-
+
+Crinkles - Soundtrack from a Box 17 - 12 Bask
+
+Crinkles - Soundtrack from a Box 18 - 03 Gale (75% Speed Edit)
+
+Crinkles - Soundtrack from a Box 18 - 06 Slash
+
+
+-SFX-
+
+Kenney (www.kenney.nl)
+
+
+-Textures-
+
+Screaming Brain Studios (https://screamingbrainstudios.itch.io/)
+
+"
+
+[node name="Label3D2" type="Label3D" parent="WorldText"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.3888001, -1.0732038)
+billboard = 2
+render_priority = 1
+outline_render_priority = 0
+modulate = Color(0.6378432, 0.6378432, 0.63784313, 1)
+text = "Welcome! 
+
+Thank you for trying out my game!
+Right now it is in very early stages of development and is more of a Prototype then a game. 
+
+Controls can be found in the top left of your screen.
+
+Either way I hope you like it so far!"
 
 [node name="Music" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("2_vhyko")
@@ -151,6 +236,26 @@ parameters/looping = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.3079991, 0)
 
 [node name="Environment" type="Node3D" parent="."]
+
+[node name="RotatingCubes" type="Node3D" parent="Environment"]
+
+[node name="RotatingCube" parent="Environment/RotatingCubes" instance=ExtResource("2_ibrtv")]
+transform = Transform3D(-0.5663509, 0, -0.824164, 0, 1, 0, 0.824164, 0, -0.5663509, 26.5639, 5.10296, 12.3255)
+rotation_direction = Vector3(0, 1.715, 0)
+
+[node name="RotatingCube2" parent="Environment/RotatingCubes" instance=ExtResource("2_ibrtv")]
+transform = Transform3D(-0.48366448, 0, -0.8752546, 0, 1, 0, 0.8752546, 0, -0.48366448, 26.5639, 5.10296, 22.2636)
+rotation_direction = Vector3(0, -0.235, 0)
+
+[node name="RotatingCube3" parent="Environment/RotatingCubes" instance=ExtResource("2_ibrtv")]
+transform = Transform3D(1, 0, 0, 0, -0.98367786, 0.17994314, 0, -0.17994314, -0.98367786, 35.3961, 6.18708, 24.1175)
+rotation_speed = 0.5
+rotation_direction = Vector3(1, 0, 0)
+
+[node name="RotatingCube4" parent="Environment/RotatingCubes" instance=ExtResource("2_ibrtv")]
+transform = Transform3D(-0.86676913, 0.4987105, 0, -0.4987105, -0.86676913, 0, 0, 0, 1, 18.2048, 6.11222, 23.8538)
+rotation_speed = 0.5
+rotation_direction = Vector3(0, 0, 1)
 
 [node name="MovingCube" type="Node3D" parent="Environment"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.31057, 1.2955558, -3.76875)
@@ -232,111 +337,95 @@ use_collision = true
 size = Vector3(10, 12, 10)
 material = SubResource("StandardMaterial3D_ur00s")
 
-[node name="Floor" type="CSGBox3D" parent="Environment"]
+[node name="Static" type="Node3D" parent="Environment"]
+
+[node name="Floor" type="CSGBox3D" parent="Environment/Static"]
 use_collision = true
 size = Vector3(200, 0.001, 200)
 material = SubResource("StandardMaterial3D_46lwt")
 
-[node name="CSGBox3D2" type="CSGBox3D" parent="Environment"]
+[node name="CSGBox3D2" type="CSGBox3D" parent="Environment/Static"]
 transform = Transform3D(4.79316, 0, 0, 0, 4.79316, 0, 0, 0, 4.79316, -14.171, 0, -2.65512)
 use_collision = true
 material = SubResource("StandardMaterial3D_x25rp")
 
-[node name="CSGBox3D5" type="CSGBox3D" parent="Environment"]
-transform = Transform3D(4.79316, 0, 0, 0, 3.34726, 3.43078, 0, -3.43078, 3.34726, -2.47681, -0.331843, 11.2122)
-use_collision = true
-size = Vector3(1, 1, 2.45306)
-material = SubResource("StandardMaterial3D_x25rp")
-
-[node name="CSGBox3D6" type="CSGBox3D" parent="Environment"]
-transform = Transform3D(4.77223, 0, 0, 0, 4.04448, 2.53307, 0, -2.53307, 4.04448, 2.20745, -0.331843, 12.1562)
-use_collision = true
-size = Vector3(1, 1, 2.45306)
-material = SubResource("StandardMaterial3D_x25rp")
-
-[node name="CSGBox3D7" type="CSGBox3D" parent="Environment"]
-transform = Transform3D(4.79316, 0, 0, 0, 4.485, 1.69091, 0, -1.69091, 4.485, 6.34662, -0.331843, 14.1722)
-use_collision = true
-size = Vector3(1, 1, 2.45306)
-material = SubResource("StandardMaterial3D_x25rp")
-
-[node name="CSGBox3D8" type="CSGBox3D" parent="Environment"]
-transform = Transform3D(4.79316, 0, 0, 0, 4.70732, 0.903041, 0, -0.903041, 4.70732, 11.0646, -1.32584, 14.1722)
-use_collision = true
-size = Vector3(1, 1, 2.45306)
-material = SubResource("StandardMaterial3D_x25rp")
-
-[node name="CSGBox3D3" type="CSGBox3D" parent="Environment"]
+[node name="CSGBox3D3" type="CSGBox3D" parent="Environment/Static"]
 transform = Transform3D(1.85567, 0, -1.3025, 0, 2.26716, 0, 1.3025, 0, 1.85567, -2.28682, 0, -2.65512)
 use_collision = true
 material = SubResource("StandardMaterial3D_gmgay")
 
-[node name="CSGBox3D4" type="CSGBox3D" parent="Environment"]
+[node name="CSGBox3D4" type="CSGBox3D" parent="Environment/Static"]
 transform = Transform3D(3.19362, 0, -2.2416, 0, 1.36953, 0, 2.2416, 0, 3.19362, -7.11612, 0, 4.2252)
 use_collision = true
 material = SubResource("StandardMaterial3D_w7r7j")
 
-[node name="Node3D" type="Node3D" parent="Environment"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -28.893, 8.97268, -9.21101)
+[node name="Sphere" type="Node3D" parent="Environment/Static"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -28.893, -5.4323597, -9.21101)
 
-[node name="StaticBody3D" type="StaticBody3D" parent="Environment/Node3D"]
+[node name="StaticBody3D" type="StaticBody3D" parent="Environment/Static/Sphere"]
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Environment/Node3D/StaticBody3D"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Environment/Static/Sphere/StaticBody3D"]
 shape = SubResource("SphereShape3D_ibrtv")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Environment/Node3D/StaticBody3D"]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Environment/Static/Sphere/StaticBody3D"]
 mesh = SubResource("SphereMesh_t346a")
 
-[node name="Node3D2" type="Node3D" parent="Environment"]
+[node name="Ramps2" type="Node3D" parent="Environment/Static"]
 transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, -8.217059, 0, 7.3370585)
 
-[node name="CSGBox3D5" type="CSGBox3D" parent="Environment/Node3D2"]
+[node name="CSGBox3D5" type="CSGBox3D" parent="Environment/Static/Ramps2"]
 transform = Transform3D(4.79316, 0, 0, 0, 3.34726, 3.43078, 0, -3.43078, 3.34726, -2.47681, -0.331843, 11.2122)
 use_collision = true
 size = Vector3(1, 1, 2.45306)
 material = SubResource("StandardMaterial3D_x25rp")
 
-[node name="CSGBox3D6" type="CSGBox3D" parent="Environment/Node3D2"]
+[node name="CSGBox3D6" type="CSGBox3D" parent="Environment/Static/Ramps2"]
 transform = Transform3D(4.77223, 0, 0, 0, 4.04448, 2.53307, 0, -2.53307, 4.04448, 2.20745, -0.331843, 12.1562)
 use_collision = true
 size = Vector3(1, 1, 2.45306)
 material = SubResource("StandardMaterial3D_x25rp")
 
-[node name="CSGBox3D7" type="CSGBox3D" parent="Environment/Node3D2"]
+[node name="CSGBox3D7" type="CSGBox3D" parent="Environment/Static/Ramps2"]
 transform = Transform3D(4.79316, 0, 0, 0, 4.485, 1.69091, 0, -1.69091, 4.485, 6.34662, -0.331843, 14.1722)
 use_collision = true
 size = Vector3(1, 1, 2.45306)
 material = SubResource("StandardMaterial3D_x25rp")
 
-[node name="CSGBox3D8" type="CSGBox3D" parent="Environment/Node3D2"]
+[node name="CSGBox3D8" type="CSGBox3D" parent="Environment/Static/Ramps2"]
 transform = Transform3D(4.79316, 0, 0, 0, 4.70732, 0.903041, 0, -0.903041, 4.70732, 11.0646, -1.32584, 14.1722)
 use_collision = true
 size = Vector3(1, 1, 2.45306)
 material = SubResource("StandardMaterial3D_x25rp")
 
-[node name="Cubes" type="Node3D" parent="."]
+[node name="Ramps" type="Node3D" parent="Environment/Static"]
 
-[node name="RotatingCube" parent="Cubes" instance=ExtResource("2_ibrtv")]
-transform = Transform3D(-0.5728452, 0, 0.8196633, 0, 1, 0, -0.8196633, 0, -0.5728452, 26.5639, 5.10296, 12.3255)
-rotation_direction = Vector3(0, 1.715, 0)
+[node name="CSGBox3D5" type="CSGBox3D" parent="Environment/Static/Ramps"]
+transform = Transform3D(4.79316, 0, 0, 0, 3.34726, 3.43078, 0, -3.43078, 3.34726, -2.47681, -0.331843, 11.2122)
+use_collision = true
+size = Vector3(1, 1, 2.45306)
+material = SubResource("StandardMaterial3D_x25rp")
 
-[node name="RotatingCube2" parent="Cubes" instance=ExtResource("2_ibrtv")]
-transform = Transform3D(0.98934805, 0, -0.14557531, 0, 1, 0, 0.14557531, 0, 0.98934805, 26.5639, 5.10296, 22.2636)
-rotation_direction = Vector3(0, -0.235, 0)
+[node name="CSGBox3D6" type="CSGBox3D" parent="Environment/Static/Ramps"]
+transform = Transform3D(4.77223, 0, 0, 0, 4.04448, 2.53307, 0, -2.53307, 4.04448, 2.20745, -0.331843, 12.1562)
+use_collision = true
+size = Vector3(1, 1, 2.45306)
+material = SubResource("StandardMaterial3D_x25rp")
 
-[node name="RotatingCube3" parent="Cubes" instance=ExtResource("2_ibrtv")]
-transform = Transform3D(1, 0, 0, 0, -0.70765007, -0.7065641, 0, 0.7065641, -0.70765007, 35.3961, 6.18708, 24.1175)
-rotation_speed = 0.5
-rotation_direction = Vector3(1, 0, 0)
+[node name="CSGBox3D7" type="CSGBox3D" parent="Environment/Static/Ramps"]
+transform = Transform3D(4.79316, 0, 0, 0, 4.485, 1.69091, 0, -1.69091, 4.485, 6.34662, -0.331843, 14.1722)
+use_collision = true
+size = Vector3(1, 1, 2.45306)
+material = SubResource("StandardMaterial3D_x25rp")
 
-[node name="RotatingCube4" parent="Cubes" instance=ExtResource("2_ibrtv")]
-transform = Transform3D(-0.9996575, -0.026192555, 0, 0.026192555, -0.9996575, 0, 0, 0, 1, 18.2048, 6.11222, 23.8538)
-rotation_speed = 0.5
-rotation_direction = Vector3(0, 0, 1)
+[node name="CSGBox3D8" type="CSGBox3D" parent="Environment/Static/Ramps"]
+transform = Transform3D(4.79316, 0, 0, 0, 4.70732, 0.903041, 0, -0.903041, 4.70732, 11.0646, -1.32584, 14.1722)
+use_collision = true
+size = Vector3(1, 1, 2.45306)
+material = SubResource("StandardMaterial3D_x25rp")
 
-[node name="Planet" type="Node3D" parent="."]
+[node name="Planet" type="Node3D" parent="Environment/Static"]
 
-[node name="Area3D" type="Area3D" parent="Planet"]
+[node name="Area3D" type="Area3D" parent="Environment/Static/Planet"]
 transform = Transform3D(0.903219, 0, 0, 0, 0.903219, 0, 0, 0, 0.903219, -2.39121, 17.8497, -10.6591)
 collision_mask = 3
 gravity_space_override = 3
@@ -345,7 +434,7 @@ gravity_point_center = Vector3(0, 0, 0)
 gravity_direction = Vector3(0, 0, 0)
 script = ExtResource("10_brpf5")
 
-[node name="CSGSphere3D" type="CSGSphere3D" parent="Planet/Area3D"]
+[node name="CSGSphere3D" type="CSGSphere3D" parent="Environment/Static/Planet/Area3D"]
 transform = Transform3D(0.99999994, 0, 0, 0, 0.99999994, 0, 0, 0, 0.99999994, 0, 0, 0)
 use_collision = true
 radius = 6.3
@@ -353,10 +442,10 @@ radial_segments = 36
 rings = 18
 material = SubResource("StandardMaterial3D_sr0x5")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Planet/Area3D"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Environment/Static/Planet/Area3D"]
 shape = SubResource("SphereShape3D_t346a")
 
-[node name="Area3D2" type="Area3D" parent="Planet"]
+[node name="Area3D2" type="Area3D" parent="Environment/Static/Planet"]
 transform = Transform3D(1.35212, 0, 0, 0, 1.35212, 0, 0, 0, 1.35212, 4.35759, 16.7835, -31.1768)
 collision_mask = 3
 gravity_space_override = 3
@@ -365,71 +454,97 @@ gravity_point_center = Vector3(0, 0, 0)
 gravity_direction = Vector3(0, 0, 0)
 script = ExtResource("10_brpf5")
 
-[node name="CSGSphere3D" type="CSGSphere3D" parent="Planet/Area3D2"]
+[node name="CSGSphere3D" type="CSGSphere3D" parent="Environment/Static/Planet/Area3D2"]
 use_collision = true
 radius = 6.3
 radial_segments = 36
 rings = 18
 material = SubResource("StandardMaterial3D_vhyko")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Planet/Area3D2"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Environment/Static/Planet/Area3D2"]
 shape = SubResource("SphereShape3D_t346a")
 
-[node name="DiskPlanet" parent="Planet" instance=ExtResource("10_eio3g")]
+[node name="DiskPlanet" parent="Environment/Static/Planet" node_paths=PackedStringArray("unique_gravity_path") instance=ExtResource("10_eio3g")]
 transform = Transform3D(1.614, 0, 0, 0, 1.614, 0, 0, 0, 1.614, 54.0562, 7.92988, -3.54951)
+unique_gravity_path = NodePath("Path3D2")
 
-[node name="DiskPlanet2" parent="Planet" node_paths=PackedStringArray("unique_gravity_path") instance=ExtResource("10_eio3g")]
+[node name="Path3D2" type="Path3D" parent="Environment/Static/Planet/DiskPlanet"]
+curve = SubResource("Curve3D_67452")
+
+[node name="DiskPlanet2" parent="Environment/Static/Planet" node_paths=PackedStringArray("unique_gravity_path") instance=ExtResource("10_eio3g")]
 transform = Transform3D(1.614, 0, 0, 0, 1.614, 0, 0, 0, 1.614, 3.5499191, 30.538914, -31.223211)
 unique_gravity_path = NodePath("Path3D2")
 
-[node name="Path3D2" type="Path3D" parent="Planet/DiskPlanet2"]
+[node name="Path3D2" type="Path3D" parent="Environment/Static/Planet/DiskPlanet2"]
 curve = SubResource("Curve3D_ugxt8")
 
-[node name="BasicPlanet" parent="Planet" instance=ExtResource("16_vhyko")]
+[node name="BasicPlanet" parent="Environment/Static/Planet" instance=ExtResource("16_vhyko")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.6128883, 14.41176, -58.4651)
 
-[node name="CylinderPlanet" parent="Planet" instance=ExtResource("18_smksi")]
+[node name="CylinderPlanet" parent="Environment/Static/Planet" instance=ExtResource("18_smksi")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -16.672348, 10.0005, 27.846123)
 
-[node name="Area3D" type="Area3D" parent="Planet/CylinderPlanet"]
+[node name="Area3D" type="Area3D" parent="Environment/Static/Planet/CylinderPlanet"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -9.063516, 0)
 collision_mask = 3
 priority = 1
 gravity_space_override = 1
 script = ExtResource("10_brpf5")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Planet/CylinderPlanet/Area3D"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Environment/Static/Planet/CylinderPlanet/Area3D"]
 shape = SubResource("CylinderShape3D_smksi")
 
-[node name="CylinderPlanet2" parent="Planet" instance=ExtResource("18_smksi")]
+[node name="CylinderPlanet2" parent="Environment/Static/Planet" instance=ExtResource("18_smksi")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 23.04183, 10.000499, -59.74807)
 
-[node name="Area3D" type="Area3D" parent="Planet/CylinderPlanet2"]
+[node name="Area3D" type="Area3D" parent="Environment/Static/Planet/CylinderPlanet2"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -9.063516, 0)
 collision_mask = 3
 priority = 1
 gravity_space_override = 1
 script = ExtResource("10_brpf5")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Planet/CylinderPlanet2/Area3D"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Environment/Static/Planet/CylinderPlanet2/Area3D"]
 shape = SubResource("CylinderShape3D_smksi")
 
-[node name="CylinderPlanet3" parent="Planet" node_paths=PackedStringArray("unique_gravity_path") instance=ExtResource("18_smksi")]
+[node name="CylinderPlanet3" parent="Environment/Static/Planet" node_paths=PackedStringArray("unique_gravity_path") instance=ExtResource("18_smksi")]
 transform = Transform3D(1, 0, 0, 0, -0.2588191, 0.9659258, 0, -0.9659258, -0.2588191, 3.1100874, 39.98465, -52.540943)
 unique_gravity_path = NodePath("Path3D2")
 
-[node name="Path3D2" type="Path3D" parent="Planet/CylinderPlanet3"]
+[node name="Path3D2" type="Path3D" parent="Environment/Static/Planet/CylinderPlanet3"]
 curve = SubResource("Curve3D_c16tf")
 
-[node name="Node3D" type="Node3D" parent="Planet"]
+[node name="Node3D" type="Node3D" parent="Environment/Static/Planet"]
 transform = Transform3D(1.064, 0, 0, 0, -1.0250658, 0.2851951, 0, -0.2851951, -1.0250658, 26.96, 4.8437743, -39.288136)
 
-[node name="DiskPlanet3" parent="Planet" node_paths=PackedStringArray("unique_gravity_path") instance=ExtResource("10_eio3g")]
+[node name="DiskPlanet3" parent="Environment/Static/Planet" node_paths=PackedStringArray("unique_gravity_path") instance=ExtResource("10_eio3g")]
 transform = Transform3D(1.064, 0, 0, 0, -1.0250658, 0.2851951, 0, -0.2851951, -1.0250658, 26.96, 4.8437743, -39.288136)
 unique_gravity_path = NodePath("Path3D2")
 
-[node name="Path3D2" type="Path3D" parent="Planet/DiskPlanet3"]
+[node name="Path3D2" type="Path3D" parent="Environment/Static/Planet/DiskPlanet3"]
 curve = SubResource("Curve3D_y4tjl")
+
+[node name="GravityZones" type="Node" parent="Environment/Static"]
+
+[node name="Area3D" type="Area3D" parent="Environment/Static/GravityZones"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 30.47773, 1.9073486e-06, -39.94001)
+collision_mask = 3
+priority = -1
+gravity_space_override = 3
+script = ExtResource("10_brpf5")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Environment/Static/GravityZones/Area3D"]
+shape = SubResource("BoxShape3D_c16tf")
+
+[node name="Area3D2" type="Area3D" parent="Environment/Static/GravityZones"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 50.810738, 4.2119703, -1.0380936)
+collision_mask = 3
+priority = -1
+gravity_space_override = 3
+script = ExtResource("10_brpf5")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Environment/Static/GravityZones/Area3D2"]
+shape = SubResource("BoxShape3D_c16tf")
 
 [node name="Control" type="Control" parent="."]
 layout_mode = 3
@@ -443,14 +558,17 @@ mouse_behavior_recursive = 1
 
 [node name="FPSCounter" type="Label" parent="Control"]
 layout_mode = 0
-offset_left = 11.0
+offset_left = 206.0
 offset_top = 11.0
-offset_right = 51.0
+offset_right = 246.0
 offset_bottom = 34.0
 script = ExtResource("11_oef57")
 
 [node name="Control" parent="Control" instance=ExtResource("19_ugxt8")]
 layout_mode = 1
 
-[connection signal="area_entered" from="Planet/Area3D" to="Planet/Area3D" method="_on_area_entered"]
-[connection signal="area_entered" from="Planet/Area3D2" to="Planet/Area3D2" method="_on_area_entered"]
+[node name="SimpleControlsDropdown" parent="Control" instance=ExtResource("20_c16tf")]
+layout_mode = 1
+
+[connection signal="area_entered" from="Environment/Static/Planet/Area3D" to="Environment/Static/Planet/Area3D" method="_on_area_entered"]
+[connection signal="area_entered" from="Environment/Static/Planet/Area3D2" to="Environment/Static/Planet/Area3D2" method="_on_area_entered"]

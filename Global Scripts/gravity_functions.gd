@@ -67,7 +67,7 @@ func _get_local_position(local_node: Node3D, relative_node: Node3D) -> Vector3:
 	local_position = relative_node.global_position - local_node.global_position
 	return local_position
 
-func transform_curve_points(new_path: Path3D, ref_path: Path3D) -> void: ##Modifies the new path based on the reference paths curve points, scale, and global rotation.
+func transform_curve_points(new_path: Path3D, ref_path: Path3D) -> void: ##Modifies the new path based on the reference paths curve points, scale, and rotation.
 	var c_curve: Curve3D = new_path.curve
 	var c_point: int = 0
 	while c_point < ref_path.curve.get_point_count():

@@ -50,12 +50,14 @@ var c_local_velocity: Vector3
 var can_apply_floor_snap: bool
 var time_going_up: float
 var floor_norm_grav: bool
+var last_safe_pos: Vector3 = Vector3.ZERO
 
 func _physics_process(delta: float) -> void:
 	#wall_cancel = smooth_move.dot(get_wall_normal()) * get_wall_normal()
 	#print(wall_cancel)
 	#wall_cancel = Vector3.ONE - (abs((abs(smooth_move.normalized().dot(get_wall_normal()))) * get_wall_normal()))
-	velocity -= smooth_move #subtracts smooth_move from last frame
+	RespawnPlayer.player_safe_pos_respawn(self, 40, last_safe_pos)
+	velocity -= smooth_move - ((GravityFunctions.alt_local_velocity(smooth_move, camera_global_basis).y * camera_global_basis.y) / 2.5) #subtracts smooth_move from last frame
 	if is_on_floor() and floor_norm_grav:
 		gravity_direction = -self.get_floor_normal()
 	#gravity_direction = (gravity_point.global_position - position).normalized()
@@ -96,10 +98,11 @@ func _physics_process(delta: float) -> void:
 		air_time = 0
 		can_jump = JUMP_TOTAL
 		state = "grounded"
+		last_safe_pos = self.global_position
 	
 	if Input.is_action_just_pressed("Jump") and can_jump > 0:
 		can_apply_floor_snap = false
-		velocity += ((JUMP_VELOCITY + abs(min(c_local_velocity.y, 0))) * abs(gravity_rotation_node.quaternion.dot(self.quaternion))**10) * self.global_basis.y
+		velocity += ((JUMP_VELOCITY + abs(min(c_local_velocity.y, 0))) * abs(gravity_rotation_node.quaternion.dot(self.quaternion))**10) * camera_global_basis.y #self.global_basis.y
 		can_jump -= 1
 		state = "jumped"
 	if Input.is_action_just_released("Jump") and can_jump >= 0: #variable jump height. Cancels local y up
@@ -124,7 +127,7 @@ func _physics_process(delta: float) -> void:
 		_mesh_rotation(delta, .5)
 	gravity_rotation(gravity_direction)
 	#velocity += smooth_move + (slope_y_down * camera_global_basis.y) #adds smooth_move after all previous velocity calcs and adds downward slope velocity
-	velocity += smooth_move
+	velocity += smooth_move - ((GravityFunctions.alt_local_velocity(smooth_move, camera_global_basis).y * camera_global_basis.y) / 2.5)
 	velocity = velocity.limit_length(MAX_VELOCITY) #limits maximum velocity
 	move_and_slide()
 	if can_apply_floor_snap:
@@ -136,22 +139,12 @@ var slope_y_down: float
 var movement: Vector3 #movement direction based on input and direction
 var wall_cancel: Vector3
 
-
 func _ground_movement(delta, friction):
 	var forward = camera_global_basis.z
 	var right = camera_global_basis.x
-	#var slope: Quaternion
-	#if is_on_floor():
-		#if get_floor_normal():
-			#slope = Quaternion(get_floor_normal(), -gravity_direction)
-	#if abs(slope_y_down) > .1:
-		#print(slope_y_down)
 	movement = forward * input_dir.y * SPEED
 	movement += right * input_dir.x * SPEED
 	smooth_move = lerp(smooth_move, movement, ACCELERATION * delta * friction) #smooths movement input
-	#slope_y_down = min((smooth_move * Basis(slope).y).z, 0) #gets the y downward direction when on a slope. No. I dont know why this works. But it does and thats all that matters
-	#position += smooth_move * delta #modifies position for user input movement instead of velocity
-	#print(slope_y_down)
 	
 	
 func _mesh_rotation(delta, rotation_strength: float):

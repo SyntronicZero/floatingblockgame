@@ -14,8 +14,8 @@ compatibility/default_parent_skeleton_in_mesh_instance_3d=true
 
 [application]
 
-config/name="Floating Block Game"
-config/version="0.1.0"
+config/name="Byte's Gravity Challenges"
+config/version="0.01.01"
 run/main_scene="uid://bjt2jifiiroa0"
 config/features=PackedStringArray("4.5", "Forward Plus")
 config/icon="res://icon.svg"
@@ -24,6 +24,7 @@ config/icon="res://icon.svg"
 
 GravityFunctions="*res://Global Scripts/gravity_functions.gd"
 LoadFunctions="*res://Global Scripts/load_functions.gd"
+RespawnPlayer="*res://Global Scripts/respawn_player.gd"
 
 [display]
 
