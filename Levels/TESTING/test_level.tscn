@@ -1,5 +1,6 @@
-[gd_scene load_steps=48 format=3 uid="uid://bjt2jifiiroa0"]
+[gd_scene load_steps=52 format=3 uid="uid://bjt2jifiiroa0"]
 
+[ext_resource type="Script" uid="uid://d2sua6fx3r4hm" path="res://Levels/templates/level_script.gd" id="1_67452"]
 [ext_resource type="Texture2D" uid="uid://cfcejan8w2hdt" path="res://textures/PLACEHOLDER/checker_red.png" id="1_jymn0"]
 [ext_resource type="PackedScene" uid="uid://cydn4sn5afbde" path="res://Player/player.tscn" id="1_t346a"]
 [ext_resource type="Environment" uid="uid://cla7tmchorowo" path="res://Enviroments/world_environment_space_1.tres" id="1_vhyko"]
@@ -21,6 +22,7 @@
 [ext_resource type="PackedScene" uid="uid://x3mkxaymlcxm" path="res://TESTING_ASSESTS/cylinder_planet.tscn" id="18_smksi"]
 [ext_resource type="PackedScene" uid="uid://daq26ix2rg6dy" path="res://TESTING_ASSESTS/Text/version_number.tscn" id="19_ugxt8"]
 [ext_resource type="PackedScene" uid="uid://sjr3oayx8apv" path="res://TESTING_ASSESTS/Text/simple_controls_dropdown.tscn" id="20_c16tf"]
+[ext_resource type="Script" uid="uid://nv7fbhrfh25p" path="res://Levels/TESTING/ReturnToMenu.gd" id="23_c6dvw"]
 
 [sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_67452"]
 panorama = ExtResource("1_y4tjl")
@@ -153,7 +155,15 @@ closed = true
 [sub_resource type="BoxShape3D" id="BoxShape3D_c16tf"]
 size = Vector3(20, 20, 20)
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_67452"]
+albedo_texture = ExtResource("4_ibrtv")
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_c6dvw"]
+size = Vector3(2, 2, 2)
+
 [node name="TestLevel" type="Node3D"]
+script = ExtResource("1_67452")
+level_name = "TestLevel"
 
 [node name="WorldEnvironment2" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_c16tf")
@@ -240,20 +250,20 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.3079991, 0)
 [node name="RotatingCubes" type="Node3D" parent="Environment"]
 
 [node name="RotatingCube" parent="Environment/RotatingCubes" instance=ExtResource("2_ibrtv")]
-transform = Transform3D(-0.5663509, 0, -0.824164, 0, 1, 0, 0.824164, 0, -0.5663509, 26.5639, 5.10296, 12.3255)
+transform = Transform3D(-0.075400814, 0, 0.9971531, 0, 1, 0, -0.9971531, 0, -0.075400814, 26.5639, 5.10296, 12.3255)
 rotation_direction = Vector3(0, 1.715, 0)
 
 [node name="RotatingCube2" parent="Environment/RotatingCubes" instance=ExtResource("2_ibrtv")]
-transform = Transform3D(-0.48366448, 0, -0.8752546, 0, 1, 0, 0.8752546, 0, -0.48366448, 26.5639, 5.10296, 22.2636)
+transform = Transform3D(0.9254964, 0, 0.37875932, 0, 1, 0, -0.37875932, 0, 0.9254964, 26.5639, 5.10296, 22.2636)
 rotation_direction = Vector3(0, -0.235, 0)
 
 [node name="RotatingCube3" parent="Environment/RotatingCubes" instance=ExtResource("2_ibrtv")]
-transform = Transform3D(1, 0, 0, 0, -0.98367786, 0.17994314, 0, -0.17994314, -0.98367786, 35.3961, 6.18708, 24.1175)
+transform = Transform3D(1, 0, 0, 0, -0.4966181, -0.8679702, 0, 0.8679702, -0.4966181, 35.3961, 6.18708, 24.1175)
 rotation_speed = 0.5
 rotation_direction = Vector3(1, 0, 0)
 
 [node name="RotatingCube4" parent="Environment/RotatingCubes" instance=ExtResource("2_ibrtv")]
-transform = Transform3D(-0.86676913, 0.4987105, 0, -0.4987105, -0.86676913, 0, 0, 0, 1, 18.2048, 6.11222, 23.8538)
+transform = Transform3D(-0.7583957, -0.6517954, 0, 0.6517954, -0.7583957, 0, 0, 0, 1, 18.2048, 6.11222, 23.8538)
 rotation_speed = 0.5
 rotation_direction = Vector3(0, 0, 1)
 
@@ -570,5 +580,26 @@ layout_mode = 1
 [node name="SimpleControlsDropdown" parent="Control" instance=ExtResource("20_c16tf")]
 layout_mode = 1
 
+[node name="ReturnToMenu" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -48.661915, 0, 0)
+
+[node name="CSGBox3D" type="CSGBox3D" parent="ReturnToMenu"]
+size = Vector3(3, 1, 3)
+material = SubResource("StandardMaterial3D_67452")
+
+[node name="Area3D" type="Area3D" parent="ReturnToMenu"]
+collision_mask = 3
+script = ExtResource("23_c6dvw")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="ReturnToMenu/Area3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.97238517, 0)
+shape = SubResource("BoxShape3D_c6dvw")
+
+[node name="Label3D" type="Label3D" parent="ReturnToMenu"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.4184747, 0)
+billboard = 2
+text = "Return To Menu"
+
 [connection signal="area_entered" from="Environment/Static/Planet/Area3D" to="Environment/Static/Planet/Area3D" method="_on_area_entered"]
 [connection signal="area_entered" from="Environment/Static/Planet/Area3D2" to="Environment/Static/Planet/Area3D2" method="_on_area_entered"]
+[connection signal="body_entered" from="ReturnToMenu/Area3D" to="ReturnToMenu/Area3D" method="_on_body_entered"]

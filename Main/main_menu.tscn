@@ -1,0 +1,23 @@
+[gd_scene load_steps=3 format=3 uid="uid://bltkud0pmws3r"]
+
+[ext_resource type="Script" uid="uid://dop2hfoe1q37c" path="res://Main/main_menu.gd" id="1_fr8op"]
+[ext_resource type="Script" uid="uid://yg8rngxgqd64" path="res://Main/load_level_button.gd" id="2_vrvlg"]
+
+[node name="MainMenu" type="CanvasLayer"]
+script = ExtResource("1_fr8op")
+
+[node name="DEBUGBUTTON" type="Button" parent="."]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -4.0
+offset_top = -4.0
+offset_right = 4.0
+offset_bottom = 4.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "LOAD TESTLEVEL"
+script = ExtResource("2_vrvlg")
+level_to_load = "res://Levels/TESTING/test_level.tscn"

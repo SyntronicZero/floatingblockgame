@@ -1,0 +1,252 @@
+[gd_scene load_steps=22 format=3 uid="uid://bp775vp5alry7"]
+
+[ext_resource type="Texture2D" uid="uid://dio4ufo7r3a2d" path="res://textures/Icons/LoadingScreenImages/LoadingScreen0001.png" id="1_3b0n3"]
+[ext_resource type="Script" uid="uid://cnabk6vk0vqt8" path="res://Main/level_loading.gd" id="1_3mu7i"]
+[ext_resource type="PackedScene" uid="uid://bltkud0pmws3r" path="res://Main/main_menu.tscn" id="2_de2s4"]
+[ext_resource type="Texture2D" uid="uid://cfcwtdhkn0wuy" path="res://textures/Icons/LoadingScreenImages/LoadingScreen0002.png" id="2_kwb5c"]
+[ext_resource type="Texture2D" uid="uid://deqxs22w6lcug" path="res://textures/Icons/LoadingScreenImages/LoadingScreen0011.png" id="3_s358g"]
+[ext_resource type="Texture2D" uid="uid://dlgv4x0ukeb5h" path="res://textures/Icons/LoadingScreenImages/LoadingScreen0012.png" id="4_tf3bw"]
+[ext_resource type="Texture2D" uid="uid://dytw8ova3cutu" path="res://textures/Icons/LoadingScreenImages/LoadingScreen0013.png" id="5_0n0pi"]
+[ext_resource type="Texture2D" uid="uid://cm837lnh6p70o" path="res://textures/Icons/LoadingScreenImages/LoadingScreen0014.png" id="6_1wg0f"]
+[ext_resource type="Texture2D" uid="uid://cvlircwf78cy0" path="res://textures/Icons/LoadingScreenImages/LoadingScreen0003.png" id="7_j8q6j"]
+[ext_resource type="Texture2D" uid="uid://de15wsyfe45e" path="res://textures/Icons/LoadingScreenImages/LoadingScreen0004.png" id="8_hilos"]
+[ext_resource type="Texture2D" uid="uid://nogi0stw1lhe" path="res://textures/Icons/LoadingScreenImages/LoadingScreen0005.png" id="9_e5krt"]
+[ext_resource type="Texture2D" uid="uid://b3mfqlnpd8fp6" path="res://textures/Icons/LoadingScreenImages/LoadingScreen0006.png" id="10_4265g"]
+[ext_resource type="Texture2D" uid="uid://byvkhldkay1s7" path="res://textures/Icons/LoadingScreenImages/LoadingScreen0007.png" id="11_lu03n"]
+[ext_resource type="Texture2D" uid="uid://ctohaj1ldo37h" path="res://textures/Icons/LoadingScreenImages/LoadingScreen0008.png" id="12_uw2it"]
+[ext_resource type="Texture2D" uid="uid://exwjkcucimbs" path="res://textures/Icons/LoadingScreenImages/LoadingScreen0009.png" id="13_vn0uy"]
+[ext_resource type="Texture2D" uid="uid://j3hl06cr0hgi" path="res://textures/Icons/LoadingScreenImages/LoadingScreen0010.png" id="14_cxg38"]
+
+[sub_resource type="Animation" id="Animation_3mu7i"]
+resource_name = "Fade_In"
+length = 2.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Control/FadeBlack:color:a")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0.0, 1.0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Control/Top:position:y")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.4666667, 0.6, 0.7666667, 2),
+"transitions": PackedFloat32Array(1.8024997, 0.32987702, 1.9318731, 1, 1),
+"update": 0,
+"values": [-1080.0, 0.0, -100.0, 0.0, 0.0]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Control/Bottom:position:y")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.7, 0.8333333, 1, 2),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 0,
+"values": [1080.0, 540.0, 615.3292, 540.0, 540.0]
+}
+
+[sub_resource type="Animation" id="Animation_de2s4"]
+resource_name = "Fade_Out"
+length = 2.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Control/FadeBlack:color:a")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [1.0, 0.0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Control/Top:position:y")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.26666668, 0.4666667, 1.2, 2),
+"transitions": PackedFloat32Array(1, 1, 1, 3.3635848, 1, 1),
+"update": 0,
+"values": [0.0, 0.0, -100.0, -100.0, -1080.0, -1080.0]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Control/Bottom:position:y")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.19999999, 1),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [540.0, 694.4716, 694.4716, 1080.0]
+}
+
+[sub_resource type="Animation" id="Animation_3b0n3"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Control/FadeBlack:color:a")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0.0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Control/Top:position:y")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [-1080.0]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Control/Bottom:position:y")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [1080.0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_co7ai"]
+_data = {
+&"Fade_In": SubResource("Animation_3mu7i"),
+&"Fade_Out": SubResource("Animation_de2s4"),
+&"RESET": SubResource("Animation_3b0n3")
+}
+
+[sub_resource type="AnimatedTexture" id="AnimatedTexture_co7ai"]
+frames = 14
+frame_0/texture = ExtResource("1_3b0n3")
+frame_0/duration = 0.04
+frame_1/texture = ExtResource("2_kwb5c")
+frame_1/duration = 0.04
+frame_2/texture = ExtResource("7_j8q6j")
+frame_2/duration = 0.04
+frame_3/texture = ExtResource("8_hilos")
+frame_3/duration = 0.04
+frame_4/texture = ExtResource("9_e5krt")
+frame_4/duration = 0.04
+frame_5/texture = ExtResource("10_4265g")
+frame_5/duration = 0.04
+frame_6/texture = ExtResource("11_lu03n")
+frame_6/duration = 0.04
+frame_7/texture = ExtResource("12_uw2it")
+frame_7/duration = 0.04
+frame_8/texture = ExtResource("13_vn0uy")
+frame_8/duration = 0.04
+frame_9/texture = ExtResource("14_cxg38")
+frame_9/duration = 0.04
+frame_10/texture = ExtResource("3_s358g")
+frame_10/duration = 0.04
+frame_11/texture = ExtResource("4_tf3bw")
+frame_11/duration = 0.04
+frame_12/texture = ExtResource("5_0n0pi")
+frame_12/duration = 0.04
+frame_13/texture = ExtResource("6_1wg0f")
+frame_13/duration = 0.04
+
+[node name="MainGameScene" type="Node"]
+
+[node name="LoadingScreen" type="CanvasLayer" parent="."]
+layer = 100
+
+[node name="LoadingScreenPlayer" type="AnimationPlayer" parent="LoadingScreen"]
+libraries = {
+&"": SubResource("AnimationLibrary_co7ai")
+}
+
+[node name="Control" type="Control" parent="LoadingScreen"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+mouse_behavior_recursive = 1
+
+[node name="Top" type="ColorRect" parent="LoadingScreen/Control"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -1080.0
+offset_bottom = -1080.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+
+[node name="TextureRect" type="TextureRect" parent="LoadingScreen/Control/Top"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = -19.0
+offset_bottom = -19.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = SubResource("AnimatedTexture_co7ai")
+
+[node name="Bottom" type="ColorRect" parent="LoadingScreen/Control"]
+visible = false
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 1.5000001
+offset_top = 540.0
+offset_bottom = 540.0023
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+
+[node name="FadeBlack" type="ColorRect" parent="LoadingScreen/Control"]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0)
+
+[node name="LevelLoading" type="Node" parent="."]
+unique_name_in_owner = true
+script = ExtResource("1_3mu7i")
+
+[node name="MainMenu" parent="LevelLoading" instance=ExtResource("2_de2s4")]
+
+[connection signal="animation_finished" from="LoadingScreen/LoadingScreenPlayer" to="LevelLoading" method="_on_loading_screen_player_animation_finished"]

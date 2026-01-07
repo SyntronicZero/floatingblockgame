@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://df3mtqfj2jyyh"
-path="res://.godot/imported/Box_01-512x512.png-1b4bb1ea70d5da930de270db14afe2ad.ctex"
+uid="uid://deqxs22w6lcug"
+path="res://.godot/imported/LoadingScreen0011.png-2477a565d2a6ba1bf8e55b97e955b2a3.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://textures/PLACEHOLDER/Box_01-512x512.png"
-dest_files=["res://.godot/imported/Box_01-512x512.png-1b4bb1ea70d5da930de270db14afe2ad.ctex"]
+source_file="res://textures/Icons/LoadingScreenImages/LoadingScreen0011.png"
+dest_files=["res://.godot/imported/LoadingScreen0011.png-2477a565d2a6ba1bf8e55b97e955b2a3.ctex"]
 
 [params]
 

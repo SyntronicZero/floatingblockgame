@@ -15,8 +15,8 @@ compatibility/default_parent_skeleton_in_mesh_instance_3d=true
 [application]
 
 config/name="Byte's Gravity Challenges"
-config/version="0.01.01"
-run/main_scene="uid://bjt2jifiiroa0"
+config/version="0.02.00"
+run/main_scene="uid://bp775vp5alry7"
 config/features=PackedStringArray("4.5", "Forward Plus")
 config/icon="res://icon.svg"
 

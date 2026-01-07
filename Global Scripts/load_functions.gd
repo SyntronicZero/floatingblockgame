@@ -1,5 +1,6 @@
 extends Node
 
+var level_loading_node: Node
 
 func load_folder(path: String, file_extension: String) -> Array:
 	var files: Array = []
