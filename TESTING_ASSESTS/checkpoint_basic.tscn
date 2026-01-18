@@ -1,0 +1,56 @@
+[gd_scene load_steps=9 format=3 uid="uid://b1s3j2il3sb56"]
+
+[ext_resource type="Script" uid="uid://cdnak5n012r16" path="res://TESTING_ASSESTS/checkpoint.gd" id="1_qy6tg"]
+[ext_resource type="Texture2D" uid="uid://baeqi7chscbs8" path="res://textures/CheckpointShimmer.png" id="2_n0fpk"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_7tlty"]
+radius = 2.0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_nc40u"]
+transparency = 1
+blend_mode = 1
+cull_mode = 2
+shading_mode = 0
+albedo_color = Color(0, 0.22887737, 0.57996243, 1)
+albedo_texture = ExtResource("2_n0fpk")
+uv1_scale = Vector3(2, 2, 2)
+uv1_offset = Vector3(4.695, 0, 0)
+
+[sub_resource type="BoxMesh" id="BoxMesh_vrhro"]
+material = SubResource("StandardMaterial3D_nc40u")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_n0fpk"]
+resource_local_to_scene = true
+albedo_color = Color(0.10529999, 0.22392501, 0.39, 1)
+emission_enabled = true
+emission = Color(0.12163956, 0.5173344, 0.99997085, 1)
+emission_energy_multiplier = 0.0
+
+[sub_resource type="BoxMesh" id="BoxMesh_qy6tg"]
+material = SubResource("StandardMaterial3D_n0fpk")
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_n0fpk"]
+
+[node name="CheckpointBasic" type="Area3D"]
+collision_mask = 3
+script = ExtResource("1_qy6tg")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("SphereShape3D_7tlty")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6, 0)
+mesh = SubResource("BoxMesh_vrhro")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.38880727, 0)
+mesh = SubResource("BoxMesh_qy6tg")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="MeshInstance3D"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="MeshInstance3D/StaticBody3D"]
+shape = SubResource("BoxShape3D_n0fpk")
+
+[node name="RespawnPoint" type="Marker3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.356, 0)
+gizmo_extents = 1.4

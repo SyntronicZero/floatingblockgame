@@ -4,12 +4,13 @@ extends Node3D
 @onready var camera_rotation_x_node: Node3D = $SmoothY/CameraRotationYCopy/CameraRotationX
 @onready var camera_rotation_y_node: Node3D = $CameraRotationY
 @onready var camera_location_z_node: Node3D = $SmoothY/CameraRotationYCopy/CameraRotationX/CameraLocationZ
-@onready var camera_3d: Camera3D = $SmoothCamera/Camera3D
+@onready var camera_3d: Camera3D = $SmoothY/CameraRotationYCopy/CameraRotationX/CameraLocationZ/Camera3D
 @onready var cam_wall_detection: RayCast3D = $SmoothY/CameraRotationYCopy/CameraRotationX/WallDetection
 @onready var look_detection_node: RayCast3D = $SmoothY/CameraRotationYCopy/CameraRotationX/LookDetection
 @onready var smooth_y_node: Node3D = $SmoothY
 @onready var camera_rotation_y_copy_node: Node3D = $SmoothY/CameraRotationYCopy
 
+var resetting: bool = false
 
 var cam_basis: Basis
 var cam_global_basis: Basis
@@ -45,7 +46,7 @@ func _ready() -> void:
 	camera_rotation_x_node.position.x = x_offset
 
 func _physics_process(_delta: float) -> void:
-	if cam_lerp_node != null:
+	if cam_lerp_node != null and !resetting:
 		transform = lerp(transform, cam_lerp_node.global_transform, .3)
 	#camera_location_z_node.position.z = lerp(camera_location_z_node.position.z, zoom, .1)
 	#cam_wall_detection.target_position.z = zoom
@@ -53,8 +54,11 @@ func _physics_process(_delta: float) -> void:
 	_camera_movement(camera_rotation, input_dir)
 	cam_basis = camera_rotation_y_node.basis
 	cam_global_basis = camera_rotation_y_node.global_basis
-	smooth_camera_rot(smooth_rotation)
+	smooth_camera_rot(smooth_rotation, .035)
 	camera_rotation_y_copy_node.basis = camera_rotation_y_node.basis
+	if resetting:
+		reset_camera()
+		resetting = false
 
 func _input(_event: InputEvent) -> void:
 	input_dir = Input.get_vector("Cont Look Left", "Cont Look Right", "Cont Look Up", "Cont Look Down")
@@ -81,10 +85,16 @@ func _camera_wall_collision():
 		hit_length = zoom
 	camera_location_z_node.position.z = min(lerp(camera_location_z_node.position.z, zoom, .1), hit_length)
 	
-func smooth_camera_rot(boolean: bool) -> void:
+func smooth_camera_rot(boolean: bool, smoothness: float) -> void:
 	if boolean:
 		smooth_y_node.global_position = free_cam_node.global_position
 		#smooth_y_node.global_basis = lerp(smooth_y_node.global_basis, free_cam_node.global_basis, .035)
-		smooth_y_node.global_basis = smooth_y_node.global_basis.slerp(free_cam_node.global_basis, .035)
+		smooth_y_node.global_basis = smooth_y_node.global_basis.slerp(free_cam_node.global_basis, smoothness)
 		#var tween := get_tree().create_tween()
 		#tween.tween_property(smooth_y_node ,"quaternion", free_cam_node.quaternion, 1).set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_LINEAR)
+
+func reset_camera() -> void:
+	camera_rotation = Vector2.ZERO
+	smooth_camera_rot(smooth_rotation, 1)
+	camera_rotation.x = deg_to_rad(-10)
+	pass

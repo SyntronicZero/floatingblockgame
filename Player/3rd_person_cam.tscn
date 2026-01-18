@@ -1,7 +1,6 @@
-[gd_scene load_steps=3 format=3 uid="uid://b2ghb5wuku086"]
+[gd_scene load_steps=2 format=3 uid="uid://b2ghb5wuku086"]
 
 [ext_resource type="Script" uid="uid://ksbttoqw3f4h" path="res://Player/3rd_person_cam.gd" id="1_upup2"]
-[ext_resource type="Script" uid="uid://bh7b34btwx806" path="res://Player/smooth_camera.gd" id="2_3w2ck"]
 
 [node name="3rdPersonCam" type="Node3D"]
 script = ExtResource("1_upup2")
@@ -11,14 +10,6 @@ zoom = 7.5
 
 [node name="CameraRotationY" type="Node3D" parent="."]
 
-[node name="SmoothCamera" type="Node3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.5)
-top_level = true
-script = ExtResource("2_3w2ck")
-follow_target = NodePath("../SmoothY/CameraRotationYCopy/CameraRotationX/CameraLocationZ")
-
-[node name="Camera3D" type="Camera3D" parent="SmoothCamera"]
-
 [node name="SmoothY" type="Node3D" parent="."]
 
 [node name="CameraRotationYCopy" type="Node3D" parent="SmoothY"]
@@ -27,6 +18,8 @@ follow_target = NodePath("../SmoothY/CameraRotationYCopy/CameraRotationX/CameraL
 
 [node name="CameraLocationZ" type="Marker3D" parent="SmoothY/CameraRotationYCopy/CameraRotationX"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.5)
+
+[node name="Camera3D" type="Camera3D" parent="SmoothY/CameraRotationYCopy/CameraRotationX/CameraLocationZ"]
 
 [node name="WallDetection" type="RayCast3D" parent="SmoothY/CameraRotationYCopy/CameraRotationX"]
 exclude_parent = false

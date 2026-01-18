@@ -1,7 +1,7 @@
 extends RayCast3D
 @onready var drop_shadow_point: Marker3D = $DropShadowPoint
 @onready var gravity_rotation: Node3D = $".."
-@onready var drop_decal: Decal = $DropShadow/DropDecal
+@onready var drop_decal: Decal = $DropShadowPoint/DropDecal
 
 func _ready() -> void:
 	drop_shadow_point.top_level = true

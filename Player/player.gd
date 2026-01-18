@@ -5,6 +5,7 @@ extends CharacterBody3D
 @onready var mesh_rotation_z_node: Node3D = $MeshRotationY/MeshRotationZ
 @onready var gravity_rotation_node: Node3D = $GravityRotation
 @onready var floor_col_check_node: RayCast3D = $GravityRotation/FloorColCheck
+@onready var respawn_screen: CanvasLayer = $RespawnScreen
 #endregion
 
 @export var camera_node: Node3D
@@ -32,9 +33,11 @@ var state: String = "grounded"
 var smooth_target_up_direction: Quaternion
 var gravity_direction: Vector3 = Vector3(0, -1, 0)
 var gravity_zones: Array
-
+var respawn: Node3D = self
+var is_respawning: bool = false
 
 func _ready() -> void:
+	self.add_to_group("Player")
 	if camera_node != null: #checks for camera node
 		camera_basis = camera_node.cam_basis
 		camera_global_basis = camera_node.cam_global_basis
@@ -44,6 +47,8 @@ func _input(_event: InputEvent) -> void:
 	if Input.is_action_pressed("Right Bumper"): #temp way to test gravity change
 		if camera_node.look_detection_node.is_colliding():
 			gravity_direction = -camera_node.look_detection_node.get_collision_normal()
+	#if Input.is_action_just_pressed("Jump"):
+		#is_respawning = true
 
 var c_local_velocity_abs: Vector3
 var c_local_velocity: Vector3
@@ -56,7 +61,8 @@ func _physics_process(delta: float) -> void:
 	#wall_cancel = smooth_move.dot(get_wall_normal()) * get_wall_normal()
 	#print(wall_cancel)
 	#wall_cancel = Vector3.ONE - (abs((abs(smooth_move.normalized().dot(get_wall_normal()))) * get_wall_normal()))
-	RespawnPlayer.player_safe_pos_respawn(self, 40, last_safe_pos)
+	if RespawnPlayer.is_player_too_far(self, 40, last_safe_pos): #or Input.is_action_just_pressed("Jump"):
+		respawn_screen.begin_respawn()
 	velocity -= smooth_move - ((GravityFunctions.alt_local_velocity(smooth_move, camera_global_basis).y * camera_global_basis.y) / 2.5) #subtracts smooth_move from last frame
 	if is_on_floor() and floor_norm_grav:
 		gravity_direction = -self.get_floor_normal()
@@ -102,7 +108,7 @@ func _physics_process(delta: float) -> void:
 	
 	if Input.is_action_just_pressed("Jump") and can_jump > 0:
 		can_apply_floor_snap = false
-		velocity += ((JUMP_VELOCITY + abs(min(c_local_velocity.y, 0))) * abs(gravity_rotation_node.quaternion.dot(self.quaternion))**10) * camera_global_basis.y #self.global_basis.y
+		velocity += ((JUMP_VELOCITY + (abs(min(c_local_velocity.y, 0) * (1 - type_convert(is_on_floor(), TYPE_INT))))) * abs(gravity_rotation_node.quaternion.dot(self.quaternion))**10) * camera_global_basis.y #self.global_basis.y
 		can_jump -= 1
 		state = "jumped"
 	if Input.is_action_just_released("Jump") and can_jump >= 0: #variable jump height. Cancels local y up
@@ -129,9 +135,17 @@ func _physics_process(delta: float) -> void:
 	#velocity += smooth_move + (slope_y_down * camera_global_basis.y) #adds smooth_move after all previous velocity calcs and adds downward slope velocity
 	velocity += smooth_move - ((GravityFunctions.alt_local_velocity(smooth_move, camera_global_basis).y * camera_global_basis.y) / 2.5)
 	velocity = velocity.limit_length(MAX_VELOCITY) #limits maximum velocity
+	if is_respawning: #respawns the player
+		RespawnPlayer.respawn_at_checkpoint(self, respawn)
+		frames_delayed += 1
+		if frames_delayed > 3: #delays respawn end to avoid engine issue related to areas https://github.com/godotengine/godot/issues/86199
+			is_respawning = false
+			frames_delayed = 0
 	move_and_slide()
 	if can_apply_floor_snap:
 		apply_floor_snap()
+
+var frames_delayed: int
 
 var smooth_move: Vector3
 var platform_velocity: Vector3
@@ -157,11 +171,11 @@ func _mesh_rotation(delta, rotation_strength: float):
 	else:
 		mesh_rotation_z_node.rotation.z = lerp(mesh_rotation_z_node.rotation.z, 0.0, .2)
 
-func gravity_rotation(grav_direction) -> void:
+func gravity_rotation(grav_direction, speed_override: float = 0) -> void:
 	gravity_rotation_node.position = position
 	
 	var target_up_direction = Quaternion(gravity_rotation_node.global_basis.y, -grav_direction) * gravity_rotation_node.quaternion
-	smooth_target_up_direction = smooth_target_up_direction.slerp(target_up_direction, .035 * (1 + (type_convert(is_on_floor(), TYPE_INT) * 3))) #rotation speed
+	smooth_target_up_direction = smooth_target_up_direction.slerp(target_up_direction, max((.035 * (1 + (type_convert(is_on_floor(), TYPE_INT) * 3))), speed_override)) #rotation speed
 	up_direction = -gravity_direction #sets characterbody3D up direction to the inverse of the gravity direction
 	gravity_rotation_node.quaternion = target_up_direction
 	global_basis = smooth_target_up_direction
@@ -181,3 +195,9 @@ func _get_slope_direction():
 	if is_on_floor():
 		var slope_dir: Quaternion = Quaternion(get_floor_normal(), camera_global_basis.y).normalized()
 		return slope_dir
+
+func reset_visual_rotations() -> void:
+	smooth_target_up_direction = gravity_rotation_node.quaternion
+	mesh_rotation_y_node.rotation.y = 0
+	mesh_rotation_z_node.rotation.z = 0
+	pass

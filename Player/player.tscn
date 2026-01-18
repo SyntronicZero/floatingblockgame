@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://cydn4sn5afbde"]
+[gd_scene load_steps=16 format=3 uid="uid://cydn4sn5afbde"]
 
 [ext_resource type="Script" uid="uid://ctxkhlj6ghvle" path="res://Player/player.gd" id="1_4ntmi"]
 [ext_resource type="PackedScene" uid="uid://b2ghb5wuku086" path="res://Player/3rd_person_cam.tscn" id="1_l8h54"]
@@ -7,6 +7,7 @@
 [ext_resource type="Script" uid="uid://b4makbcamrbvl" path="res://TESTING_ASSESTS/test_floor_norm_grav_label.gd" id="4_gwnis"]
 [ext_resource type="Texture2D" uid="uid://bft1fbs3ovj0b" path="res://textures/DropShadow.png" id="5_fhl08"]
 [ext_resource type="PackedScene" uid="uid://d4jljppguykv7" path="res://Character Models/Player/standard_byte_blank.tscn" id="6_vtle1"]
+[ext_resource type="Script" uid="uid://c0gc0rkbi6lcy" path="res://Main/respawn_screen.gd" id="8_od3ui"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_btcbx"]
 radius = 0.712
@@ -17,6 +18,81 @@ size = Vector3(1, 1.094, 0.784)
 [sub_resource type="SphereMesh" id="SphereMesh_l8h54"]
 
 [sub_resource type="CylinderMesh" id="CylinderMesh_btcbx"]
+
+[sub_resource type="Animation" id="Animation_kwb5c"]
+resource_name = "Screen_Swipe"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Control/Swipe:anchor_left")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(-0.5, 1),
+"update": 0,
+"values": [-1.8, 1.2]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Control/Swipe:anchor_right")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(-0.5, 1),
+"update": 0,
+"values": [-0.2, 2.8]
+}
+tracks/2/type = "method"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0.25),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"respawn_player"
+}]
+}
+
+[sub_resource type="Animation" id="Animation_s358g"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Control/Swipe:anchor_left")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [-1.6]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Control/Swipe:anchor_right")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [-0.6]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_s358g"]
+_data = {
+&"RESET": SubResource("Animation_s358g"),
+&"Screen_Swipe": SubResource("Animation_kwb5c")
+}
 
 [node name="Player" type="CharacterBody3D" node_paths=PackedStringArray("camera_node")]
 collision_layer = 2
@@ -47,12 +123,7 @@ script = ExtResource("3_fhl08")
 
 [node name="DropShadowPoint" type="Marker3D" parent="GravityRotation/DropShadowRay"]
 
-[node name="DropShadow" type="Marker3D" parent="GravityRotation/DropShadowRay"]
-top_level = true
-script = ExtResource("3_btcbx")
-follow_target = NodePath("../DropShadowPoint")
-
-[node name="DropDecal" type="Decal" parent="GravityRotation/DropShadowRay/DropShadow"]
+[node name="DropDecal" type="Decal" parent="GravityRotation/DropShadowRay/DropShadowPoint"]
 size = Vector3(1, 1, 1)
 texture_albedo = ExtResource("5_fhl08")
 lower_fade = 1.0446602
@@ -62,8 +133,13 @@ cull_mask = 1048573
 
 [node name="MeshRotationZ" type="Node3D" parent="MeshRotationY"]
 
+[node name="Standard_Byte_Blank" parent="MeshRotationY/MeshRotationZ" node_paths=PackedStringArray("c_node") instance=ExtResource("6_vtle1")]
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0, -0.7112446, 0)
+c_node = NodePath("../../..")
+
 [node name="SmoothPlayer" type="Node3D" parent="."]
 top_level = true
+visible = false
 script = ExtResource("3_btcbx")
 follow_target = NodePath("../MeshRotationY/MeshRotationZ")
 
@@ -87,10 +163,6 @@ visible = false
 layers = 2
 mesh = SubResource("CylinderMesh_btcbx")
 
-[node name="Standard_Byte_Blank" parent="SmoothPlayer" node_paths=PackedStringArray("c_node") instance=ExtResource("6_vtle1")]
-transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0, -0.7112446, 0)
-c_node = NodePath("../..")
-
 [node name="Control" type="PanelContainer" parent="."]
 anchors_preset = 4
 anchor_top = 0.5
@@ -106,3 +178,35 @@ layout_mode = 2
 text = "asadasasdasdasdasa"
 script = ExtResource("4_gwnis")
 metadata/_edit_use_anchors_ = true
+
+[node name="RespawnScreen" type="CanvasLayer" parent="."]
+layer = 99
+script = ExtResource("8_od3ui")
+
+[node name="RespawnSwipePlayer" type="AnimationPlayer" parent="RespawnScreen"]
+libraries = {
+&"": SubResource("AnimationLibrary_s358g")
+}
+speed_scale = 0.5
+
+[node name="Control" type="Control" parent="RespawnScreen"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+mouse_behavior_recursive = 1
+
+[node name="Swipe" type="ColorRect" parent="RespawnScreen/Control"]
+modulate = Color(0, 0, 0, 1)
+layout_mode = 1
+anchors_preset = -1
+anchor_left = -1.6
+anchor_top = -4.0
+anchor_right = -0.6
+anchor_bottom = 4.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(1536, 4320)
